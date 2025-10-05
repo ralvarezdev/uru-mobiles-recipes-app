@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform } fro
 import { Stack, Link, useRouter } from "expo-router";
 import { theme } from "@/src/styles/Theme";
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
+import BackButtonCommon from "@/components/common/BackButtonCommon/BackButtonCommon.component";
 
 export default function RegisterScreen() {
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function RegisterScreen() {
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
-
+      <BackButtonCommon />
       <KeyboardAvoidingView style={styles.root} behavior={Platform.OS === "ios" ? "padding" : undefined}>
         <View style={styles.container}>
           <View style={styles.header}>
