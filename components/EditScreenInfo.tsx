@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 
 import { ExternalLink } from "./ExternalLink";
-import { Text, View } from "./common/Themed";
+import { Text, View } from "./Themed";
 
 import Colors from "@/constants/Colors";
 import { MonoText } from "./StyledText";

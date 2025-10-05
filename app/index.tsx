@@ -77,13 +77,13 @@ const styles = StyleSheet.create({
     marginTop: -height * 0.05,
   },
   title: {
-    fontSize: width * 0.12,
+    fontSize: Math.min(width * 0.12, 48),
     fontWeight: "bold",
     color: theme.colors.primary,
     marginBottom: theme.spacing.sm,
   },
   subtitle: {
-    fontSize: width * 0.09,
+    fontSize: Math.min(width * 0.09, 36),
     fontWeight: "300",
     color: theme.colors.secondary,
     marginBottom: theme.spacing.xs,

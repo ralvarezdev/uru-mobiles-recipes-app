@@ -19,7 +19,7 @@ export default function RegisterScreen() {
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
-      <BackButtonCommon />
+      <BackButtonCommon to="/login" />
       <KeyboardAvoidingView style={styles.root} behavior={Platform.OS === "ios" ? "padding" : undefined}>
         <View style={styles.container}>
           <View style={styles.header}>

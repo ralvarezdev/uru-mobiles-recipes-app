@@ -1,26 +1,27 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform, SafeAreaView } from "react-native";
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
 import { Stack, Link } from "expo-router";
 import { theme } from "@/src/styles/Theme";
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
 import BackButtonCommon from "@/components/common/BackButtonCommon/BackButtonCommon.component";
-import { SafeAreaFrameContext } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const onSubmit = () => {
-    // TODO: autenticar cona api
+    // TODO: autenticar con api
     // router.replace("/(tabs)");
     console.log({ email, password });
   };
 
   return (
-    <>
+    <SafeAreaView style={styles.safeArea}>
       <Stack.Screen options={{ headerShown: false }} />
-        <BackButtonCommon />
-      <KeyboardAvoidingView style={styles.root} behavior={Platform.OS === "ios" ? "padding" : undefined}>
+      <BackButtonCommon to="/" />
+
+      <KeyboardAvoidingView style={styles.keyboardView} behavior={Platform.OS === "ios" ? "padding" : undefined}>
         <View style={styles.container}>
           <View style={styles.header}>
             <Text style={styles.title}>Welcome back</Text>
@@ -52,7 +53,7 @@ export default function LoginScreen() {
             <CustomButtonCommon title="Sign In" onPress={onSubmit} style={styles.button} textStyle={styles.buttonText} />
 
             <Text style={styles.footerText}>
-              Don’t you have an account?{" "}
+              Don't you have an account?{" "}
               <Link href="/register" style={styles.footerLink}>
                 Sign Up
               </Link>
@@ -60,14 +61,17 @@ export default function LoginScreen() {
           </View>
         </View>
       </KeyboardAvoidingView>
-    </>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  root: {
+  safeArea: {
     flex: 1,
     backgroundColor: theme.colors.background,
+  },
+  keyboardView: {
+    flex: 1,
   },
   container: {
     flex: 1,
