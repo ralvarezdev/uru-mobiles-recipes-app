@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform, SafeAreaView } from "react-native";
 import { Stack, Link } from "expo-router";
 import { theme } from "@/src/styles/Theme";
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
 import BackButtonCommon from "@/components/common/BackButtonCommon/BackButtonCommon.component";
+import { SafeAreaFrameContext } from "react-native-safe-area-context";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -17,11 +18,8 @@ export default function LoginScreen() {
 
   return (
     <>
-      <View>
-        <BackButtonCommon />
-      </View>
-
       <Stack.Screen options={{ headerShown: false }} />
+        <BackButtonCommon />
       <KeyboardAvoidingView style={styles.root} behavior={Platform.OS === "ios" ? "padding" : undefined}>
         <View style={styles.container}>
           <View style={styles.header}>
@@ -81,13 +79,13 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.lg,
   },
   title: {
-    fontSize: theme.typography.h3.fontSize + 4, 
+    fontSize: theme.typography.h3.fontSize + 4,
     fontWeight: "800",
-    color: theme.colors.primary, 
+    color: theme.colors.primary,
     marginBottom: theme.spacing.xs,
   },
   subtitle: {
-    fontSize: theme.typography.caption.fontSize, 
+    fontSize: theme.typography.caption.fontSize,
     color: theme.colors.textMuted,
   },
   label: {
@@ -96,7 +94,7 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.xs,
   },
   input: {
-    backgroundColor: theme.colors.gray100, 
+    backgroundColor: theme.colors.gray100,
     borderRadius: theme.borderRadius.small,
     paddingHorizontal: theme.spacing.md,
     paddingVertical: 12,
@@ -111,9 +109,9 @@ const styles = StyleSheet.create({
     ...theme.shadows.medium,
   },
   buttonText: {
-    fontSize: theme.typography.button.fontSize, 
+    fontSize: theme.typography.button.fontSize,
     fontWeight: theme.typography.button.fontWeight,
-    color: theme.typography.button.color, 
+    color: theme.typography.button.color,
   },
   footerText: {
     textAlign: "center",
