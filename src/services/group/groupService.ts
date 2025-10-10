@@ -1,15 +1,25 @@
 import { createHttpClient, HttpClient } from "@/api";
 import type { Group } from "@/entities/Group";
 import type { RequestOptions } from "@/types/api/RequestOptions";
-import type { CreateGroupInput, GetGroupResponse, UpdateGroupInput } from "./types";
+import type {
+    AddRecipeToGroupInput,
+    CreateGroupInput,
+    GetGroupRecipesResponse,
+    GetGroupResponse,
+    UpdateGroupInput,
+} from "./types";
 
 /**
- * Servicio para manejar operaciones de grupos.
- * Endpoints:
- *  - GET    /api/getGroup/:id
- *  - POST   /api/addGroup
- *  - PUT    /api/updateGroup/:id
- *  - DELETE /api/deleteGroup/:id
+ * Servicio RESTful para manejar operaciones sobre Grupos y sus Recetas.
+ *
+ * Endpoints implementados:
+ *  - GET    /groups/:groupId
+ *  - POST   /groups
+ *  - PUT    /groups/:groupId
+ *  - DELETE /groups/:groupId
+ *  - GET    /groups/:groupId/recipes
+ *  - POST   /groups/:groupId/recipes
+ *  - DELETE /groups/:groupId/recipes/:recipeId
  */
 export class GroupService {
   private readonly http: HttpClient;
@@ -19,42 +29,70 @@ export class GroupService {
   }
 
   /**
-   * Obtiene un grupo por su identificador.
-   * @param id Identificador del grupo (route param).
-   * @param options Opciones por solicitud.
-   * @returns Grupo encontrado.
+   * Obtiene un grupo por su ID.
+   * @param groupId ID del grupo.
+   * @param options Opciones de solicitud.
    */
-  getGroup = (id: number | string, options?: RequestOptions) =>
-    this.http.get<GetGroupResponse>(`getGroup/${id}`, undefined, options);
+  getGroup = (groupId: number | string, options?: RequestOptions) =>
+    this.http.get<GetGroupResponse>(`groups/${groupId}`, undefined, options);
 
   /**
    * Crea un nuevo grupo.
-   * @param input Datos JSON de creación (titulo, descripcion).
-   * @param options Opciones por solicitud.
-   * @returns Grupo creado.
+   * @param input Datos del grupo (titulo, descripcion).
+   * @param options Opciones de solicitud.
    */
-  addGroup = (input: CreateGroupInput, options?: RequestOptions) =>
-    this.http.post<Group, CreateGroupInput>("addGroup", input, options);
+  createGroup = (input: CreateGroupInput, options?: RequestOptions) =>
+    this.http.post<Group, CreateGroupInput>(`groups`, input, options);
 
   /**
    * Actualiza un grupo existente.
-   * @param id Identificador del grupo (route param).
-   * @param input Campos a actualizar (titulo, descripcion).
-   * @param options Opciones por solicitud.
-   * @returns Grupo actualizado.
+   * @param groupId ID del grupo.
+   * @param input Campos a actualizar.
+   * @param options Opciones de solicitud.
    */
-  updateGroup = (id: number | string, input: UpdateGroupInput, options?: RequestOptions) =>
-    this.http.put<Group, UpdateGroupInput>(`updateGroup/${id}`, input, options);
+  updateGroup = (groupId: number | string, input: UpdateGroupInput, options?: RequestOptions) =>
+    this.http.put<Group, UpdateGroupInput>(`groups/${groupId}`, input, options);
 
   /**
-   * Elimina un grupo y todas sus recetas.
-   * @param id Identificador del grupo (route param).
-   * @param options Opciones por solicitud.
-   * @returns void
+   * Elimina un grupo y sus recetas asociadas.
+   * @param groupId ID del grupo.
+   * @param options Opciones de solicitud.
    */
-  deleteGroup = (id: number | string, options?: RequestOptions) =>
-    this.http.delete<void>(`deleteGroup/${id}`, options);
+  deleteGroup = (groupId: number | string, options?: RequestOptions) =>
+    this.http.delete<void>(`groups/${groupId}`, options);
+
+  /**
+   * Obtiene todas las recetas de un grupo.
+   * @param groupId ID del grupo.
+   * @param options Opciones de solicitud.
+   */
+  getRecipesByGroup = (groupId: number | string, options?: RequestOptions) =>
+    this.http.get<GetGroupRecipesResponse>(`groups/${groupId}/recipes`, undefined, options);
+
+  /**
+   * Agrega una receta existente a un grupo.
+   * @param groupId ID del grupo.
+   * @param input JSON con el ID de la receta (ej: { recipeId: 10 }).
+   * @param options Opciones de solicitud.
+   */
+  addRecipeToGroup = (
+    groupId: number | string,
+    input: AddRecipeToGroupInput,
+    options?: RequestOptions
+  ) => this.http.post<void, AddRecipeToGroupInput>(`groups/${groupId}/recipes`, input, options);
+
+  /**
+   * Remueve una receta del grupo (sin eliminar la receta).
+   * @param groupId ID del grupo.
+   * @param recipeId ID de la receta.
+   * @param options Opciones de solicitud.
+   */
+  removeRecipeFromGroup = (
+    groupId: number | string,
+    recipeId: number | string,
+    options?: RequestOptions
+  ) => this.http.delete<void>(`groups/${groupId}/recipes/${recipeId}`, options);
 }
 
-/** Instancia singleton de conveniencia. */
+/** Instancia singleton del servicio de grupos. */
 export const groupService = new GroupService();
