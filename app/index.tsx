@@ -1,9 +1,9 @@
-import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity, StatusBar, Dimensions } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
 import { theme } from "@/src/styles/Theme";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
+import React from "react";
+import { Dimensions, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get("window");
 
@@ -11,6 +11,12 @@ export default function WelcomeScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" backgroundColor={theme.colors.primary} />
+
+      {/* BOTÓN TEMPORAL DE DEBUG */}
+      <TouchableOpacity onPress={() => router.push('/(tabs)/(home)/recipes')} style={styles.debugButton}>
+        <Text style={styles.debugText}>Ver Tabs</Text>
+
+      </TouchableOpacity>
       <View style={styles.container}>
         <View style={styles.greenBackground} />
 
@@ -56,6 +62,21 @@ const styles = StyleSheet.create({
     height: "45%",
     backgroundColor: theme.colors.primary,
     borderRadius: 30,
+  },
+
+    debugButton: {
+    position: 'absolute',
+    top: 60,
+    right: 10,
+    backgroundColor: 'red',
+    padding: 10,
+    borderRadius: 8,
+    zIndex: 1000,
+  },
+  debugText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold',
   },
   imageContainer: {
     flex: 1,
