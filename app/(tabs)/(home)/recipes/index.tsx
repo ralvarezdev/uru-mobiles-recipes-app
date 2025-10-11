@@ -1,4 +1,4 @@
-import { theme } from '@/src/styles/Theme';
+import { theme } from '@/styles/Theme';
 import { View, Text, StyleSheet } from 'react-native';
 
 export default function RecipesScreen() {

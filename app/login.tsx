@@ -1,9 +1,9 @@
+import { theme } from "@/styles/Theme";
+import BackButton from "components/common/BackButtonCommon/BackButtonCommon.component";
+import CustomButtonCommon from "components/common/CustomButtonCommon/CustomButtonCommon.component";
+import { Link, Stack } from "expo-router";
 import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
-import { Stack, Link } from "expo-router";
-import { theme } from "@/src/styles/Theme";
-import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
-import BackButtonCommon from "@/components/common/BackButtonCommon/BackButtonCommon.component";
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function LoginScreen() {
@@ -19,7 +19,7 @@ export default function LoginScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <Stack.Screen options={{ headerShown: false }} />
-      <BackButtonCommon to="/" />
+      <BackButton to="/" />
 
       <KeyboardAvoidingView style={styles.keyboardView} behavior={Platform.OS === "ios" ? "padding" : undefined}>
         <View style={styles.container}>

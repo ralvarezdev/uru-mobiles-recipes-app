@@ -1,4 +1,12 @@
-import type { Category } from "@/entities/Category";
+
+export interface Category {
+  id: string;
+  name: string;
+  image: string;
+  recipeCount?: number;
+  
+}
+
 
 /**
  * Parámetros de consulta para obtener categorías.

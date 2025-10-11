@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
 import { Stack, Link, useRouter } from "expo-router";
-import { theme } from "@/src/styles/Theme";
-import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
-import BackButtonCommon from "@/components/common/BackButtonCommon/BackButtonCommon.component";
+import BackButton from "components/common/BackButtonCommon/BackButtonCommon.component";
+import { theme } from "@/styles/Theme";
+import CustomButtonCommon from "components/common/CustomButtonCommon/CustomButtonCommon.component";
+
 
 export default function RegisterScreen() {
   const router = useRouter();
@@ -19,7 +20,7 @@ export default function RegisterScreen() {
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
-      <BackButtonCommon to="/login" />
+      <BackButton to="/login" />
       <KeyboardAvoidingView style={styles.root} behavior={Platform.OS === "ios" ? "padding" : undefined}>
         <View style={styles.container}>
           <View style={styles.header}>
