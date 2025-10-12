@@ -1,10 +1,10 @@
+import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
 import { theme } from "@/styles/Theme";
-import CustomButtonCommon from "components/common/CustomButtonCommon/CustomButtonCommon.component";
+// import CustomButtonCommon from "components/common/CustomButtonCommon/CustomButtonCommon.component";
 import { Link, router } from "expo-router";
 import React from "react";
 import { Dimensions, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
 
 const { width, height } = Dimensions.get("window");
 
@@ -21,7 +21,7 @@ export default function WelcomeScreen() {
         <View style={styles.greenBackground} />
 
         <View style={styles.imageContainer}>
-          <Image source={require("assets/images/welcome-food.png")} style={styles.foodImage} />
+          <Image source={require("@/assets/images/welcome-food.png")} style={styles.foodImage} />
         </View>
 
         <View style={styles.content}>

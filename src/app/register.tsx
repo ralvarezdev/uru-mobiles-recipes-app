@@ -1,10 +1,11 @@
+import { Link, Stack, useRouter } from "expo-router";
 import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
-import { Stack, Link, useRouter } from "expo-router";
-import BackButton from "components/common/BackButtonCommon/BackButtonCommon.component";
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from "react-native";
+// import BackButton from "components/common/BackButtonCommon/BackButtonCommon.component";
+import BackButton from "@/components/common/BackButtonCommon/BackButtonCommon.component";
+import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
 import { theme } from "@/styles/Theme";
-import CustomButtonCommon from "components/common/CustomButtonCommon/CustomButtonCommon.component";
-
+// import CustomButtonCommon from "components/common/CustomButtonCommon/CustomButtonCommon.component";
 
 export default function RegisterScreen() {
   const router = useRouter();

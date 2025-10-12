@@ -1,7 +1,8 @@
+import CategoryCard from "@/components/CategoryCard";
 import { Category } from "@/services/category/types";
 import { theme } from "@/styles/Theme";
-import CategoryCard from "components/CategoryCard";
-import { router } from "expo-router";
+// import CategoryCard from "components/CategoryCard";
+import { Href, router } from "expo-router";
 import { FlatList, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -17,8 +18,10 @@ export default function CategoriesScreen() {
     { id: "8", name: "Desayunos", image: "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?w=400", recipeCount: 0 },
   ];
 
-  const handleCategoryPress = (category: Category) => {
-    router.push(`${category.id}?categoryName=${encodeURIComponent(category.name)}` as any);
+  const handleCategoryPress = ({ id, name }: Category) => {
+    const url = `/categories/${id}?categoryName=${encodeURIComponent(name)}` as Href;
+    console.log("url", url);
+    router.push(url);
   };
 
   return (

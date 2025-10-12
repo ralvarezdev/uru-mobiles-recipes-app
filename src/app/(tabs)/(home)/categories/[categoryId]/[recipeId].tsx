@@ -1,11 +1,12 @@
 // app/(tabs)/(home)/categories/[categoryId]/[recipeId].tsx
-import React, { useEffect, useState } from 'react';
-import { View, ActivityIndicator, Text } from 'react-native';
-import { Stack, useLocalSearchParams } from 'expo-router';
-import type { Recipe } from '@/services/recipe/types';
-import { theme } from '@/styles/Theme';
-import { getRecipeById } from '@/services/recipe/recipeServiceTest';
-import RecipeDetail from 'components/RecipeDetail';
+import RecipeDetail from "@/components/RecipeDetail";
+import { getRecipeById } from "@/services/recipe/recipeServiceTest";
+import type { Recipe } from "@/services/recipe/types";
+import { theme } from "@/styles/Theme";
+import { Stack, useLocalSearchParams } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, Text, View } from "react-native";
+// import RecipeDetail from 'components/RecipeDetail';
 
 export default function RecipeDetailScreen() {
   const { recipeId } = useLocalSearchParams<{ recipeId: string }>();
@@ -23,9 +24,9 @@ export default function RecipeDetailScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <Stack.Screen options={{ title: '', headerShown: true }} />
+      <Stack.Screen options={{ title: "", headerShown: true }} />
       {loading ? (
-        <View style={{ flex:1, justifyContent:'center', alignItems:'center' }}>
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
           <ActivityIndicator size="large" color={theme.colors.primary} />
         </View>
       ) : recipe ? (

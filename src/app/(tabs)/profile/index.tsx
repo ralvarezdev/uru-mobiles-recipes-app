@@ -1,38 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  Image, 
-  TextInput, 
-  ScrollView,
-  Dimensions,
-  TouchableOpacity,
-  Alert
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
-import { theme } from '@/styles/Theme';
-import CustomButtonCommon from 'components/common/CustomButtonCommon/CustomButtonCommon.component';
+import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
+import { theme } from "@/styles/Theme";
+import { Ionicons } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
+import { Alert, Dimensions, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+// import CustomButtonCommon from 'components/common/CustomButtonCommon/CustomButtonCommon.component';
 
-
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
 export default function ProfileScreen() {
   const [loading, setLoading] = useState(false);
-  const [firstName, setFirstName] = useState('yegli');
-  const [lastName, setLastName] = useState('montanez');
-  const [email, setEmail] = useState('montanezyeglimar.hotmail.com');
-  const [password, setPassword] = useState('************');
-  const [username, setUsername] = useState('yegli_montanez');
-  const [avatar, setAvatar] = useState('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400');
+  const [firstName, setFirstName] = useState("yegli");
+  const [lastName, setLastName] = useState("montanez");
+  const [email, setEmail] = useState("montanezyeglimar.hotmail.com");
+  const [password, setPassword] = useState("************");
+  const [username, setUsername] = useState("yegli_montanez");
+  const [avatar, setAvatar] = useState("https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400");
 
   useEffect(() => {
     loadUserData();
   }, []);
 
   const loadUserData = async () => {
-   // setLoading(true);
+    // setLoading(true);
     // try {
     //   const result = await getUserProfile();
     //   if (result.success) {
@@ -51,7 +41,7 @@ export default function ProfileScreen() {
 
   // const pickImage = async () => {
   //   const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    
+
   //   if (status !== 'granted') {
   //     Alert.alert('Permisos necesarios', 'Necesitamos acceso a tus fotos');
   //     return;
@@ -71,7 +61,7 @@ export default function ProfileScreen() {
 
   // const takePhoto = async () => {
   //   const { status } = await ImagePicker.requestCameraPermissionsAsync();
-    
+
   //   if (status !== 'granted') {
   //     Alert.alert('Permisos necesarios', 'Necesitamos acceso a tu cámara');
   //     return;
@@ -110,7 +100,6 @@ export default function ProfileScreen() {
     //     username,
     //     avatar,
     //   });
-
     //   if (result.success) {
     //     Alert.alert('Éxito', 'Perfil actualizado correctamente');
     //   }
@@ -123,26 +112,22 @@ export default function ProfileScreen() {
   };
 
   const handleDeleteAccount = () => {
-    Alert.alert(
-      'Eliminar cuenta',
-      '¿Estás seguro que deseas eliminar tu cuenta? Esta acción no se puede deshacer.',
-      [
-        {
-          text: 'Cancelar',
-          style: 'cancel'
+    Alert.alert("Eliminar cuenta", "¿Estás seguro que deseas eliminar tu cuenta? Esta acción no se puede deshacer.", [
+      {
+        text: "Cancelar",
+        style: "cancel",
+      },
+      {
+        text: "Eliminar",
+        style: "destructive",
+        onPress: async () => {
+          // TODO: Aquí irá la llamada a la API para eliminar la cuenta
+          console.log("Eliminando cuenta...");
+          Alert.alert("Cuenta eliminada", "Tu cuenta ha sido eliminada");
+          // Redirigir al login o welcome screen
         },
-        {
-          text: 'Eliminar',
-          style: 'destructive',
-          onPress: async () => {
-            // TODO: Aquí irá la llamada a la API para eliminar la cuenta
-            console.log('Eliminando cuenta...');
-            Alert.alert('Cuenta eliminada', 'Tu cuenta ha sido eliminada');
-            // Redirigir al login o welcome screen
-          }
-        }
-      ]
-    );
+      },
+    ]);
   };
 
   return (
@@ -151,40 +136,29 @@ export default function ProfileScreen() {
         {/* Header verde con imagen */}
         <View style={styles.header}>
           <View style={styles.imageContainer}>
-            <Image
-              source={{ uri: avatar }}
-              style={styles.profileImage}
-            />
-                {/* <TouchableOpacity 
+            <Image source={{ uri: avatar }} style={styles.profileImage} />
+            {/* <TouchableOpacity 
                   style={styles.editButton}
                   //onPress={showImageOptions}
                 > */}
-              {/* <Ionicons name="pencil" size={20} color={theme.colors.textLight} /> */}
+            {/* <Ionicons name="pencil" size={20} color={theme.colors.textLight} /> */}
             {/* </TouchableOpacity> */}
           </View>
         </View>
 
         {/* Nombre completo */}
-        <Text style={styles.fullName}>{firstName} {lastName}</Text>
+        <Text style={styles.fullName}>
+          {firstName} {lastName}
+        </Text>
 
         {/* Formulario */}
         <View style={styles.form}>
           <View style={styles.row}>
             <View style={styles.halfInput}>
-              <TextInput
-                value={firstName}
-                onChangeText={setFirstName}
-                style={styles.input}
-                placeholder="Nombre"
-              />
+              <TextInput value={firstName} onChangeText={setFirstName} style={styles.input} placeholder="Nombre" />
             </View>
             <View style={styles.halfInput}>
-              <TextInput
-                value={lastName}
-                onChangeText={setLastName}
-                style={styles.input}
-                placeholder="Apellido"
-              />
+              <TextInput value={lastName} onChangeText={setLastName} style={styles.input} placeholder="Apellido" />
             </View>
           </View>
 
@@ -204,13 +178,7 @@ export default function ProfileScreen() {
           {/* Password */}
           <View style={styles.inputContainer}>
             <Ionicons name="lock-closed-outline" size={20} color={theme.colors.textMuted} style={styles.icon} />
-            <TextInput
-              value={password}
-              onChangeText={setPassword}
-              style={styles.inputWithIcon}
-              placeholder="Password"
-              secureTextEntry
-            />
+            <TextInput value={password} onChangeText={setPassword} style={styles.inputWithIcon} placeholder="Password" secureTextEntry />
           </View>
 
           <View style={styles.inputContainer}>
@@ -221,20 +189,12 @@ export default function ProfileScreen() {
               style={styles.inputWithIcon}
               placeholder="Username"
               autoCapitalize="none"
-
             />
           </View>
 
-          <CustomButtonCommon
-            title="Update Profile"
-            onPress={handleUpdate}
-            style={styles.button}
-          />
+          <CustomButtonCommon title="Update Profile" onPress={handleUpdate} style={styles.button} />
 
-          <TouchableOpacity 
-            style={styles.deleteButton}
-            onPress={handleDeleteAccount}
-          >
+          <TouchableOpacity style={styles.deleteButton} onPress={handleDeleteAccount}>
             <Ionicons name="trash-outline" size={20} color={theme.colors.textLight} />
             <Text style={styles.deleteButtonText}>Delete Account</Text>
           </TouchableOpacity>
@@ -257,8 +217,8 @@ const styles = StyleSheet.create({
     height: 200,
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    alignItems: "center",
+    justifyContent: "flex-end",
     paddingBottom: 50,
   },
   imageContainer: {
@@ -266,15 +226,15 @@ const styles = StyleSheet.create({
     height: 120,
     borderRadius: 60,
     backgroundColor: theme.colors.surface,
-    overflow: 'hidden',
+    overflow: "hidden",
     borderWidth: 5,
     borderColor: theme.colors.surface,
-    position: 'absolute',
+    position: "absolute",
     bottom: -60,
   },
   profileImage: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   // editButton: {
   //   position: 'absolute',
@@ -291,9 +251,9 @@ const styles = StyleSheet.create({
   // },
   fullName: {
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: theme.colors.textDark,
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 70,
     marginBottom: 20,
   },
@@ -302,15 +262,15 @@ const styles = StyleSheet.create({
     gap: theme.spacing.md,
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: theme.spacing.sm,
   },
   halfInput: {
     flex: 1,
   },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: theme.colors.surface,
     borderRadius: theme.borderRadius.small,
     borderWidth: 1,
@@ -340,18 +300,18 @@ const styles = StyleSheet.create({
     marginTop: theme.spacing.lg,
   },
   deleteButton: {
-    flexDirection: 'row',
+    flexDirection: "row",
     backgroundColor: theme.colors.primary,
     paddingVertical: theme.spacing.md,
     borderRadius: theme.borderRadius.large,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     gap: theme.spacing.sm,
     marginBottom: theme.spacing.xl,
   },
   deleteButtonText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: theme.colors.textLight,
   },
 });

@@ -1,7 +1,9 @@
+import BackButton from "@/components/common/BackButtonCommon/BackButtonCommon.component";
+import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
 import { theme } from "@/styles/Theme";
-import BackButton from "components/common/BackButtonCommon/BackButtonCommon.component";
-import CustomButtonCommon from "components/common/CustomButtonCommon/CustomButtonCommon.component";
-import { Link, Stack } from "expo-router";
+// import BackButton from "components/common/BackButtonCommon/BackButtonCommon.component";
+// import CustomButtonCommon from "components/common/CustomButtonCommon/CustomButtonCommon.component";
+import { Href, Link, router, Stack } from "expo-router";
 import React, { useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -12,7 +14,7 @@ export default function LoginScreen() {
 
   const onSubmit = () => {
     // TODO: autenticar con api
-    // router.replace("/(tabs)");
+    router.replace("/(tabs)/(home)/recipes" as Href);
     console.log({ email, password });
   };
 

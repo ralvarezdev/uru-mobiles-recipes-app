@@ -44,7 +44,9 @@ const mockRecipes: Recipe[] = [
 // Obtener recetas por categoría
 export const getRecipesByCategory = async (categoryId: string): Promise<Recipe[]> => {
   await new Promise(resolve => setTimeout(resolve, 500));
-  return mockRecipes.filter(recipe => recipe.categoryId === categoryId);
+  const recipesByCategory = mockRecipes.filter(recipe => recipe.categoryId === categoryId)
+  console.log('recipesByCategory',recipesByCategory);
+  return recipesByCategory;
 };
 
 export const getRecipeById = async (id: string): Promise<Recipe | null> => {
