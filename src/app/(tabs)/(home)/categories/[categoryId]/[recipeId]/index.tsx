@@ -14,12 +14,13 @@ export default function RecipeDetailScreen() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    (async () => {
-      setLoading(true);
-      const data = await getRecipeById(String(recipeId)); // Recipe | null
-      setRecipe(data); // ✅ sin undefined
-      setLoading(false);
-    })();
+    
+    // if(recipeId  ) {
+    //   getRecipeById(String(recipeId)).then((data) => {
+    //     setRecipe(data);
+    //     setLoading(false);
+    //   });
+    // }
   }, [recipeId]);
 
   return (

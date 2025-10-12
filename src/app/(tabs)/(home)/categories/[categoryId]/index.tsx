@@ -17,11 +17,6 @@ export default function CategoryRecipesScreen() {
     if (categoryId && categoryName) {
       loadRecipes();
     }
-    // (async () => {
-    //   setLoading(true);
-    //   setRecipes(await getRecipesByCategory(String(categoryId)));
-    //   setLoading(false);
-    // })();
   }, [categoryId]);
 
   const loadRecipes = async () => {
