@@ -1,10 +1,13 @@
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { theme } from "@/styles/Theme";
 import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-// import { useColorScheme } from "hooks/useColorScheme";
 import { useEffect } from "react";
+import { StatusBar, StyleSheet } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -17,7 +20,13 @@ export default function RootLayout() {
     SplashScreen.hideAsync();
   }, []);
 
-  return <RootLayoutNav />;
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaView style={styles.safeArea}>
+        <RootLayoutNav />
+      </SafeAreaView>
+    </GestureHandlerRootView>
+  );
 }
 
 function RootLayoutNav() {
@@ -25,6 +34,8 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <StatusBar barStyle="light-content" backgroundColor={theme.colors.primary} />
+
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="login" />
@@ -33,3 +44,10 @@ function RootLayoutNav() {
     </ThemeProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+  },
+});
