@@ -1,39 +1,41 @@
-// src/services/recipe/mockData.ts
-import { Recipe } from './types';
+
+import { Recipe } from "@/entities/Recipe";
 
 export const RECIPES: Recipe[] = [
   {
-    id: 'r1',
-    categoryId: '1', // Postres
+    id: 1,
+    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200',
     title: 'Pernil con Hojas de Romero',
     description: 'Receta de pernil ahumado con romero.',
-    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200',
-    cookTime: 240,
-    servings: 5,
-    ingredients: [
-      '1 pernil de cerdo 6 kg',
-      '1 limón',
-      '2 cebollas 100 g',
-      '17 dientes de ajo',
-      '125 ml aceite',
-      '60 ml salsa inglesa',
-      '135 g azúcar',
-    ],
-    steps: [
-      { title: 'Preparación', content: 'Marina el pernil 12 h en refrigeración.' },
-      { title: 'Horneado', content: 'Hornea a 180°C por 2–3 h, bañando con salsa.' },
-      { title: 'Reposo', content: 'Deja reposar 15 min antes de cortar.' },
-    ],
+    prepareTime: 90,
+    portions: 8,
+    categoryId: 1, 
+    unitPrepareTime: 'minutes',
+    ingredients: "hola",
+    steps: "chau",
   },
   {
-    id: 'r2',
-    categoryId: '2', // Pastas
-    title: 'Pasta Alfredo',
-    cookTime: 30,
-    servings: 2,
-    ingredients: ['200 g pasta', '200 ml crema', 'Queso parmesano', 'Mantequilla', 'Sal'],
-    steps: [{ content: 'Cocer pasta y mezclar con salsa alfredo.' }],
-    image: 'https://images.unsplash.com/photo-1525755662778-989d0524087e?w=1200',
+    id: 2,
+    image: 'https://images.unsplash.com/photo-1512058564366-c9e9f3a0c5b1?w=1200',
+    title: 'Ensalada César',
+    description: 'Receta clásica de ensalada César.', 
+    prepareTime: 20,
+    portions: 4,
+    categoryId: 1,
+    unitPrepareTime: 'minutes',
+    ingredients: "hola",
+    steps: "chau",
   },
-  // agrega más…
-];
+  {
+    id: 2,
+    image: 'https://images.unsplash.com/photo-1512058564366-c9e9f3a0c5b1?w=1200',
+    title: 'Ensalada César',
+    description: 'Receta clásica de ensalada César.', 
+    prepareTime: 20,
+    portions: 4,
+    categoryId: 4,
+    unitPrepareTime: 'minutes',
+    ingredients: "hola",
+    steps: "chau",
+  },
+]
