@@ -14,7 +14,7 @@ export default function WelcomeScreen() {
       <StatusBar barStyle="light-content" backgroundColor={theme.colors.primary} />
 
       {/* BOTÓN TEMPORAL DE DEBUG */}
-      <TouchableOpacity onPress={() => router.push("/(tabs)/(home)/recipes")} style={styles.debugButton}>
+      <TouchableOpacity onPress={() => router.push("/recipes")} style={styles.debugButton}>
         <Text style={styles.debugText}>Ver Tabs</Text>
       </TouchableOpacity>
       <View style={styles.container}>

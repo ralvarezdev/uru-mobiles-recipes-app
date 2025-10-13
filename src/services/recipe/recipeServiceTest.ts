@@ -1,4 +1,4 @@
-import { Recipe } from "./types";
+import { Recipe } from "@/entities/Recipe";
 
 // Mock de recetas por categoría
 const mockRecipes: Recipe[] = [
@@ -53,6 +53,8 @@ export const getRecipeById = async (id: string): Promise<Recipe | null> => {
   await new Promise(resolve => setTimeout(resolve, 500));
   return mockRecipes.find(recipe => recipe.id === id) || null;
 };
+
+
 
 // TODO: Con API real:
 // export const getRecipesByCategory = async (categoryId: string) => {
