@@ -1,5 +1,5 @@
 
-import { theme } from "@/src/styles/Theme";
+import { theme } from "@/styles/Theme";
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle } from "react-native";
 

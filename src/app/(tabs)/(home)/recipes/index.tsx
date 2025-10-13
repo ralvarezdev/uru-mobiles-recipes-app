@@ -1,10 +1,10 @@
-import { theme } from '@/src/styles/Theme';
+import { theme } from '@/styles/Theme';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function GroupsScreen() {
+export default function RecipesScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Pantalla de Grupos</Text>
+      <Text style={styles.text}>Pantalla de Recetas</Text>
     </View>
   );
 }

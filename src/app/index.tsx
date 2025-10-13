@@ -1,5 +1,6 @@
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
-import { theme } from "@/src/styles/Theme";
+import { theme } from "@/styles/Theme";
+// import CustomButtonCommon from "components/common/CustomButtonCommon/CustomButtonCommon.component";
 import { Link, router } from "expo-router";
 import React from "react";
 import { Dimensions, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -13,9 +14,8 @@ export default function WelcomeScreen() {
       <StatusBar barStyle="light-content" backgroundColor={theme.colors.primary} />
 
       {/* BOTÓN TEMPORAL DE DEBUG */}
-      <TouchableOpacity onPress={() => router.push('/(tabs)/(home)/recipes')} style={styles.debugButton}>
+      <TouchableOpacity onPress={() => router.push("/recipes")} style={styles.debugButton}>
         <Text style={styles.debugText}>Ver Tabs</Text>
-
       </TouchableOpacity>
       <View style={styles.container}>
         <View style={styles.greenBackground} />
@@ -64,19 +64,19 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
 
-    debugButton: {
-    position: 'absolute',
+  debugButton: {
+    position: "absolute",
     top: 60,
     right: 10,
-    backgroundColor: 'red',
+    backgroundColor: "red",
     padding: 10,
     borderRadius: 8,
     zIndex: 1000,
   },
   debugText: {
-    color: 'white',
+    color: "white",
     fontSize: 12,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   imageContainer: {
     flex: 1,

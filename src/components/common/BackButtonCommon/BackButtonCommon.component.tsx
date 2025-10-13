@@ -12,7 +12,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Href, useRouter } from "expo-router";
-import { theme } from "@/src/styles/Theme";
+import { theme } from "@/styles/Theme";
 
 type Props = {
   to?: Href;
