@@ -3,7 +3,6 @@ import { theme } from "@/styles/Theme";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import { Alert, Dimensions, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 // import CustomButtonCommon from 'components/common/CustomButtonCommon/CustomButtonCommon.component';
 
 const { width } = Dimensions.get("window");
@@ -131,7 +130,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Header verde con imagen */}
         <View style={styles.header}>
@@ -200,7 +199,7 @@ export default function ProfileScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </>
   );
 }
 
