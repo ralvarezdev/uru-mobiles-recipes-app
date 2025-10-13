@@ -17,9 +17,9 @@ export default function HomeLayout() {
           tabBarIndicatorStyle: { backgroundColor: theme.colors.secondary },
           tabBarStyle: { backgroundColor: theme.colors.primary },
         }}>
-        <MaterialTopTabs.Screen name="recipes/index" options={{ title: "Recetas" }} />
-        <MaterialTopTabs.Screen name="categories" options={{ title: "Categorias" }} />
-        <MaterialTopTabs.Screen name="groups/index" options={{ title: "Grupos" }} />
+        <MaterialTopTabs.Screen name="recipes/index" options={{ title: "Recipes" }} />
+        <MaterialTopTabs.Screen name="categories" options={{ title: "Categories" }} />
+        <MaterialTopTabs.Screen name="groups/index" options={{ title: "Groups" }} />
       </MaterialTopTabs>
     </>
   );
