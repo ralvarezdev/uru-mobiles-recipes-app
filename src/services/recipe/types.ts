@@ -12,11 +12,15 @@ export type GetRecipesParams = {
  * Entrada para crear una receta.
  */
 export type CreateRecipeInput = {
-  nombre: string;
-  descripcion: string;
-  tiempoPreparacion: number; // en minutos
-  porciones: number;
-  dificultad: string;        // si tienes un enum, cámbialo por ese tipo
+  image: File | string;
+  title: string;
+  description?: string;
+  prepareTime: number;
+  unitPrepareTime: string;
+  portions: number;
+  categoryId: number;
+  ingredients: string; 
+  steps: string;
 };
 
 /**
