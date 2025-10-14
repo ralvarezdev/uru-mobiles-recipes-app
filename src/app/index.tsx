@@ -1,22 +1,14 @@
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
 import { theme } from "@/styles/Theme";
-// import CustomButtonCommon from "components/common/CustomButtonCommon/CustomButtonCommon.component";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 import React from "react";
-import { Dimensions, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
 export default function WelcomeScreen() {
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="light-content" backgroundColor={theme.colors.primary} />
-
-      {/* BOTÓN TEMPORAL DE DEBUG */}
-      <TouchableOpacity onPress={() => router.push("/recipes")} style={styles.debugButton}>
-        <Text style={styles.debugText}>Ver Tabs</Text>
-      </TouchableOpacity>
+    <>
       <View style={styles.container}>
         <View style={styles.greenBackground} />
 
@@ -41,7 +33,7 @@ export default function WelcomeScreen() {
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </>
   );
 }
 

@@ -2,7 +2,7 @@
  * Entidad de dominio que representa una receta.
  */
 export type Recipe = {
-  id: string;
+  id: number;
   image: string;
   title: string;
   description?: string;

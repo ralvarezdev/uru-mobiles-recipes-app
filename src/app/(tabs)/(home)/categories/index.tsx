@@ -4,7 +4,6 @@ import { theme } from "@/styles/Theme";
 // import CategoryCard from "components/CategoryCard";
 import { Href, router } from "expo-router";
 import { FlatList, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CategoriesScreen() {
   const mockCategories: Category[] = [
@@ -25,7 +24,7 @@ export default function CategoriesScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={["bottom"]}>
+    <>
       <FlatList
         data={mockCategories}
         renderItem={({ item }) => <CategoryCard category={item} onPress={handleCategoryPress} />}
@@ -35,7 +34,7 @@ export default function CategoriesScreen() {
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
       />
-    </SafeAreaView>
+    </>
   );
 }
 

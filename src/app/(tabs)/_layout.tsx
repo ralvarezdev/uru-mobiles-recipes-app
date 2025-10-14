@@ -31,21 +31,21 @@ export default function TabsLayout() {
           title: 'Home',
         }}
       />
-      {/* <Tabs.Screen
-       name="categories/index"
+      <Tabs.Screen
+       name="createRecipe/index"
         options={{
           tabBarIcon: ({ focused }: { focused: boolean }) => (
             <View style={{
               backgroundColor: theme.colors.primary,
               width: 56, height: 56, borderRadius: 28,
               marginBottom: 18, alignItems: 'center', justifyContent: 'center',
-              shadowColor: '#d70e0eff', shadowOpacity: 0.2, shadowRadius: 6,
+              shadowColor: '#f3ececff', shadowOpacity: 0.2, shadowRadius: 6,
             }}>
-              <Ionicons name="add" size={30} color="#9b1a1aff" />
+              <Ionicons name="add" size={30} color="#fef5f5ff" />
             </View>
           ),
           title: 'Categories',
-        }} /> */}
+        }} /> 
       <Tabs.Screen
         name='profile/index'
         options={{
