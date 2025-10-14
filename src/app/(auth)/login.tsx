@@ -1,12 +1,12 @@
 import BackButton from "@/components/common/BackButtonCommon/BackButtonCommon.component";
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
+import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { theme } from "@/styles/Theme";
 // import BackButton from "components/common/BackButtonCommon/BackButtonCommon.component";
 // import CustomButtonCommon from "components/common/CustomButtonCommon/CustomButtonCommon.component";
 import { Href, Link, router, Stack } from "expo-router";
 import React, { useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -19,7 +19,7 @@ export default function LoginScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <ScreenContainer>
       <Stack.Screen options={{ headerShown: false }} />
       <BackButton to="/" />
 
@@ -63,15 +63,11 @@ export default function LoginScreen() {
           </View>
         </View>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: theme.colors.background,
-  },
   keyboardView: {
     flex: 1,
   },

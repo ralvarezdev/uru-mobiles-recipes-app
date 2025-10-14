@@ -12,4 +12,5 @@ export type Recipe = {
   categoryId: number;
   ingredients: string; 
   steps: string;
+  author: string;
 };

@@ -1,11 +1,12 @@
 // app/(tabs)/(home)/categories/[categoryId]/index.tsx
+import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import RecipeCard from "@/components/RecipeCard";
 import { Recipe } from "@/entities/Recipe";
 import { getRecipesByCategory } from "@/services/recipe/recipeServiceTest";
 import { theme } from "@/styles/Theme";
 import { Href, router, Stack, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, View, Text, StyleSheet } from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet, Text, View } from "react-native";
 
 export default function CategoryRecipesScreen() {
   const { categoryId, categoryName } = useLocalSearchParams<{ categoryId: string; categoryName?: string }>();
@@ -20,7 +21,7 @@ export default function CategoryRecipesScreen() {
 
   const loadRecipes = async () => {
     setLoading(true);
-    const recipes = await getRecipesByCategory(String(categoryId));
+    const recipes = await getRecipesByCategory(Number(categoryId));
     console.log("recipes", recipes);
     setRecipes(recipes);
     setLoading(false);
@@ -35,27 +36,25 @@ export default function CategoryRecipesScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <ScreenContainer>
       <Stack.Screen options={{ title: String(categoryName ?? "Recetas"), headerShown: true }} />
       <FlatList
         data={recipes}
-        keyExtractor={(i) => i.id}
+        keyExtractor={(item: Recipe) => item.id.toString()}
         renderItem={({ item }) => (
-          <RecipeCard 
-            recipe={item} 
-            onPress={(r) => router.push(`/categories/${categoryId}/${r.id}?recipeName=${encodeURIComponent(r.title)}` as Href)} 
+          <RecipeCard
+            recipe={item}
+            onPress={(r) => router.push(`/categories/${categoryId}/${r.id}?recipeName=${encodeURIComponent(r.title)}` as Href)}
           />
         )}
         contentContainerStyle={recipes.length === 0 ? styles.emptyContainer : undefined}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>
-              No hay recetas en esta categoría
-            </Text>
+            <Text style={styles.emptyText}>No hay recetas en esta categoría</Text>
           </View>
         }
       />
-    </View>
+    </ScreenContainer>
   );
 }
 

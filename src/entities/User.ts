@@ -4,7 +4,8 @@
  */
 export type User = {
   id: number | string;
-  nombre: string;
-  apellido: string;
+  name: string;
+  lastName: string;
+  username: string;
   email: string;
 };

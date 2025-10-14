@@ -1,4 +1,5 @@
 // app/(tabs)/(home)/categories/[categoryId]/[recipeId].tsx
+import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import RecipeDetail from "@/components/RecipeDetail";
 import { Recipe } from "@/entities/Recipe";
 import { getRecipeById } from "@/services/recipe/recipeServiceTest";
@@ -21,14 +22,14 @@ export default function RecipeDetailScreen() {
 
   const loadRecipe = async () => {
     setLoading(true);
-    const recipe = await getRecipeById(String(recipeId));
+    const recipe = await getRecipeById(Number(recipeId));
     console.log("recipe", recipe);
     setRecipe(recipe);
     setLoading(false);
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.gray400 }}>
+    <ScreenContainer>
       <Stack.Screen options={{ title: "", headerShown: true }} />
       {loading ? (
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -39,6 +40,6 @@ export default function RecipeDetailScreen() {
       ) : (
         <Text style={{ padding: 16 }}>No se encontró la receta.</Text>
       )}
-    </View>
+    </ScreenContainer>
   );
 }
