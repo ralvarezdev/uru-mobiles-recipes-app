@@ -1,6 +1,5 @@
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
 import { theme } from "@/styles/Theme";
-// import CustomButtonCommon from "components/common/CustomButtonCommon/CustomButtonCommon.component";
 import { Link } from "expo-router";
 import React from "react";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
