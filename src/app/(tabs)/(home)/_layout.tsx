@@ -8,20 +8,18 @@ export const MaterialTopTabs = withLayoutContext(Navigator);
 
 export default function HomeLayout() {
   return (
-    <>
-      <MaterialTopTabs
-        initialRouteName="recipes/index"
-        screenOptions={{
-          tabBarScrollEnabled: false,
-          tabBarLabelStyle: { fontWeight: "bold", fontSize: 17 },
-          tabBarIndicatorStyle: { backgroundColor: theme.colors.secondary },
-          tabBarStyle: { backgroundColor: theme.colors.primary },
-        }}>
-        <MaterialTopTabs.Screen name="recipes/index" options={{ title: "Recipes" }} />
-        <MaterialTopTabs.Screen name="categories" options={{ title: "Categories" }} />
-        <MaterialTopTabs.Screen name="groups/index" options={{ title: "Groups" }} />
-      </MaterialTopTabs>
-    </>
+    <MaterialTopTabs
+      initialRouteName="recipes/index"
+      screenOptions={{
+        tabBarScrollEnabled: false,
+        tabBarLabelStyle: { fontWeight: "bold", fontSize: 17 },
+        tabBarIndicatorStyle: { backgroundColor: theme.colors.secondary },
+        tabBarStyle: { backgroundColor: theme.colors.primary },
+      }}>
+      <MaterialTopTabs.Screen name="recipes/index" options={{ title: "Recipes" }} />
+      <MaterialTopTabs.Screen name="categories" options={{ title: "Categories" }} />
+      <MaterialTopTabs.Screen name="groups/index" options={{ title: "Groups" }} />
+    </MaterialTopTabs>
   );
 }
 

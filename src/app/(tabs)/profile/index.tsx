@@ -1,4 +1,5 @@
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
+import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { theme } from "@/styles/Theme";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
@@ -130,7 +131,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <>
+    <ScreenContainer>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Header verde con imagen */}
         <View style={styles.header}>
@@ -199,15 +200,11 @@ export default function ProfileScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </>
+    </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: theme.colors.background,
-  },
   scrollContent: {
     flexGrow: 1,
   },
