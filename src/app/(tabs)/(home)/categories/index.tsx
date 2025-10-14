@@ -1,4 +1,5 @@
 import CategoryCard from "@/components/CategoryCard";
+import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { Category } from "@/services/category/types";
 import { theme } from "@/styles/Theme";
 // import CategoryCard from "components/CategoryCard";
@@ -24,7 +25,7 @@ export default function CategoriesScreen() {
   };
 
   return (
-    <>
+    <ScreenContainer>
       <FlatList
         data={mockCategories}
         renderItem={({ item }) => <CategoryCard category={item} onPress={handleCategoryPress} />}
@@ -34,12 +35,16 @@ export default function CategoriesScreen() {
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
       />
-    </>
+    </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: theme.colors.background },
+  // safeArea: { flex: 1, backgroundColor: theme.colors.background },
   listContent: { padding: theme.spacing.lg },
   row: { justifyContent: "space-between" },
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  },
 });

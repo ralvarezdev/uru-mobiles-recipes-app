@@ -1,9 +1,8 @@
+import { User } from "@/entities";
+
 export type LoginInput = { email: string; password: string };
 
-export type RegisterInput = {
-  nombre: string;
-  apellido: string;
-  email: string;
+export type RegisterInput = User & {
   password: string;
 };
 

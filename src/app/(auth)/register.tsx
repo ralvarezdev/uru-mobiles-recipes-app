@@ -4,22 +4,32 @@ import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } fro
 // import BackButton from "components/common/BackButtonCommon/BackButtonCommon.component";
 import BackButton from "@/components/common/BackButtonCommon/BackButtonCommon.component";
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
+import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
+import { User } from "@/entities";
 import { theme } from "@/styles/Theme";
 // import CustomButtonCommon from "components/common/CustomButtonCommon/CustomButtonCommon.component";
 
 export default function RegisterScreen() {
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [user, setUser] = useState<User>({} as User);
+  // const [name, setName] = useState("");
+  // const [lastName, setLastName] = useState("");
+  // const [username, setUsername] = useState("");
+  // const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const handleChangeUser = (field: string, value: string) => {
+    setUser((prev) => ({ ...prev, [field]: value }));
+  };
+
   const handleRegister = () => {
-    console.log("New user:", { name, email, password });
+    console.log("New user:", { user, password });
     router.replace("/login"); //por mientras
+    // authService.register({ ...user, password } as RegisterInput);
   };
 
   return (
-    <>
+    <ScreenContainer>
       <Stack.Screen options={{ headerShown: false }} />
       <BackButton to="/login" />
       <KeyboardAvoidingView style={styles.root} behavior={Platform.OS === "ios" ? "padding" : undefined}>
@@ -30,12 +40,21 @@ export default function RegisterScreen() {
           </View>
 
           <View>
-            <Text style={styles.label}>Full Name</Text>
+            <Text style={styles.label}>Name</Text>
             <TextInput
-              placeholder="Your full name"
+              placeholder="Your name"
               placeholderTextColor={theme.colors.gray400}
-              value={name}
-              onChangeText={setName}
+              value={user.name}
+              onChangeText={(text) => handleChangeUser("name", text)}
+              style={styles.input}
+            />
+
+            <Text style={[styles.label, { marginTop: theme.spacing.md }]}>Last Name</Text>
+            <TextInput
+              placeholder="Your last name"
+              placeholderTextColor={theme.colors.gray400}
+              value={user.lastName}
+              onChangeText={(text) => handleChangeUser("lastName", text)}
               style={styles.input}
             />
 
@@ -43,8 +62,19 @@ export default function RegisterScreen() {
             <TextInput
               placeholder="Your email"
               placeholderTextColor={theme.colors.gray400}
-              value={email}
-              onChangeText={setEmail}
+              value={user.email}
+              onChangeText={(text) => handleChangeUser("email", text)}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              style={styles.input}
+            />
+
+            <Text style={[styles.label, { marginTop: theme.spacing.md }]}>Username</Text>
+            <TextInput
+              placeholder="Your username"
+              placeholderTextColor={theme.colors.gray400}
+              value={user.username}
+              onChangeText={(text) => handleChangeUser("username", text)}
               keyboardType="email-address"
               autoCapitalize="none"
               style={styles.input}
@@ -58,6 +88,11 @@ export default function RegisterScreen() {
               onChangeText={setPassword}
               secureTextEntry
               style={styles.input}
+              autoCapitalize="none"
+              autoCorrect={false}
+              textContentType="password" // iOS
+              autoComplete="password" // iOS/Android
+              returnKeyType="done"
             />
 
             <CustomButtonCommon title="Sign Up" onPress={handleRegister} style={styles.button} textStyle={styles.buttonText} />
@@ -71,7 +106,7 @@ export default function RegisterScreen() {
           </View>
         </View>
       </KeyboardAvoidingView>
-    </>
+    </ScreenContainer>
   );
 }
 

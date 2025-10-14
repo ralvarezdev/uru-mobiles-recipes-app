@@ -1,4 +1,5 @@
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
+import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { theme } from "@/styles/Theme";
 import { Link } from "expo-router";
 import React from "react";
@@ -8,44 +9,34 @@ const { width, height } = Dimensions.get("window");
 
 export default function WelcomeScreen() {
   return (
-    <>
-      <View style={styles.container}>
-        <View style={styles.greenBackground} />
+    <ScreenContainer>
+      <View style={styles.greenBackground} />
 
-        <View style={styles.imageContainer}>
-          <Image source={require("@/assets/images/welcome-food.png")} style={styles.foodImage} />
-        </View>
+      <View style={styles.imageContainer}>
+        <Image source={require("@/assets/images/welcome-food.png")} style={styles.foodImage} />
+      </View>
 
-        <View style={styles.content}>
-          <Text style={styles.title}>Cooking</Text>
-          <Text style={styles.subtitle}>Delicious</Text>
-          <Text style={styles.subtitle}>Like a Chef</Text>
+      <View style={styles.content}>
+        <Text style={styles.title}>Cooking</Text>
+        <Text style={styles.subtitle}>Delicious</Text>
+        <Text style={styles.subtitle}>Like a Chef</Text>
 
-          <Link href="/login" asChild>
-            <CustomButtonCommon title="Get Started" style={styles.button} />
+        <Link href="/login" asChild>
+          <CustomButtonCommon title="Get Started" style={styles.button} />
+        </Link>
+
+        <View style={styles.loginContainer}>
+          <Text style={styles.loginText}>Don't you have an account? </Text>
+          <Link href="/register" asChild>
+            <Text style={styles.signInText}>Sign In </Text>
           </Link>
-
-          <View style={styles.loginContainer}>
-            <Text style={styles.loginText}>Don't you have an account? </Text>
-            <Link href="/register" asChild>
-              <Text style={styles.signInText}>Sign In </Text>
-            </Link>
-          </View>
         </View>
       </View>
-    </>
+    </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: theme.colors.primary,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: theme.colors.background,
-  },
   greenBackground: {
     position: "absolute",
     top: 0,
