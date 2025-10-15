@@ -1,6 +1,6 @@
 import Loading from "@/components/common/Loading/Loading.component";
+import RecipeCard from "@/components/common/RecipeCard/RecipeCard.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
-import RecipeCard from "@/components/RecipeCard";
 import { Recipe, User } from "@/entities";
 import { me } from "@/services/auth/authServiceTest";
 import { getRecipesByUsername } from "@/services/recipe/recipeServiceTest";

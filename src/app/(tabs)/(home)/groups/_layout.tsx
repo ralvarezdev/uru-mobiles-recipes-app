@@ -1,7 +1,7 @@
 import { theme } from "@/styles/Theme";
 import { Stack } from "expo-router";
 
-export default function GroupsLayout() {
+export default function GroupsStackLayout() {
   return (
     <Stack
       screenOptions={{
@@ -14,36 +14,9 @@ export default function GroupsLayout() {
         },
         headerBackTitle: "Back",
       }}>
-      <Stack.Screen
-        name="index"
-        options={{
-          title: "Groups",
-          headerShown: false,
-        }}
-      />
-
-      {/* <Stack.Screen
-        name="[groupId]/index"
-        options={{
-          title: "Group Detail",
-        }}
-      /> */}
-
-      {/* <Stack.Screen
-        name="recipes/[recipeId]/index"
-        options={{
-          title: "Receta en categoría",
-        }}
-      /> */}
-
-      {/* Ejemplo: crear categoría como modal (opcional) */}
-      {/* <Stack.Screen
-        name="create"
-        options={{
-          title: "Nueva categoría",
-          presentation: "modal", // iOS: gesto de cerrar hacia abajo
-        }}
-      /> */}
+      <Stack.Screen name="index" />
+      <Stack.Screen name="create/index" />
+      <Stack.Screen name="[groupId]" />
     </Stack>
   );
 }

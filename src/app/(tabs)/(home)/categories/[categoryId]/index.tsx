@@ -1,7 +1,7 @@
 // app/(tabs)/(home)/categories/[categoryId]/index.tsx
 import Loading from "@/components/common/Loading/Loading.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
-import RecipeCard from "@/components/RecipeCard";
+import RecipeCard from "@/components/common/RecipeCard/RecipeCard.component";
 import { Recipe } from "@/entities/Recipe";
 import { getRecipesByCategory } from "@/services/recipe/recipeServiceTest";
 import { theme } from "@/styles/Theme";

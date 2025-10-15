@@ -102,7 +102,8 @@ export default function ProfileScreen() {
   //     ]
   //   );
   // };
-  const handleAbleUpdate = async () => {
+  const handleAbleUpdate = () => {
+    console.log("ableUpdate", ableUpdate);
     setAbleUpdate(!ableUpdate);
   };
 
@@ -111,11 +112,12 @@ export default function ProfileScreen() {
       {
         text: "Cancelar",
         style: "cancel",
+        onPress: () => handleAbleUpdate(),
       },
       {
         text: "Confirmar",
         style: "default",
-        onPress: () => handleConfirmUpdateAccount,
+        onPress: () => handleConfirmUpdateAccount(),
       },
     ]);
     // setLoading(true);
@@ -126,13 +128,14 @@ export default function ProfileScreen() {
     // Alert.alert("Account updated", "Tu cuenta ha sido actualizada");
   };
 
-  const handleConfirmUpdateAccount = async () => {
+  const handleConfirmUpdateAccount = () => {
     // Alert.alert("Eliminando cuenta", "Esta accion puede tardar unos minutos", [{ isPreferred: true }]);
     setLoading(true);
     //TODO: descomentar servicio de abajo y trycatch
     // await userService.deleteUser(user.id);
     Alert.alert("Account updated", "Tu cuenta ha sido actualizada");
     setLoading(false);
+    handleAbleUpdate();
     // router.replace("/");
   };
 
