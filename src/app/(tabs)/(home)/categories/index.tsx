@@ -1,8 +1,7 @@
-import CategoryCard from "@/components/CategoryCard";
+import CategoryCard from "@/components/common/CategoryCard/CategoryCard.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { Category } from "@/services/category/types";
 import { theme } from "@/styles/Theme";
-// import CategoryCard from "components/CategoryCard";
 import { Href, router } from "expo-router";
 import { FlatList, StyleSheet } from "react-native";
 

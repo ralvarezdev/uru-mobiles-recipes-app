@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import CategoryPicker from "./CategoryPicker";
+import CategoryPicker from "./common/CategoryPicker/CategoryPicker.component";
 import CustomButtonCommon from "./common/CustomButtonCommon/CustomButtonCommon.component";
 import SimpleTimeUnitPicker from "./SimpleTimeUnitPicker";
 // import { createRecipe } from '@/services/recipe/recipeService';
