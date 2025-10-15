@@ -4,6 +4,7 @@ import { theme } from "@/styles/Theme";
 import { Link } from "expo-router";
 import React from "react";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+const welcomeImg = require("@/assets/images/welcome-food.png");
 
 const { width, height } = Dimensions.get("window");
 
@@ -13,7 +14,7 @@ export default function WelcomeScreen() {
       <View style={styles.greenBackground} />
 
       <View style={styles.imageContainer}>
-        <Image source={require("@/assets/images/welcome-food.png")} style={styles.foodImage} />
+        <Image source={welcomeImg} style={styles.foodImage} />
       </View>
 
       <View style={styles.content}>

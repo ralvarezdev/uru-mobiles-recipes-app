@@ -1,6 +1,8 @@
 import BackButton from "@/components/common/BackButtonCommon/BackButtonCommon.component";
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
+import { LoginInput } from "@/services";
+import { login } from "@/services/auth/authServiceTest";
 import { theme } from "@/styles/Theme";
 // import BackButton from "components/common/BackButtonCommon/BackButtonCommon.component";
 // import CustomButtonCommon from "components/common/CustomButtonCommon/CustomButtonCommon.component";
@@ -9,13 +11,21 @@ import React, { useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginInput, setLoginInput] = useState<LoginInput>({ email: "carlos.perez@example.com", password: "Password123!" } as LoginInput);
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
 
-  const onSubmit = () => {
+  const handleChangeLoginInput = (field: string, value: string) => {
+    setLoginInput((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const onSubmit = async () => {
     // TODO: autenticar con api
+    // const authUser = await authService.login(loginInput);
+    console.log("loginInput", loginInput);
+    const authUser = login(loginInput);
     router.replace("/(tabs)/(home)/recipes" as Href);
-    console.log({ email, password });
+    console.log(authUser);
   };
 
   return (
@@ -35,8 +45,8 @@ export default function LoginScreen() {
             <TextInput
               placeholder="Your email"
               placeholderTextColor={theme.colors.gray400}
-              value={email}
-              onChangeText={setEmail}
+              value={loginInput.email}
+              onChangeText={(text) => handleChangeLoginInput("email", text)}
               keyboardType="email-address"
               autoCapitalize="none"
               style={styles.input}
@@ -46,8 +56,8 @@ export default function LoginScreen() {
             <TextInput
               placeholder="Your password"
               placeholderTextColor={theme.colors.gray400}
-              value={password}
-              onChangeText={setPassword}
+              value={loginInput.password}
+              onChangeText={(text) => handleChangeLoginInput("password", text)}
               secureTextEntry
               style={styles.input}
             />

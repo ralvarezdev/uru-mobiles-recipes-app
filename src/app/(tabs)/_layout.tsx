@@ -1,12 +1,34 @@
 import { theme } from "@/styles/Theme";
 import { Ionicons } from "@expo/vector-icons";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { BottomTabNavigationOptions, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { withLayoutContext } from "expo-router";
 import { View } from "react-native";
 
 const { Navigator } = createBottomTabNavigator();
 const Tabs = withLayoutContext(Navigator);
-
+const homeIcon: NonNullable<BottomTabNavigationOptions["tabBarIcon"]> = ({ focused, color, size }) => (
+  <Ionicons name="home-outline" size={26} color={focused ? theme.colors.primary : "#999"} />
+);
+const addRecipeIcon: NonNullable<BottomTabNavigationOptions["tabBarIcon"]> = ({ focused, color, size }) => (
+  <View
+    style={{
+      backgroundColor: theme.colors.primary,
+      width: 56,
+      height: 56,
+      borderRadius: 28,
+      marginBottom: 18,
+      alignItems: "center",
+      justifyContent: "center",
+      shadowColor: "#f3ececff",
+      shadowOpacity: 0.2,
+      shadowRadius: 6,
+    }}>
+    <Ionicons name="add" size={30} color="#fef5f5ff" />
+  </View>
+);
+const profileIcon: NonNullable<BottomTabNavigationOptions["tabBarIcon"]> = ({ focused, color, size }) => (
+  <Ionicons name="person-outline" size={size ?? 26} color={focused ? theme.colors.primary : color ?? "#999"} />
+);
 export default function TabsLayout() {
   return (
     <Tabs
@@ -23,41 +45,21 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="(home)"
         options={{
-          tabBarIcon: ({ focused }: { focused: boolean }) => (
-            <Ionicons name="home-outline" size={26} color={focused ? theme.colors.primary : "#999"} />
-          ),
+          tabBarIcon: homeIcon,
           title: "Home",
         }}
       />
       <Tabs.Screen
         name="recipe/create/index"
         options={{
-          tabBarIcon: ({ focused }: { focused: boolean }) => (
-            <View
-              style={{
-                backgroundColor: theme.colors.primary,
-                width: 56,
-                height: 56,
-                borderRadius: 28,
-                marginBottom: 18,
-                alignItems: "center",
-                justifyContent: "center",
-                shadowColor: "#f3ececff",
-                shadowOpacity: 0.2,
-                shadowRadius: 6,
-              }}>
-              <Ionicons name="add" size={30} color="#fef5f5ff" />
-            </View>
-          ),
+          tabBarIcon: addRecipeIcon,
           title: "Categories",
         }}
       />
       <Tabs.Screen
-        name="profile/index"
+        name="profile"
         options={{
-          tabBarIcon: ({ focused }: { focused: boolean }) => (
-            <Ionicons name="person-outline" size={26} color={focused ? theme.colors.primary : "#999"} />
-          ),
+          tabBarIcon: profileIcon,
           title: "Profile",
         }}
       />

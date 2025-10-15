@@ -4,8 +4,9 @@
  */
 export type User = {
   id: number | string;
-  name: string;
+  firstName: string;
   lastName: string;
   username: string;
   email: string;
+  avatar: string;
 };

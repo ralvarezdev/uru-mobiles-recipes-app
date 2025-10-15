@@ -13,7 +13,7 @@ const mockRecipes: Recipe[] = [
     portions: 4,
     ingredients: "1 kg de pollo",
     steps: "1.- Descongelar\n2.- Cocinar",
-    author: "yeglistar"
+    author: "nochi"
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ const mockRecipes: Recipe[] = [
     portions: 2,
     ingredients: "1 kg de pollo",
     steps: "1.- Descongelar\n2.- Cocinar",
-    author: "yeglistar"
+    author: "nochi"
   },
   {
     id: 3,
@@ -70,13 +70,24 @@ const mockRecipes: Recipe[] = [
 export const getRecipesByCategory = async (categoryId: number): Promise<Recipe[]> => {
   await new Promise(resolve => setTimeout(resolve, 500));
   const recipesByCategory = mockRecipes.filter(recipe => recipe.categoryId === categoryId)
-  console.log('recipesByCategory',recipesByCategory);
+    .sort((recipeA, recipeB) => recipeA.title.localeCompare(recipeB.title))
   return recipesByCategory;
+};
+
+export const getRecipes = async (): Promise<Recipe[]> => {
+  await new Promise(resolve => setTimeout(resolve, 500));
+  console.log('getRecipes', mockRecipes)
+  return mockRecipes.sort((recipeA, recipeB) => recipeA.title.localeCompare(recipeB.title));
 };
 
 export const getRecipeById = async (id: number): Promise<Recipe | null> => {
   await new Promise(resolve => setTimeout(resolve, 500));
   return mockRecipes.find(recipe => recipe.id === id) || null;
+};
+export const getRecipesByUsername = async (username: string): Promise<Recipe[]> => {
+  await new Promise(resolve => setTimeout(resolve, 500));
+  return mockRecipes.filter(recipe => recipe.author === username)
+    .sort((recipeA, recipeB) => recipeA.title.localeCompare(recipeB.title));
 };
 
 
