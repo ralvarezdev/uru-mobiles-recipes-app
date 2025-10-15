@@ -34,7 +34,7 @@ export default function CreateGroupScreen() {
       <Stack.Screen 
         options={{ 
           title: 'Add new group', 
-          headerShown: true 
+          headerShown: true
         }} 
       />
       <DynamicForm
