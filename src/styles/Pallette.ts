@@ -6,7 +6,7 @@ export const pallette = {
   secondary: '#b8b5a8',
   accent: '#f4a261',
 
-  background: '#f5f5dc',
+  background: '#fefdf2ff',
   surface: '#ffffff',
   overlay: 'rgba(0,0,0,0.5)',
   
