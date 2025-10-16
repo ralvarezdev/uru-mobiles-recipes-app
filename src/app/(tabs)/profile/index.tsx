@@ -7,10 +7,10 @@ import { theme } from "@/styles/Theme";
 import { Ionicons } from "@expo/vector-icons";
 import { Href, router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Alert, Dimensions, Image, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Image, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 // import CustomButtonCommon from 'components/common/CustomButtonCommon/CustomButtonCommon.component';
 
-const { width } = Dimensions.get("window");
+// const { width } = Dimensions.get("window");
 
 export default function ProfileScreen() {
   const [loading, setLoading] = useState(false);
@@ -173,7 +173,7 @@ export default function ProfileScreen() {
   };
 
   const handleViewMyRecipes = () => {
-    router.push("/profile/my-recipes" as Href);
+    router.push("/profile/my-cookbook" as Href);
   };
 
   if (loading) {
@@ -272,7 +272,7 @@ export default function ProfileScreen() {
 
           {!ableUpdate && (
             <>
-              <CustomButtonCommon title="My recipes" onPress={handleViewMyRecipes} icon="reader-outline" />
+              <CustomButtonCommon title="My cookbook" onPress={handleViewMyRecipes} icon="reader-outline" />
               <CustomButtonCommon title="Logout" onPress={handleLogout} style={styles.deleteButton} icon="log-out-outline" />
               <CustomButtonCommon title="Delete account" onPress={handleDeleteAccount} style={styles.deleteButton} icon="trash-outline" />
             </>

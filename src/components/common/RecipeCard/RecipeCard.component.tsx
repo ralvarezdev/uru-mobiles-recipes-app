@@ -10,7 +10,7 @@ interface RecipeCardProps {
   onPress: (recipe: Recipe) => void;
 }
 
-export default function RecipeCard({ recipe, onPress }: RecipeCardProps) {
+export default function RecipeCard({ recipe, onPress }: Readonly<RecipeCardProps>) {
   return (
     <TouchableOpacity style={styles.card} onPress={() => onPress(recipe)} activeOpacity={0.8}>
       <Image source={{ uri: recipe.image }} style={styles.image} />
@@ -30,4 +30,3 @@ export default function RecipeCard({ recipe, onPress }: RecipeCardProps) {
     </TouchableOpacity>
   );
 }
-

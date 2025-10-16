@@ -1,7 +1,7 @@
 
 export interface Category {
   id: string;
-  name: string;
+  title: string;
   image: string;
   recipeCount?: number;
   
@@ -14,7 +14,7 @@ export interface Category {
  */
 export type GetCategoriesParams = {
   /** Filtro opcional por nombre de categoría. */
-  nombre?: string;
+  title?: string;
 };
 
 /**

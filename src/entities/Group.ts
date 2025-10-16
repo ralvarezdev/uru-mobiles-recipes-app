@@ -2,7 +2,8 @@
  * Entidad de dominio que representa un grupo.
  */
 export type Group = {
-  id: number | string;
-  titulo: string;
-  descripcion: string;
+  id: string;
+  title: string;
+  recipesCount?: number;
+  author: string;
 };

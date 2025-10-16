@@ -1,12 +1,11 @@
 import Loading from "@/components/common/Loading/Loading.component";
-import RecipeCard from "@/components/common/RecipeCard/RecipeCard.component";
+import { RecipeList } from "@/components/common/RecipeList/RecipeList.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { Recipe } from "@/entities";
 import { getRecipes } from "@/services/recipe/recipeServiceTest";
 import { theme } from "@/styles/Theme";
-import { Href, router } from "expo-router";
 import { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 
 export default function RecipesScreen() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -30,11 +29,15 @@ export default function RecipesScreen() {
   return (
     <ScreenContainer>
       {/* <Stack.Screen options={{ title: "Recipes", headerShown: true }} /> */}
-      <FlatList
+      <RecipeList recipes={recipes} />
+      {/* <FlatList
         data={recipes}
         keyExtractor={(item: Recipe) => item.id.toString()}
         renderItem={({ item }) => (
-          <RecipeCard recipe={item} onPress={(r) => router.push(`/recipes/${r.id}?recipeName=${encodeURIComponent(r.title)}` as Href)} />
+          <RecipeCard
+            recipe={item}
+            onPress={(r) => router.push({ pathname: `/recipes/${r.id}` as RelativePathString, params: { recipeTitle: r.title } })}
+          />
         )}
         contentContainerStyle={recipes.length === 0 ? styles.emptyContainer : undefined}
         ListEmptyComponent={
@@ -42,7 +45,8 @@ export default function RecipesScreen() {
             <Text style={styles.emptyText}>No hay recetas en esta categoría</Text>
           </View>
         }
-      />
+        style={{ margin: 5 }}
+      /> */}
     </ScreenContainer>
   );
 }

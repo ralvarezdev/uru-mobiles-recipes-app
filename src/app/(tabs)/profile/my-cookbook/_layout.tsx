@@ -5,7 +5,7 @@ import { withLayoutContext } from "expo-router";
 const { Navigator } = createMaterialTopTabNavigator();
 const TopTabs = withLayoutContext(Navigator);
 
-export default function MyRecipesTabsLayout() {
+export default function MyCookbookTabsLayout() {
   return (
     <TopTabs
       initialRouteName="recipes"
@@ -15,8 +15,8 @@ export default function MyRecipesTabsLayout() {
         tabBarStyle: { backgroundColor: theme.colors.primary },
       }}>
       {/* Los name deben coincidir con los archivos hijos */}
-      <TopTabs.Screen name="recipes" options={{ title: "Recipes" }} />
-      <TopTabs.Screen name="groups" options={{ title: "Groups" }} />
+      <TopTabs.Screen name="recipes" options={{ title: "My Recipes" }} />
+      <TopTabs.Screen name="groups" options={{ title: "My Groups" }} />
     </TopTabs>
   );
 }

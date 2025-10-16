@@ -4,16 +4,12 @@ import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenConta
 import { LoginInput } from "@/services";
 import { login } from "@/services/auth/authServiceTest";
 import { theme } from "@/styles/Theme";
-// import BackButton from "components/common/BackButtonCommon/BackButtonCommon.component";
-// import CustomButtonCommon from "components/common/CustomButtonCommon/CustomButtonCommon.component";
 import { Href, Link, router, Stack } from "expo-router";
 import React, { useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function LoginScreen() {
-  const [loginInput, setLoginInput] = useState<LoginInput>({ email: "carlos.perez@example.com", password: "Password123!" } as LoginInput);
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
+  const [loginInput, setLoginInput] = useState<LoginInput>({ email: "nochi@example.com", password: "nochi" } as LoginInput);
 
   const handleChangeLoginInput = (field: string, value: string) => {
     setLoginInput((prev) => ({ ...prev, [field]: value }));

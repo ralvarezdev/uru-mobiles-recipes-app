@@ -36,8 +36,8 @@ function RootLayoutNav() {
             headerShown: false,
           }}>
           <Stack.Screen name="index" />
-          <Stack.Screen name="login" />
-          <Stack.Screen name="register" />
+          <Stack.Screen name="(auth)/login/index" />
+          <Stack.Screen name="(auth)/register/index" />
         </Stack>
       </GlobalLayout>
     </ThemeProvider>

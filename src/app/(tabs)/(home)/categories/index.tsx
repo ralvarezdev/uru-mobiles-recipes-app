@@ -2,25 +2,25 @@ import CategoryCard from "@/components/common/CategoryCard/CategoryCard.componen
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { Category } from "@/services/category/types";
 import { theme } from "@/styles/Theme";
-import { Href, router } from "expo-router";
+import { RelativePathString, router } from "expo-router";
 import { FlatList, StyleSheet } from "react-native";
 
 export default function CategoriesScreen() {
   const mockCategories: Category[] = [
-    { id: "1", name: "Postres", image: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400", recipeCount: 2 },
-    { id: "2", name: "Pastas", image: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400", recipeCount: 1 },
-    { id: "3", name: "Carnes", image: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400", recipeCount: 3 },
-    { id: "4", name: "Ensaladas", image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400", recipeCount: 0 },
-    { id: "5", name: "Sopas", image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400", recipeCount: 0 },
-    { id: "6", name: "Bebidas", image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400", recipeCount: 0 },
-    { id: "7", name: "Snacks", image: "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?w=400", recipeCount: 0 },
-    { id: "8", name: "Desayunos", image: "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?w=400", recipeCount: 0 },
+    { id: "1", title: "Postres", image: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400", recipeCount: 2 },
+    { id: "2", title: "Pastas", image: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400", recipeCount: 1 },
+    { id: "3", title: "Carnes", image: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400", recipeCount: 3 },
+    { id: "4", title: "Ensaladas", image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400", recipeCount: 0 },
+    { id: "5", title: "Sopas", image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400", recipeCount: 0 },
+    { id: "6", title: "Bebidas", image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400", recipeCount: 0 },
+    { id: "7", title: "Snacks", image: "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?w=400", recipeCount: 0 },
+    { id: "8", title: "Desayunos", image: "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?w=400", recipeCount: 0 },
   ];
 
-  const handleCategoryPress = ({ id, name }: Category) => {
-    const url = `/categories/${id}?categoryName=${encodeURIComponent(name)}` as Href;
+  const handleCategoryPress = ({ id, title }: Category) => {
+    const url = `/categories/${id}` as RelativePathString;
     console.log("url", url);
-    router.push(url);
+    router.push({ pathname: url, params: { categoryTitle: title } });
   };
 
   return (
@@ -31,7 +31,7 @@ export default function CategoriesScreen() {
         keyExtractor={(item) => item.id}
         numColumns={2}
         columnWrapperStyle={styles.row}
-        contentContainerStyle={styles.listContent}
+        // contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
       />
     </ScreenContainer>

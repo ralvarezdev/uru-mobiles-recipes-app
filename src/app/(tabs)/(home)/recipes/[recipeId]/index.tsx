@@ -1,4 +1,3 @@
-// app/(tabs)/(home)/categories/[categoryId]/[recipeId].tsx
 import Loading from "@/components/common/Loading/Loading.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import RecipeDetail from "@/components/RecipeDetail";
@@ -7,15 +6,14 @@ import { getRecipeById } from "@/services/recipe/recipeServiceTest";
 import { Stack, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
-// import RecipeDetail from 'components/RecipeDetail';
 
 export default function RecipeDetailScreen() {
-  const { recipeId, recipeName } = useLocalSearchParams<{ recipeId: string; recipeName: string }>();
+  const { recipeId, recipeTitle } = useLocalSearchParams<{ recipeId: string; recipeTitle: string }>();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (recipeId && recipeName) {
+    if (recipeId && recipeTitle) {
       loadRecipe();
     }
   }, [recipeId]);
