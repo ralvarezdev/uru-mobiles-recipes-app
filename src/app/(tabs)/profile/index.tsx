@@ -1,27 +1,40 @@
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
+import Loading from "@/components/common/Loading/Loading.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
+import { User } from "@/entities";
+import { logout, me } from "@/services/auth/authServiceTest";
 import { theme } from "@/styles/Theme";
 import { Ionicons } from "@expo/vector-icons";
+import { Href, router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Alert, Dimensions, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Dimensions, Image, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 // import CustomButtonCommon from 'components/common/CustomButtonCommon/CustomButtonCommon.component';
 
 const { width } = Dimensions.get("window");
 
 export default function ProfileScreen() {
   const [loading, setLoading] = useState(false);
-  const [firstName, setFirstName] = useState("yegli");
-  const [lastName, setLastName] = useState("montanez");
-  const [email, setEmail] = useState("montanezyeglimar.hotmail.com");
+  const [user, setUser] = useState<User>({} as User);
   const [password, setPassword] = useState("************");
-  const [username, setUsername] = useState("yegli_montanez");
-  const [avatar, setAvatar] = useState("https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400");
+  const [ableUpdate, setAbleUpdate] = useState(false);
+  // const [firstName, setFirstName] = useState("yegli");
+  // const [lastName, setLastName] = useState("montanez");
+  // const [email, setEmail] = useState("montanezyeglimar.hotmail.com");
+  // const [password, setPassword] = useState("************");
+  // const [username, setUsername] = useState("yegli_montanez");
+  // const [avatar, setAvatar] = useState("https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400");
 
   useEffect(() => {
     loadUserData();
   }, []);
 
+  const handleChangeUser = (field: string, value: string) => {
+    setUser((prev) => ({ ...prev, [field]: value }));
+  };
+
   const loadUserData = async () => {
+    const user = await me();
+    setUser(user);
     // setLoading(true);
     // try {
     //   const result = await getUserProfile();
@@ -89,30 +102,45 @@ export default function ProfileScreen() {
   //     ]
   //   );
   // };
+  const handleAbleUpdate = () => {
+    console.log("ableUpdate", ableUpdate);
+    setAbleUpdate(!ableUpdate);
+  };
 
   const handleUpdate = async () => {
-    //setLoading(true);
-    // try {
-    //   const result = await updateUserProfile({
-    //     firstName,
-    //     lastName,
-    //     email,
-    //     username,
-    //     avatar,
-    //   });
-    //   if (result.success) {
-    //     Alert.alert('Éxito', 'Perfil actualizado correctamente');
-    //   }
-    // } catch (error) {
-    //   console.error('Error actualizando perfil:', error);
-    //   Alert.alert('Error', 'No se pudo actualizar el perfil');
-    // } finally {
-    //   setLoading(false);
-    // }
+    Alert.alert("Update account", "¿Confirma actualizar los datos de tu cuenta?", [
+      {
+        text: "Cancelar",
+        style: "cancel",
+        onPress: () => handleAbleUpdate(),
+      },
+      {
+        text: "Confirmar",
+        style: "default",
+        onPress: () => handleConfirmUpdateAccount(),
+      },
+    ]);
+    // setLoading(true);
+    //TODO: descomentar servicio de abajo y trycatch
+    // await userService.updateUser(user.id, { ...user, password });
+    // setLoading(false);
+    // setAbleUpdate(false);
+    // Alert.alert("Account updated", "Tu cuenta ha sido actualizada");
+  };
+
+  const handleConfirmUpdateAccount = () => {
+    // Alert.alert("Eliminando cuenta", "Esta accion puede tardar unos minutos", [{ isPreferred: true }]);
+    setLoading(true);
+    //TODO: descomentar servicio de abajo y trycatch
+    // await userService.deleteUser(user.id);
+    Alert.alert("Account updated", "Tu cuenta ha sido actualizada");
+    setLoading(false);
+    handleAbleUpdate();
+    // router.replace("/");
   };
 
   const handleDeleteAccount = () => {
-    Alert.alert("Eliminar cuenta", "¿Estás seguro que deseas eliminar tu cuenta? Esta acción no se puede deshacer.", [
+    Alert.alert("Delete account", "¿Estás seguro que deseas eliminar tu cuenta? Esta acción no se puede deshacer.", [
       {
         text: "Cancelar",
         style: "cancel",
@@ -120,15 +148,37 @@ export default function ProfileScreen() {
       {
         text: "Eliminar",
         style: "destructive",
-        onPress: async () => {
-          // TODO: Aquí irá la llamada a la API para eliminar la cuenta
-          console.log("Eliminando cuenta...");
-          Alert.alert("Cuenta eliminada", "Tu cuenta ha sido eliminada");
-          // Redirigir al login o welcome screen
-        },
+        onPress: () => handleConfirmDeleteAccount,
       },
     ]);
   };
+
+  const handleConfirmDeleteAccount = async () => {
+    // Alert.alert("Eliminando cuenta", "Esta accion puede tardar unos minutos", [{ isPreferred: true }]);
+    setLoading(true);
+    //TODO: descomentar servicio de abajo y trycatch
+    // await userService.deleteUser(user.id);
+    Alert.alert("Account deleted", "Tu cuenta ha sido eliminada");
+    setLoading(false);
+    router.replace("/");
+  };
+  const handleLogout = async () => {
+    setLoading(true);
+    //TODO: descomentar servicio de abajo y trycatch
+    // await authService.logout();
+    await logout();
+    Alert.alert("Logout Sucessfully", "Se ha cerrado la seccion correctamente");
+    setLoading(false);
+    router.replace("/");
+  };
+
+  const handleViewMyRecipes = () => {
+    router.push("/profile/my-recipes" as Href);
+  };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <ScreenContainer>
@@ -136,7 +186,7 @@ export default function ProfileScreen() {
         {/* Header verde con imagen */}
         <View style={styles.header}>
           <View style={styles.imageContainer}>
-            <Image source={{ uri: avatar }} style={styles.profileImage} />
+            <Image source={{ uri: user.avatar }} style={styles.profileImage} />
             {/* <TouchableOpacity 
                   style={styles.editButton}
                   //onPress={showImageOptions}
@@ -148,17 +198,43 @@ export default function ProfileScreen() {
 
         {/* Nombre completo */}
         <Text style={styles.fullName}>
-          {firstName} {lastName}
+          {user.firstName} {user.lastName}
         </Text>
 
         {/* Formulario */}
         <View style={styles.form}>
+          <View style={styles.inputContainer}>
+            <Ionicons name="person-outline" size={20} color={theme.colors.textMuted} style={styles.icon} />
+            <TextInput
+              value={user.username}
+              // onChangeText={(text) => handleChangeUser("username", text)}
+              style={styles.inputWithIcon}
+              placeholder="Username"
+              autoCapitalize="none"
+              readOnly={true}
+              editable={false}
+            />
+          </View>
           <View style={styles.row}>
             <View style={styles.halfInput}>
-              <TextInput value={firstName} onChangeText={setFirstName} style={styles.input} placeholder="Nombre" />
+              <TextInput
+                value={user.firstName}
+                onChangeText={(text) => handleChangeUser("firstName", text)}
+                style={styles.input}
+                placeholder="Nombre"
+                readOnly={!ableUpdate}
+                editable={ableUpdate}
+              />
             </View>
             <View style={styles.halfInput}>
-              <TextInput value={lastName} onChangeText={setLastName} style={styles.input} placeholder="Apellido" />
+              <TextInput
+                value={user.lastName}
+                onChangeText={(text) => handleChangeUser("lastName", text)}
+                style={styles.input}
+                placeholder="Apellido"
+                readOnly={!ableUpdate}
+                editable={ableUpdate}
+              />
             </View>
           </View>
 
@@ -166,38 +242,41 @@ export default function ProfileScreen() {
           <View style={styles.inputContainer}>
             <Ionicons name="mail-outline" size={20} color={theme.colors.textMuted} style={styles.icon} />
             <TextInput
-              value={email}
-              onChangeText={setEmail}
+              value={user.email}
+              onChangeText={(text) => handleChangeUser("email", text)}
               style={styles.inputWithIcon}
               placeholder="Email"
               keyboardType="email-address"
               autoCapitalize="none"
+              readOnly={!ableUpdate}
+              editable={ableUpdate}
             />
           </View>
 
           {/* Password */}
           <View style={styles.inputContainer}>
             <Ionicons name="lock-closed-outline" size={20} color={theme.colors.textMuted} style={styles.icon} />
-            <TextInput value={password} onChangeText={setPassword} style={styles.inputWithIcon} placeholder="Password" secureTextEntry />
-          </View>
-
-          <View style={styles.inputContainer}>
-            <Ionicons name="person-outline" size={20} color={theme.colors.textMuted} style={styles.icon} />
             <TextInput
-              value={username}
-              //onChangeText={setUsername}
+              value={password}
+              onChangeText={setPassword}
               style={styles.inputWithIcon}
-              placeholder="Username"
-              autoCapitalize="none"
+              placeholder="Password"
+              secureTextEntry
+              readOnly={!ableUpdate}
+              editable={ableUpdate}
             />
           </View>
 
-          <CustomButtonCommon title="Update Profile" onPress={handleUpdate} style={styles.button} />
+          {!ableUpdate && <CustomButtonCommon title="Update Profile" onPress={handleAbleUpdate} icon="pencil-outline" />}
+          {ableUpdate && <CustomButtonCommon title="Save" onPress={handleUpdate} icon="pencil-outline" />}
 
-          <TouchableOpacity style={styles.deleteButton} onPress={handleDeleteAccount}>
-            <Ionicons name="trash-outline" size={20} color={theme.colors.textLight} />
-            <Text style={styles.deleteButtonText}>Delete Account</Text>
-          </TouchableOpacity>
+          {!ableUpdate && (
+            <>
+              <CustomButtonCommon title="My recipes" onPress={handleViewMyRecipes} icon="reader-outline" />
+              <CustomButtonCommon title="Logout" onPress={handleLogout} style={styles.deleteButton} icon="log-out-outline" />
+              <CustomButtonCommon title="Delete account" onPress={handleDeleteAccount} style={styles.deleteButton} icon="trash-outline" />
+            </>
+          )}
         </View>
       </ScrollView>
     </ScreenContainer>
@@ -292,12 +371,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: theme.colors.textDark,
   },
-  button: {
-    marginTop: theme.spacing.lg,
-  },
-  deleteButton: {
+  // button: {
+  //   marginTop: theme.spacing.lg,
+  // },
+  myRecipesButton: {
     flexDirection: "row",
-    backgroundColor: theme.colors.primary,
+    backgroundColor: theme.colors.textPrimary,
     paddingVertical: theme.spacing.md,
     borderRadius: theme.borderRadius.large,
     alignItems: "center",
@@ -305,9 +384,31 @@ const styles = StyleSheet.create({
     gap: theme.spacing.sm,
     marginBottom: theme.spacing.xl,
   },
+  myRecipesButtonText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: theme.colors.textLight,
+  },
+  deleteButton: {
+    // flexDirection: "row",
+    backgroundColor: theme.colors.error,
+    // paddingVertical: theme.spacing.md,
+    // borderRadius: theme.borderRadius.large,
+    // alignItems: "center",
+    // justifyContent: "center",
+    // gap: theme.spacing.sm,
+    // marginBottom: theme.spacing.xl,
+  },
   deleteButtonText: {
     fontSize: 18,
     fontWeight: "bold",
     color: theme.colors.textLight,
+  },
+  readOnlyInput: {
+    color: "#000", // Color del texto visible
+    fontSize: 16,
+    borderWidth: 0, // Sin borde
+    backgroundColor: "transparent", // Fondo transparente
+    padding: 0, // Sin padding extra
   },
 });

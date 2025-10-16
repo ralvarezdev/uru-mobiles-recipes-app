@@ -1,4 +1,5 @@
 // app/(tabs)/(home)/categories/[categoryId]/index.tsx
+import Loading from "@/components/common/Loading/Loading.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import RecipeCard from "@/components/common/RecipeCard/RecipeCard.component";
 import { Recipe } from "@/entities/Recipe";
@@ -6,7 +7,7 @@ import { getRecipesByCategory } from "@/services/recipe/recipeServiceTest";
 import { theme } from "@/styles/Theme";
 import { Href, router, Stack, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 
 export default function CategoryRecipesScreen() {
   const { categoryId, categoryName } = useLocalSearchParams<{ categoryId: string; categoryName?: string }>();
@@ -28,24 +29,17 @@ export default function CategoryRecipesScreen() {
   };
 
   if (loading) {
-    return (
-      <View style={styles.centerContainer}>
-        <ActivityIndicator size="large" color={theme.colors.primary} />
-      </View>
-    );
+    return <Loading />;
   }
 
   return (
     <ScreenContainer>
-      <Stack.Screen options={{ title: String(categoryName ?? "Recetas"), headerShown: true }} />
+      <Stack.Screen options={{ title: categoryName ?? "Recetas", headerShown: true }} />
       <FlatList
         data={recipes}
         keyExtractor={(item: Recipe) => item.id.toString()}
         renderItem={({ item }) => (
-          <RecipeCard
-            recipe={item}
-            onPress={(r) => router.push(`/categories/${categoryId}/${r.id}?recipeName=${encodeURIComponent(r.title)}` as Href)}
-          />
+          <RecipeCard recipe={item} onPress={(r) => router.push(`/recipes/${r.id}?recipeName=${encodeURIComponent(r.title)}` as Href)} />
         )}
         contentContainerStyle={recipes.length === 0 ? styles.emptyContainer : undefined}
         ListEmptyComponent={
@@ -61,12 +55,6 @@ export default function CategoryRecipesScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background,
-  },
-  centerContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: theme.colors.background,
   },
   emptyContainer: {

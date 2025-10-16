@@ -8,14 +8,9 @@ export type RegisterInput = User & {
 
 export type AuthTokens = { accessToken: string; refreshToken?: string };
 
-export type AuthUser = {
-  id: number | string;
-  nombre: string;
-  apellido: string;
-  email: string;
-};
+// export type AuthUser = User;
 
 export type LoginResponse = {
   tokens: AuthTokens;
-  user: AuthUser;
+  user: User;
 };

@@ -1,16 +1,17 @@
-import { useLocalSearchParams } from "expo-router";
-import { View, Text, StyleSheet } from "react-native";
-import React from "react";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
+import { Stack, useLocalSearchParams } from "expo-router";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function GroupDetailScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { groupId } = useLocalSearchParams<{ groupId: string }>();
 
   return (
     <ScreenContainer>
+      <Stack.Screen options={{ headerShown: false }} />
       <View style={styles.container}>
         <Text style={styles.title}>Detalle del grupo</Text>
-        <Text style={styles.text}>ID del grupo: {id}</Text>
+        <Text style={styles.text}>ID del grupo: {groupId}</Text>
 
         {/* Aquí más adelante puedes mostrar:
             - nombre del grupo

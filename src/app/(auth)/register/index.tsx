@@ -1,21 +1,15 @@
-import { Link, Stack, useRouter } from "expo-router";
-import React, { useState } from "react";
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from "react-native";
-// import BackButton from "components/common/BackButtonCommon/BackButtonCommon.component";
 import BackButton from "@/components/common/BackButtonCommon/BackButtonCommon.component";
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { User } from "@/entities";
 import { theme } from "@/styles/Theme";
-// import CustomButtonCommon from "components/common/CustomButtonCommon/CustomButtonCommon.component";
+import { Link, Stack, useRouter } from "expo-router";
+import React, { useState } from "react";
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function RegisterScreen() {
   const router = useRouter();
   const [user, setUser] = useState<User>({} as User);
-  // const [name, setName] = useState("");
-  // const [lastName, setLastName] = useState("");
-  // const [username, setUsername] = useState("");
-  // const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleChangeUser = (field: string, value: string) => {
@@ -44,8 +38,8 @@ export default function RegisterScreen() {
             <TextInput
               placeholder="Your name"
               placeholderTextColor={theme.colors.gray400}
-              value={user.name}
-              onChangeText={(text) => handleChangeUser("name", text)}
+              value={user.firstName}
+              onChangeText={(text) => handleChangeUser("firstName", text)}
               style={styles.input}
             />
 
