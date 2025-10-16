@@ -16,7 +16,7 @@ export default function GroupsStackLayout() {
       }}>
       <Stack.Screen name="index" />
       <Stack.Screen name="create/index" />
-      <Stack.Screen name="[groupId]" />
+      <Stack.Screen name="[groupId]/index" />
     </Stack>
   );
 }

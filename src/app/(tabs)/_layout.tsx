@@ -7,7 +7,7 @@ import { View } from "react-native";
 const { Navigator } = createBottomTabNavigator();
 const Tabs = withLayoutContext(Navigator);
 const homeIcon: NonNullable<BottomTabNavigationOptions["tabBarIcon"]> = ({ focused, color, size }) => (
-  <Ionicons name="home-outline" size={26} color={focused ? theme.colors.primary : "#999"} />
+  <Ionicons name={focused ? "home" : "home-outline"} size={26} color={focused ? theme.colors.textSecondary : "#999"} />
 );
 const addRecipeIcon: NonNullable<BottomTabNavigationOptions["tabBarIcon"]> = ({ focused, color, size }) => (
   <View
@@ -27,7 +27,7 @@ const addRecipeIcon: NonNullable<BottomTabNavigationOptions["tabBarIcon"]> = ({ 
   </View>
 );
 const profileIcon: NonNullable<BottomTabNavigationOptions["tabBarIcon"]> = ({ focused, color, size }) => (
-  <Ionicons name="person-outline" size={size ?? 26} color={focused ? theme.colors.primary : color ?? "#999"} />
+  <Ionicons name={focused ? "person" : "person-outline"} size={size ?? 26} color={focused ? theme.colors.textSecondary : color ?? "#999"} />
 );
 export default function TabsLayout() {
   return (

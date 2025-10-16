@@ -3,7 +3,7 @@ import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenConta
 import { Link } from "expo-router";
 import React from "react";
 import { Image, Text, View } from "react-native";
-import { styles } from "./style";
+import styles from "./style";
 const welcomeImg = require("@/assets/images/welcome-food.png");
 
 export default function WelcomeScreen() {

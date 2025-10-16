@@ -18,7 +18,7 @@ const MOCK: GroupItem[] = [
   { id: "8", title: "Cocina saludable", recipesCount: 15 },
 ];
 
-const deleteGroup = async (groupId: string) => {
+const deleteGroup = (groupId: string) => {
   console.log("Delete group", groupId);
   // await api.delete(`/groups/${groupId}`)
 };

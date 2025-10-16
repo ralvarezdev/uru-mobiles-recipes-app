@@ -1,10 +1,10 @@
-import { StyleSheet } from "react-native";
 import { theme } from "@/styles/Theme";
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   card: {
     flexDirection: "row",
-    backgroundColor: theme.colors.surface,
+    backgroundColor: theme.colors.primary,
     borderRadius: 12,
     overflow: "hidden",
     marginBottom: theme.spacing.md,

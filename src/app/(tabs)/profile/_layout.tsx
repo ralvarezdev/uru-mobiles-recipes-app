@@ -6,13 +6,18 @@ export default function ProfileLayout() {
     <Stack
       initialRouteName="index"
       screenOptions={{
-        headerStyle: { backgroundColor: theme.colors.background },
-        headerTintColor: theme.colors.primary,
-        headerTitleStyle: { fontWeight: "bold" },
+        headerStyle: {
+          backgroundColor: theme.colors.primary,
+        },
+        headerTintColor: theme.colors.background,
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
+        headerBackTitle: "Back",
       }}>
       <Stack.Screen name="index" options={{ title: "My Profile", headerShown: false }} />
       {/* Apuntas al SEGMENTO carpeta; su _layout interno manejará los tabs */}
-      <Stack.Screen name="my-recipes" options={{ title: "My Recipes" }} />
+      <Stack.Screen name="my-cookbook" options={{ title: "My Cookbook" }} />
     </Stack>
   );
 }

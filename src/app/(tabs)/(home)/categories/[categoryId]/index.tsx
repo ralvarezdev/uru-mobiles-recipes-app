@@ -1,21 +1,21 @@
 // app/(tabs)/(home)/categories/[categoryId]/index.tsx
 import Loading from "@/components/common/Loading/Loading.component";
+import { RecipeList } from "@/components/common/RecipeList/RecipeList.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
-import RecipeCard from "@/components/common/RecipeCard/RecipeCard.component";
 import { Recipe } from "@/entities/Recipe";
 import { getRecipesByCategory } from "@/services/recipe/recipeServiceTest";
 import { theme } from "@/styles/Theme";
-import { Href, router, Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 
 export default function CategoryRecipesScreen() {
-  const { categoryId, categoryName } = useLocalSearchParams<{ categoryId: string; categoryName?: string }>();
+  const { categoryId, categoryTitle } = useLocalSearchParams<{ categoryId: string; categoryTitle?: string }>();
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (categoryId && categoryName) {
+    if (categoryId && categoryTitle) {
       loadRecipes();
     }
   }, [categoryId]);
@@ -34,8 +34,9 @@ export default function CategoryRecipesScreen() {
 
   return (
     <ScreenContainer>
-      <Stack.Screen options={{ title: categoryName ?? "Recetas", headerShown: true }} />
-      <FlatList
+      <Stack.Screen options={{ title: categoryTitle, headerShown: true }} />
+      <RecipeList recipes={recipes} />
+      {/* <FlatList
         data={recipes}
         keyExtractor={(item: Recipe) => item.id.toString()}
         renderItem={({ item }) => (
@@ -47,7 +48,7 @@ export default function CategoryRecipesScreen() {
             <Text style={styles.emptyText}>No hay recetas en esta categoría</Text>
           </View>
         }
-      />
+      /> */}
     </ScreenContainer>
   );
 }
