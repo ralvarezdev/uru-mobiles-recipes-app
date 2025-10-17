@@ -15,7 +15,7 @@ export default function GroupsStackLayout() {
         headerBackTitle: "Back",
       }}>
       <Stack.Screen name="index" />
-      <Stack.Screen name="create/index" />
+      {/* <Stack.Screen name="create/index" /> */}
       <Stack.Screen name="[groupId]/index" />
     </Stack>
   );

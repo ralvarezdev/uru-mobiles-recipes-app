@@ -104,8 +104,8 @@ export const login = async (input: LoginInput): Promise<LoginResponse> => {
     const {password, ...user} = response;
     const accessToken = Math.random().toString(36).substring(2, 2 + 30);
     const refreshToken = Math.random().toString(36).substring(2, 2 + 30);
-    console.log('accessToken',accessToken);
-    console.log('refreshToken',refreshToken);
+    // console.log('accessToken',accessToken);
+    // console.log('refreshToken',refreshToken);
     const loginResponse: LoginResponse = {
       tokens: {
         accessToken: accessToken,

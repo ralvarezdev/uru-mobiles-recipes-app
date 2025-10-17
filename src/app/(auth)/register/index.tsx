@@ -17,7 +17,7 @@ export default function RegisterScreen() {
   };
 
   const handleRegister = () => {
-    console.log("New user:", { user, password });
+    // console.log("New user:", { user, password });
     router.replace("/login"); //por mientras
     // authService.register({ ...user, password } as RegisterInput);
   };

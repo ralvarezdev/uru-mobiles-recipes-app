@@ -99,7 +99,7 @@ export const getRecipesByCategory = async (
 
 export const getRecipes = async (): Promise<Recipe[]> => {
   await new Promise((resolve) => setTimeout(resolve, 500));
-  console.log("getRecipes", mockRecipes);
+  // console.log("getRecipes", mockRecipes);
   return mockRecipes.sort((recipeA, recipeB) =>
     recipeA.title.localeCompare(recipeB.title)
   );

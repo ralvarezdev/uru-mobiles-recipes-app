@@ -28,7 +28,7 @@ export default function CreateRecipeScreen() {
 
     if (isValid) {
       try {
-        console.log("Saving recipe:", formData);
+        // console.log("Saving recipe:", formData);
 
         // Usa formData directamente - ya es CreateRecipeInput
         // await createRecipe(formData);

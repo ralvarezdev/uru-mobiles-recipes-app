@@ -1,22 +1,17 @@
+import { CreateGroupInput } from "@/services";
 import { FormConfig } from "@/types/form";
 
-export interface GroupFormData {
-  title: string;
-  description: string;
-  image: string;
-}
-
-export const groupFormConfig: FormConfig<GroupFormData> = {
+export const groupFormConfig: FormConfig<CreateGroupInput> = {
   fields: [
-    {
-      name: "image",
-      label: "Group Image",
-      type: "image",
-      placeholder: "Add picture",
-      rules: {
-        required: "Image is required",
-      },
-    },
+    // {
+    //   name: "image",
+    //   label: "Group Image",
+    //   type: "image",
+    //   placeholder: "Add picture",
+    //   rules: {
+    //     required: "Image is required",
+    //   },
+    // },
     {
       name: "title",
       label: "Title",
@@ -36,7 +31,7 @@ export const groupFormConfig: FormConfig<GroupFormData> = {
       numberOfLines: 4,
       rules: {
         required: "Description is required",
-        minLength: { value: 10, message: "Minimum 10 characters" },
+        // minLength: { value: 10, message: "Minimum 10 characters" },
         maxLength: { value: 500, message: "Maximum 500 characters" },
       },
     },

@@ -22,7 +22,7 @@ export default function CreateRecipeScreen() {
   const handleSubmit = async (data: CreateRecipeInput) => {
     setIsLoading(true);
     try {
-      console.log("Saving recipe:", data);
+      //   console.log("Saving recipe:", data);
       // TODO: await createRecipe(data);
 
       // Simulación de API call

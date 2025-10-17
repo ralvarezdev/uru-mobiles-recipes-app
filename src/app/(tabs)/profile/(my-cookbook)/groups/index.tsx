@@ -1,13 +1,13 @@
-import { GroupCard } from "@/components/common/GroupCard/GroupCard.component";
+import { GroupList } from "@/components/common/GroupList/GroupList.component";
 import Loading from "@/components/common/Loading/Loading.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { Group, User } from "@/entities";
 import { me } from "@/services/auth/authServiceTest";
 import { getGroupsByUsername } from "@/services/group/groupServiceTest";
 import { Ionicons } from "@expo/vector-icons";
-import { router, Stack } from "expo-router";
+import { Href, router, Stack } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActionSheetIOS, Alert, FlatList, Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 const ItemSeparatorComponent = () => <View style={{ height: 12 }} />;
 
@@ -42,42 +42,42 @@ export default function MyGroupsScreen() {
     return <Loading />;
   }
 
-  const deleteGroup = (groupId: string) => {
-    console.log("Delete group", groupId);
-    // await api.delete(`/groups/${groupId}`)
-  };
+  // const deleteGroup = (groupId: string) => {
+  //   console.log("Delete group", groupId);
+  //   // await api.delete(`/groups/${groupId}`)
+  // };
 
   const handleAddGroup = () => {
-    router.push("/(tabs)/(home)/groups/create");
+    router.push("/(tabs)/profile/(my-cookbook)/groups/create" as Href);
   };
 
-  const handleOpenGroup = (group: Group) => {
-    router.push({ pathname: "/(tabs)/(home)/groups/[groupId]", params: { groupId: group.id } });
-  };
+  // const handleOpenGroup = (group: Group) => {
+  //   router.push({ pathname: "/(tabs)/(home)/groups/[groupId]", params: { groupId: group.id } });
+  // };
 
-  const handleMenuPress = (group: Group) => {
-    const confirmDelete = () =>
-      Alert.alert("Delete group", `Are you sure you want to delete "${group.title}"? This action cannot be undone.`, [
-        { text: "Cancel", style: "cancel" },
-        { text: "Delete", style: "destructive", onPress: () => deleteGroup(group.id) },
-      ]);
+  // const handleMenuPress = (group: Group) => {
+  //   const confirmDelete = () =>
+  //     Alert.alert("Delete group", `Are you sure you want to delete "${group.title}"? This action cannot be undone.`, [
+  //       { text: "Cancel", style: "cancel" },
+  //       { text: "Delete", style: "destructive", onPress: () => deleteGroup(group.id) },
+  //     ]);
 
-    if (Platform.OS === "ios") {
-      ActionSheetIOS.showActionSheetWithOptions(
-        {
-          options: ["Cancel", "Delete group"],
-          cancelButtonIndex: 0,
-          destructiveButtonIndex: 1,
-          title: group.title,
-        },
-        (idx) => {
-          if (idx === 1) confirmDelete();
-        }
-      );
-    } else {
-      confirmDelete();
-    }
-  };
+  //   if (Platform.OS === "ios") {
+  //     ActionSheetIOS.showActionSheetWithOptions(
+  //       {
+  //         options: ["Cancel", "Delete group"],
+  //         cancelButtonIndex: 0,
+  //         destructiveButtonIndex: 1,
+  //         title: group.title,
+  //       },
+  //       (idx) => {
+  //         if (idx === 1) confirmDelete();
+  //       }
+  //     );
+  //   } else {
+  //     confirmDelete();
+  //   }
+  // };
 
   return (
     <ScreenContainer>
@@ -93,8 +93,8 @@ export default function MyGroupsScreen() {
           </Pressable>
         </View>
       </View>
-
-      <FlatList
+      <GroupList groups={groups} showActionMenu={true} />
+      {/* <FlatList
         data={groups}
         keyExtractor={(item) => item.id}
         // contentContainerStyle={styles.listContent}
@@ -104,11 +104,11 @@ export default function MyGroupsScreen() {
             title={item.title}
             recipesCount={item.recipesCount}
             onPress={() => handleOpenGroup(item)}
-            onMenuPress={() => handleMenuPress(item)} // ← solo elimina
+            // onMenuPress={() => handleMenuPress(item)} // ← solo elimina
             testID={`group-card-${item.id}`}
           />
         )}
-      />
+      /> */}
     </ScreenContainer>
   );
 }

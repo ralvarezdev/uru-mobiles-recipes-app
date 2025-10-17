@@ -103,7 +103,7 @@ export default function ProfileScreen() {
   //   );
   // };
   const handleAbleUpdate = () => {
-    console.log("ableUpdate", ableUpdate);
+    // console.log("ableUpdate", ableUpdate);
     setAbleUpdate(!ableUpdate);
   };
 
