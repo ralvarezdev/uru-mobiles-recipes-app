@@ -12,21 +12,23 @@ interface RecipeCardProps {
 
 export default function RecipeCard({ recipe, onPress }: Readonly<RecipeCardProps>) {
   return (
-    <TouchableOpacity style={styles.card} onPress={() => onPress(recipe)} activeOpacity={0.8}>
-      <Image source={{ uri: recipe.image }} style={styles.image} />
-      <View style={styles.content}>
-        <Text style={styles.title} numberOfLines={2}>
-          {recipe.title}
-        </Text>
-        <View style={styles.info}>
-          <Ionicons name="time-outline" size={16} color={theme.colors.textMuted} />
-          <Text style={styles.time}>
-            {recipe.prepareTime} {recipe.unitPrepareTime}
+    <View style={styles.shadowWrap}>
+      <TouchableOpacity style={styles.card} onPress={() => onPress(recipe)} activeOpacity={0.8}>
+        <Image source={{ uri: recipe.image }} style={styles.image} />
+        <View style={styles.content}>
+          <Text style={styles.title} numberOfLines={2}>
+            {recipe.title}
           </Text>
-          <Ionicons name="person" size={16} color={theme.colors.textMuted} />
-          <Text style={styles.time}>{recipe.author}</Text>
+          <View style={styles.info}>
+            <Ionicons name="time-outline" size={16} color={theme.colors.textMuted} />
+            <Text style={styles.time}>
+              {recipe.prepareTime} {recipe.unitPrepareTime}
+            </Text>
+            <Ionicons name="person" size={16} color={theme.colors.textMuted} />
+            <Text style={styles.time}>{recipe.author}</Text>
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 }

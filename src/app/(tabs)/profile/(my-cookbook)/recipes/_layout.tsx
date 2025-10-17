@@ -22,12 +22,12 @@ export default function MyRecipesLayout() {
         }}
       />
 
-      {/* <Stack.Screen
+      <Stack.Screen
         name="[recipeId]/index"
         options={{
           title: "Recipe Detail",
         }}
-      /> */}
+      />
 
       {/* <Stack.Screen
         name="[groupId]/index"

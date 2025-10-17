@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   headerContent: { flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between" },
   textContainer: { flex: 1, paddingRight: 12 },
   title: { fontSize: 32, fontWeight: "700", color: "#3A5A3D", marginBottom: 8 },
-  subtitle: { fontSize: 14, color: "#8A9A8D", lineHeight: 20, fontWeight: "400" },
+  subtitle: { fontSize: 14, color: "#8A9A8D", lineHeight: 20, fontWeight: "400", marginBottom: 10 },
   addButton: {
     width: 36,
     height: 36,

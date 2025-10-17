@@ -17,7 +17,7 @@ export default function ProfileLayout() {
       }}>
       <Stack.Screen name="index" options={{ title: "My Profile", headerShown: false }} />
       {/* Apuntas al SEGMENTO carpeta; su _layout interno manejará los tabs */}
-      <Stack.Screen name="my-cookbook" options={{ title: "My Cookbook" }} />
+      <Stack.Screen name="(my-cookbook)" options={{ title: "My Cookbook" }} />
     </Stack>
   );
 }
