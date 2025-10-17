@@ -23,7 +23,7 @@ export default function CategoryRecipesScreen() {
   const loadRecipes = async () => {
     setLoading(true);
     const recipes = await getRecipesByCategory(Number(categoryId));
-    console.log("recipes", recipes);
+    // console.log("recipes", recipes);
     setRecipes(recipes);
     setLoading(false);
   };

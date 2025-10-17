@@ -5,8 +5,8 @@ import type { Recipe } from "@/entities/Recipe";
  * Entrada JSON para crear un grupo.
  */
 export type CreateGroupInput = {
-  titulo: string;
-  descripcion: string;
+  title: string;
+  description: string;
 };
 
 /**

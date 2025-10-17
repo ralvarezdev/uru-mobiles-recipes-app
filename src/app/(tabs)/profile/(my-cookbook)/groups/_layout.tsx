@@ -21,7 +21,7 @@ export default function MyGroupsLayout() {
           headerShown: false,
         }}
       />
-
+      <Stack.Screen name="create/index" />
       {/* <Stack.Screen
         name="[groupId]/index"
         options={{

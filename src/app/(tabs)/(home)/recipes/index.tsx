@@ -5,7 +5,7 @@ import { Recipe } from "@/entities";
 import { getRecipes } from "@/services/recipe/recipeServiceTest";
 import { theme } from "@/styles/Theme";
 import { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 
 export default function RecipesScreen() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -29,7 +29,7 @@ export default function RecipesScreen() {
   return (
     <ScreenContainer>
       {/* <Stack.Screen options={{ title: "Recipes", headerShown: true }} /> */}
-      <RecipeList recipes={recipes} />
+      <RecipeList recipes={recipes} listHeaderComponent={<Text style={styles.title}>Recipes</Text>} />
       {/* <FlatList
         data={recipes}
         keyExtractor={(item: Recipe) => item.id.toString()}
@@ -52,6 +52,7 @@ export default function RecipesScreen() {
 }
 
 const styles = StyleSheet.create({
+  title: { fontSize: 32, fontWeight: "700", color: "#3A5A3D", marginBottom: 8 },
   text: {
     fontSize: 20,
     color: theme.colors.textDark,

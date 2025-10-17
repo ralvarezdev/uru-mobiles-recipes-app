@@ -18,10 +18,10 @@ export default function LoginScreen() {
   const onSubmit = async () => {
     // TODO: autenticar con api
     // const authUser = await authService.login(loginInput);
-    console.log("loginInput", loginInput);
+    // console.log("loginInput", loginInput);
     const authUser = login(loginInput);
     router.replace("/(tabs)/(home)/recipes" as Href);
-    console.log(authUser);
+    // console.log(authUser);
   };
 
   return (
