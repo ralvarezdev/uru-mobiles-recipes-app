@@ -1,30 +1,32 @@
 import { theme } from "@/styles/Theme";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { withLayoutContext } from "expo-router";
-import { StyleSheet } from "react-native";
 
-const { Navigator } = createMaterialTopTabNavigator();
+const { Navigator, Screen } = createMaterialTopTabNavigator();
 export const MaterialTopTabs = withLayoutContext(Navigator);
+
+const tabs: Record<string, string> = {
+  recipes: "Recipes",
+  categories: "Categories",
+  groups: "Groups",
+};
 
 export default function HomeLayout() {
   return (
     <MaterialTopTabs
-      initialRouteName="recipes/index"
-      screenOptions={{
-        tabBarScrollEnabled: false,
+      initialRouteName="recipes"
+      screenOptions={({ route }) => ({
+        tabBarLabel: tabs[route.name] || route.name,
         tabBarLabelStyle: { fontWeight: "bold", fontSize: 17 },
         tabBarIndicatorStyle: { backgroundColor: theme.colors.secondary },
         tabBarStyle: { backgroundColor: theme.colors.primary },
-      }}>
-      <MaterialTopTabs.Screen name="recipes/index" options={{ title: "Recipes" }} />
-      <MaterialTopTabs.Screen name="categories" options={{ title: "Categories" }} />
-      <MaterialTopTabs.Screen name="groups/index" options={{ title: "Groups" }} />
+      })}>
+      {Object.keys(tabs).map((key) => (
+        <MaterialTopTabs.Screen key={key} name={key} />
+      ))}
+      {/* <MaterialTopTabs.Screen name="recipes" />
+      <MaterialTopTabs.Screen name="categories" />
+      <MaterialTopTabs.Screen name="groups" /> */}
     </MaterialTopTabs>
   );
 }
-
-const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: theme.colors.background },
-  listContent: { padding: theme.spacing.lg },
-  row: { justifyContent: "space-between" },
-});

@@ -1,11 +1,11 @@
 import { createHttpClient, HttpClient } from "@/api";
+import { User } from "@/entities";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import type {
-    AuthTokens,
-    AuthUser,
-    LoginInput,
-    LoginResponse,
-    RegisterInput,
+  AuthTokens,
+  LoginInput,
+  LoginResponse,
+  RegisterInput
 } from "./types";
 
 const ACCESS_KEY = "auth_token";
@@ -53,8 +53,8 @@ export class AuthService {
    * Ajusta el endpoint si tu backend usa otro.
    * Endpoint sugerido: GET /api/me
    */
-  me = async (): Promise<AuthUser> => {
-    return this.http.get<AuthUser>("me");
+  me = async (): Promise<User> => {
+    return this.http.get<User>("me");
   };
 
   /**
