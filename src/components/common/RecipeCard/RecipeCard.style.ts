@@ -1,18 +1,33 @@
 import { theme } from "@/styles/Theme";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  shadowWrap: {
+    // deja espacio a los lados para que la sombra sea visible
+    // marginHorizontal: 16,                // o usa theme.spacing.md
+    marginBottom: 10,                    // como ya tenías
+    borderRadius: 12,
+    // sombra
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.2,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 10,
+      },
+    }),
+    // importante: no recortar la sombra
+    overflow: "visible",
+  },
+
   card: {
     flexDirection: "row",
-    backgroundColor: theme.colors.primary,
+    backgroundColor: theme.colors.background, // color de la tarjeta
     borderRadius: 12,
-    overflow: "hidden",
-    marginBottom: theme.spacing.md,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    overflow: "hidden", // para redondear el contenido sin matar la sombra del wrap
   },
   image: {
     width: 120,

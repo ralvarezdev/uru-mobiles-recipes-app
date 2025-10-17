@@ -41,8 +41,7 @@ export default function MyRecipesScreen() {
 
   return (
     <ScreenContainer>
-      <Text style={styles.text}>My recipes</Text>
-      <RecipeList recipes={recipes} />
+      <RecipeList recipes={recipes} listHeaderComponent={<Text style={styles.title}>Recipes</Text>} />
       {/* <FlatList
         data={recipes}
         keyExtractor={(item: Recipe) => item.id.toString()}
@@ -79,4 +78,5 @@ const styles = StyleSheet.create({
     color: theme.colors.gray400,
     textAlign: "center",
   },
+  title: { fontSize: 32, fontWeight: "700", color: "#3A5A3D", marginBottom: 8 },
 });

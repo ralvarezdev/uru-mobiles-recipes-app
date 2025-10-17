@@ -43,12 +43,12 @@ export default function GroupDetailScreen() {
         options={{
           title: "",
           headerShown: true,
-          headerLeft: HeaderLeft,
+          // headerLeft: HeaderLeft,
         }}
       />
-      <Text style={styles.title}>Detalle del grupo</Text>
+      {/* <Text style={styles.title}>Detalle del grupo</Text> */}
       <Text style={styles.text}>ID del grupo: {groupId}</Text>
-      <RecipeList recipes={recipes} listHeaderComponent={<Text style={styles.subtitle}>Recetas</Text>} />
+      <RecipeList recipes={recipes} listHeaderComponent={<Text style={styles.title}>Recetas</Text>} />
     </ScreenContainer>
   );
 }
@@ -58,12 +58,13 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#365C49",
-    marginBottom: 10,
-  },
+  title: { fontSize: 32, fontWeight: "700", color: "#3A5A3D", marginBottom: 8 },
+  // title: {
+  //   fontSize: 24,
+  //   fontWeight: "700",
+  //   color: "#365C49",
+  //   marginBottom: 10,
+  // },
   subtitle: {
     fontSize: 18,
     fontWeight: "700",

@@ -173,7 +173,7 @@ export default function ProfileScreen() {
   };
 
   const handleViewMyRecipes = () => {
-    router.push("/profile/my-cookbook" as Href);
+    router.push("/profile/recipes" as Href);
   };
 
   if (loading) {

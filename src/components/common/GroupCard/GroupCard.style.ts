@@ -1,11 +1,12 @@
-import { StyleSheet, Platform } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   card: {
     backgroundColor: "#365C49", // verde oscuro de tu mock
     borderRadius: 16,
     padding: 16,
-    marginVertical: 10,
+    // marginTop:5,
+    // marginVertical: 5,
     // sombra cross-platform
     ...Platform.select({
       ios: {
