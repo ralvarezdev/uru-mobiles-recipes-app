@@ -11,6 +11,13 @@ export const styles = StyleSheet.create({
     color: theme.colors.textPrimary,
     marginBottom: 8,
   },
+  labelSmall: {
+    fontSize: 11,
+    fontWeight: "500",
+    color: theme.colors.textPrimary,
+    marginBottom: 4,
+    height: 20,
+  },
   input: {
     borderWidth: 1,
     borderColor: "#D0D0C8",
@@ -19,6 +26,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#FAFAF8",
     fontSize: 14,
     color: "#333",
+    height: 48,
   },
   inputError: {
     borderColor: "#ff0000",
@@ -33,9 +41,10 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: "#FAFAF8",
     overflow: "hidden",
+    height: 48,
   },
   picker: {
-    height: 50,
+    height: 48,
   },
   dateInput: {
     flexDirection: "row",
@@ -82,5 +91,28 @@ export const styles = StyleSheet.create({
     color: "#ff0000",
     fontSize: 12,
     marginTop: 4,
+  },
+  
+  row: {
+    flexDirection: "row",
+    gap: 8,
+    alignItems: "center",
+  },
+  rowItem: {
+    flex: 1,
+  },
+  rowInput: {
+    textAlign: "center",
+    paddingHorizontal: 8,
+  },
+  rowPicker: {
+    height: 48,
+    justifyContent: "center",
+    minHeight: 50,
+  },
+  errorSmall: {
+    color: "#ff0000",
+    fontSize: 10,
+    marginTop: 2,
   },
 });
