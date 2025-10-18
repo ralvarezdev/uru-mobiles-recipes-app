@@ -13,7 +13,7 @@ interface RecipeCardProps {
 export default function RecipeCard({ recipe }: Readonly<RecipeCardProps>) {
   const pathname = usePathname();
   const handleOnPress = () => {
-    // console.log(`${pathname}/${recipe.id}`);
+    console.log(`${pathname}/${recipe.id}`);
     router.push({
       pathname: `${pathname}/${recipe.id}` as RelativePathString,
       params: { recipeTitle: recipe.title },

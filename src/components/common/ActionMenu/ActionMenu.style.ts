@@ -16,4 +16,8 @@ export const styles = StyleSheet.create({
   menuItem: {
     paddingVertical: 10,
   },
+  menuBtn: {
+    padding: 6,
+    borderRadius: 999,
+  },
 });

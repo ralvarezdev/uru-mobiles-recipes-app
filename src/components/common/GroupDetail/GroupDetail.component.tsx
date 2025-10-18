@@ -34,12 +34,10 @@ export default function GroupDetail({ group }: Readonly<GroupDetailProps>) {
   return (
     <View>
       <Text style={styles.title}>Detalle del grupo</Text>
-      <Text style={styles.text}>ID: {group.id}</Text>
+      {/* <Text style={styles.text}>ID: {group.id}</Text> */}
       <Text style={styles.text}>Title: {group.title}</Text>
       <Text style={styles.text}>Author: {group.author}</Text>
-      <View style={styles.container}>
-        <RecipeList recipes={recipes} listHeaderComponent={<Text style={styles.subtitle}>Recetas</Text>} />
-      </View>
+      <RecipeList recipes={recipes} listHeaderComponent={<Text style={styles.subtitle}>Recetas</Text>} />
     </View>
   );
 }
