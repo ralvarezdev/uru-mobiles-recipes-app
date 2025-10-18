@@ -3,19 +3,8 @@ import Loading from "@/components/common/Loading/Loading.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { Group } from "@/entities";
 import { getGroupById } from "@/services/group/groupServiceTest";
-import { theme } from "@/styles/Theme";
-import { Ionicons } from "@expo/vector-icons";
-import { router, Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { TouchableOpacity } from "react-native";
-
-const HeaderLeft = () => {
-  return (
-    <TouchableOpacity onPress={() => router.back()}>
-      <Ionicons name="arrow-back" size={24} color={theme.colors.primary} />
-    </TouchableOpacity>
-  );
-};
 
 export default function GroupDetailScreen() {
   const { groupId } = useLocalSearchParams<{ groupId: string }>();
