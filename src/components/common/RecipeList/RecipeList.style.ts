@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
   /** --- Checkbox --- */
   checkboxContainer: {
     position: "absolute",
-    top: 6,
+    bottom:23,
     right: 6,
   },
   checkbox: {

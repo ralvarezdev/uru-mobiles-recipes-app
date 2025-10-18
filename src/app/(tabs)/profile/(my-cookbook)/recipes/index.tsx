@@ -41,7 +41,7 @@ export default function MyRecipesScreen() {
 
   return (
     <ScreenContainer>
-      <RecipeList recipes={recipes} listHeaderComponent={<Text style={styles.title}>Recipes</Text>} />
+      <RecipeList recipes={recipes} showActionMenu={true} listHeaderComponent={<Text style={styles.title}>Recipes</Text>} />
       {/* <FlatList
         data={recipes}
         keyExtractor={(item: Recipe) => item.id.toString()}

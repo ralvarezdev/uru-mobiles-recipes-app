@@ -37,7 +37,7 @@ export default function GroupDetail({ group }: Readonly<GroupDetailProps>) {
       {/* <Text style={styles.text}>ID: {group.id}</Text> */}
       <Text style={styles.text}>Title: {group.title}</Text>
       <Text style={styles.text}>Author: {group.author}</Text>
-      <RecipeList recipes={recipes} listHeaderComponent={<Text style={styles.subtitle}>Recetas</Text>} />
+      <RecipeList recipes={recipes} showActionMenu={true} listHeaderComponent={<Text style={styles.subtitle}>Recetas</Text>} />
     </View>
   );
 }
