@@ -1,15 +1,16 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useRef, useState } from "react";
-import { GestureResponderEvent, Modal, Pressable, Text, TouchableOpacity, View } from "react-native";
+import { GestureResponderEvent, Modal, Pressable, StyleProp, Text, TextStyle, TouchableOpacity, View } from "react-native";
 import { styles } from "./ActionMenu.style";
 
 interface ActionMenuProps {
   show: boolean;
   actions: { text: string; action: () => void }[];
-  optionButtonColor?: string;
+  optionIconColor?: string;
+  iconStyle: StyleProp<TextStyle>;
 }
 
-export function ActionMenu({ show, actions, optionButtonColor }: ActionMenuProps) {
+export function ActionMenu({ show, actions, optionIconColor, iconStyle }: ActionMenuProps) {
   const [menuVisible, setMenuVisible] = useState(false);
   const [pos, setPos] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
 
@@ -46,7 +47,7 @@ export function ActionMenu({ show, actions, optionButtonColor }: ActionMenuProps
             accessibilityLabel="Más opciones"
             accessibilityHint="Abre el menú contextual"
             style={({ pressed }) => [styles.menuBtn, pressed && { opacity: 0.7 }]}>
-            <MaterialIcons name="more-vert" size={22} color={optionButtonColor || "#ECF3EE"} />
+            <MaterialIcons style={iconStyle} name="more-vert" size={22} color={optionIconColor || "#ECF3EE"} />
           </Pressable>
         </View>
 

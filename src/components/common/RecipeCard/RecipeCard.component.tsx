@@ -46,7 +46,7 @@ export default function RecipeCard({ recipe, showActionMenu }: Readonly<RecipeCa
             <Text style={styles.time}>{recipe.author}</Text>
           </View>
         </View>
-        <ActionMenu show={showActionMenu} actions={actions} optionButtonColor={"fff"} />
+        <ActionMenu show={showActionMenu} actions={actions} optionIconColor={"fff"} iconStyle={{ bottom: -80, left: -10 }} />
       </TouchableOpacity>
     </View>
   );
