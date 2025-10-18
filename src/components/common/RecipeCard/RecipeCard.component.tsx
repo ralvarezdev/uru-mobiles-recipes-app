@@ -2,10 +2,11 @@ import { Recipe } from "@/entities";
 import { theme } from "@/styles/Theme";
 import { Ionicons } from "@expo/vector-icons";
 import { RelativePathString, router, usePathname } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { ActionMenu } from "../ActionMenu/ActionMenu.component";
 import { styles } from "./RecipeCard.style";
+import { EditRecipeModal } from "../EditModal/EditModal.component";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -13,6 +14,7 @@ interface RecipeCardProps {
 }
 
 export default function RecipeCard({ recipe, showActionMenu }: Readonly<RecipeCardProps>) {
+  const [showEditModal, setShowEditModal] = useState(false);
   const pathname = usePathname();
   const handleOnPress = () => {
     console.log(`${pathname}/${recipe.id}`);
@@ -22,12 +24,19 @@ export default function RecipeCard({ recipe, showActionMenu }: Readonly<RecipeCa
     });
   };
   const handleOnDelete = () => {};
-  const handleOnEdit = () => {};
+  const handleOnEdit = () => {
+    handleShowModalEdit();
+  };
   const actions = [
     // { text: "Add recipe", action: handleOnAddRecipe },
     { text: "Edit recipe", action: handleOnEdit },
     { text: "Delete recipe", action: handleOnDelete },
   ];
+
+  const handleShowModalEdit = () => {
+      setShowEditModal(!showEditModal);
+  };
+
 
   return (
     <View style={styles.shadowWrap}>
@@ -47,6 +56,13 @@ export default function RecipeCard({ recipe, showActionMenu }: Readonly<RecipeCa
           </View>
         </View>
         <ActionMenu show={showActionMenu} actions={actions} optionButtonColor={"fff"} />
+        {showEditModal && (
+          <EditRecipeModal
+            show={showEditModal}
+            handleShow={handleShowModalEdit}
+            recipe={recipe}
+          />
+        )}
       </TouchableOpacity>
     </View>
   );

@@ -44,12 +44,43 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
 }
 
 const styles = StyleSheet.create({
-  hero: { width: "100%", height: 220 },
-  content: { paddingHorizontal: 16, paddingTop: 12 },
-  title: { fontSize: 24, fontWeight: "700", color: "#FF8C00" },
-  desc: { marginTop: 6, color: theme.colors.textMuted, lineHeight: 20 },
-  metaRow: { flexDirection: "row", alignItems: "center", gap: 16, marginTop: 12 },
-  metaItem: { flexDirection: "row", alignItems: "center", gap: 6 },
-  metaText: { fontSize: 13 },
-  section: { marginTop: 18, marginBottom: 8, fontSize: 16, fontWeight: "700", color: "#666" },
+  hero: {
+    width: "100%",
+    height: 220,
+  },
+  content: {
+    paddingHorizontal: 16,
+    paddingTop: 12,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "700",
+    color: theme.colors.textPrimary,
+  },
+  desc: {
+    marginTop: 6,
+    color: theme.colors.textMuted,
+    lineHeight: 20,
+  },
+  metaRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+    marginTop: 12,
+  },
+  metaItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  metaText: {
+    fontSize: 13,
+  },
+  section: {
+    marginTop: 18,
+    marginBottom: 8,
+    fontSize: 16,
+    fontWeight: "700",
+    color: theme.colors.gray700,
+  },
 });
