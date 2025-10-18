@@ -1,22 +1,26 @@
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
-import { Asset } from "expo-asset";
+import { Image } from "expo-image";
 import { Link } from "expo-router";
-import React, { useEffect } from "react";
-import { Image, Text, View } from "react-native";
+import React from "react";
+import { Text, View } from "react-native";
 import styles from "./style";
 const welcomeImg = require("@/assets/images/welcome-food.png");
 
 export default function WelcomeScreen() {
-  useEffect(() => {
-    Asset.fromModule(require("@/assets/images/welcome-food.png")).downloadAsync();
-  }, []);
   return (
     <ScreenContainer>
       <View style={styles.greenBackground} />
 
       <View style={styles.imageContainer}>
-        <Image source={welcomeImg} style={styles.foodImage} />
+        <Image
+          source={welcomeImg}
+          style={styles.foodImage} // width/height definidos
+          // contentFit="contain"
+          cachePolicy="disk"
+          priority="high"
+          // transition={120}
+        />
       </View>
 
       <View style={styles.content}>

@@ -1,33 +1,38 @@
 import { Group } from "@/entities";
-import { MaterialIcons } from "@expo/vector-icons";
 import { RelativePathString, router, usePathname } from "expo-router";
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 import { ActionMenu } from "../ActionMenu/ActionMenu.component";
+import { AddRecipeToGroupModal } from "../AddRecipeToGroup/AddRecipeToGroupModal.component";
 import { styles } from "./GroupCard.style";
 
 type GroupCardProps = {
   group: Group;
   // title: string;
   // recipesCount?: number;
-  showActionMenu?: boolean;
+  showActionMenu: boolean;
   // testID?: string;
 };
 
 export const GroupCard: React.FC<GroupCardProps> = ({ group, showActionMenu }) => {
   const pathname = usePathname();
-  const [menuVisible, setMenuVisible] = React.useState(false);
+  const [showModalAddRecipeToGroup, setShowModalAddRecipeToGroup] = React.useState(false);
+  // const [menuVisible, setMenuVisible] = React.useState(false);
 
-  const onMenuPress = (event: any) => {
-    event.stopPropagation();
-    setMenuVisible(true);
-  };
+  // const onMenuPress = (event: any) => {
+  //   event.stopPropagation();
+  //   setMenuVisible(true);
+  // };
 
   const handleOnPress = () => {
     router.push({
       pathname: `${pathname}/${group.id}` as RelativePathString,
       params: { groupTitle: group.title },
     });
+  };
+
+  const handleShowModalAddRecipeToGroup = () => {
+    setShowModalAddRecipeToGroup(!showModalAddRecipeToGroup);
   };
 
   // const handleOnPress = () => {
@@ -38,18 +43,29 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, showActionMenu }) =
   //   });
   // };
 
+  const handleOnAddRecipe = () => {
+    // setMenuVisible(false);
+    // onEdit?.();
+    handleShowModalAddRecipeToGroup();
+  };
   const handleOnEdit = () => {
-    setMenuVisible(false);
+    // setMenuVisible(false);
     // onEdit?.();
   };
 
   const handleOnDelete = () => {
-    setMenuVisible(false);
+    // setMenuVisible(false);
     // onEdit?.();
   };
-  const handleOnClose = () => {
-    setMenuVisible(false);
-  };
+  // const handleOnClose = () => {
+  //   setMenuVisible(false);
+  // };
+
+  const actions = [
+    { text: "Add recipe", action: handleOnAddRecipe },
+    { text: "Edit group", action: handleOnEdit },
+    { text: "Delete group", action: handleOnDelete },
+  ];
 
   return (
     <Pressable
@@ -71,8 +87,10 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, showActionMenu }) =
             </Text>
           )}
         </View>
+        <ActionMenu show={showActionMenu} actions={actions} />
 
-        {showActionMenu && (
+        {showActionMenu && <AddRecipeToGroupModal show={showModalAddRecipeToGroup} handleShow={handleShowModalAddRecipeToGroup} />}
+        {/* {showActionMenu && (
           <>
             <Pressable
               hitSlop={10}
@@ -86,7 +104,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, showActionMenu }) =
 
             <ActionMenu show={menuVisible} onClose={handleOnClose} onEdit={handleOnEdit} onDelete={handleOnDelete} />
           </>
-        )}
+        )} */}
       </View>
     </Pressable>
   );

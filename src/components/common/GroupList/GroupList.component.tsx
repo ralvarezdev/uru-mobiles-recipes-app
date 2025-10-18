@@ -8,7 +8,7 @@ import { styles } from "./GroupList.style";
 export interface GroupListProps {
   groups: Group[];
   notFoundItemText?: string;
-  showActionMenu?: boolean;
+  showActionMenu: boolean;
   listHeaderComponent?: React.ComponentType<any> | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | null;
 }
 export const GroupList = ({ groups, notFoundItemText, listHeaderComponent, showActionMenu }: GroupListProps) => {
