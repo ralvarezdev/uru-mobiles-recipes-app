@@ -140,7 +140,12 @@ export default function ProfileScreen() {
     <ScreenContainer>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
-          <ProfileImage imageUri={user.avatar} onImageChange={handleImageChange} size={120} editable={ableUpdate} />
+          <ProfileImage 
+          imageUri={user.avatar} 
+          onImageChange={handleImageChange} 
+          size={120} 
+          editable={true} 
+        />
         </View>
 
         <Text style={styles.fullName}>
@@ -167,7 +172,7 @@ export default function ProfileScreen() {
                 style={styles.input}
                 placeholder="Nombre"
                 readOnly={!ableUpdate}
-                editable={ableUpdate}
+                editable={true}
               />
             </View>
             <View style={styles.halfInput}>
