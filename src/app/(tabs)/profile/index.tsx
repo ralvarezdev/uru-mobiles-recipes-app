@@ -1,5 +1,6 @@
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
 import Loading from "@/components/common/Loading/Loading.component";
+import ProfileImage from "@/components/common/ProfileImage/ProfileImagen.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { User } from "@/entities";
 import { logout, me } from "@/services/auth/authServiceTest";
@@ -7,7 +8,7 @@ import { theme } from "@/styles/Theme";
 import { Ionicons } from "@expo/vector-icons";
 import { Href, router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Alert, Image, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 // import CustomButtonCommon from 'components/common/CustomButtonCommon/CustomButtonCommon.component';
 
 // const { width } = Dimensions.get("window");
@@ -52,56 +53,11 @@ export default function ProfileScreen() {
     // }
   };
 
-  // const pickImage = async () => {
-  //   const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-  //   if (status !== 'granted') {
-  //     Alert.alert('Permisos necesarios', 'Necesitamos acceso a tus fotos');
-  //     return;
-  //   }
-
-  //   const result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //     allowsEditing: true,
-  //     aspect: [1, 1],
-  //     quality: 0.5,
-  //   });
-
-  //   if (!result.canceled) {
-  //     setAvatar(result.assets[0].uri);
-  //   }
-  // };
-
-  // const takePhoto = async () => {
-  //   const { status } = await ImagePicker.requestCameraPermissionsAsync();
-
-  //   if (status !== 'granted') {
-  //     Alert.alert('Permisos necesarios', 'Necesitamos acceso a tu cámara');
-  //     return;
-  //   }
-
-  //   const result = await ImagePicker.launchCameraAsync({
-  //     allowsEditing: true,
-  //     aspect: [1, 1],
-  //     quality: 0.5,
-  //   });
-
-  //   if (!result.canceled) {
-  //     setAvatar(result.assets[0].uri);
-  //   }
-  // };
-
-  // const showImageOptions = () => {
-  //   Alert.alert(
-  //     'Cambiar foto de perfil',
-  //     'Elige una opción',
-  //     [
-  //       { text: 'Tomar foto', onPress: takePhoto },
-  //       { text: 'Elegir de galería', onPress: pickImage },
-  //       { text: 'Cancelar', style: 'cancel' }
-  //     ]
-  //   );
-  // };
+  const handleImageChange = (uri: string) => {
+    setUser((prev) => ({ ...prev, avatar: uri }));
+    console.log("New avatar URI:", uri);
+    // TODO: Subir imagen al servidor
+  };
   const handleAbleUpdate = () => {
     // console.log("ableUpdate", ableUpdate);
     setAbleUpdate(!ableUpdate);
@@ -183,31 +139,24 @@ export default function ProfileScreen() {
   return (
     <ScreenContainer>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Header verde con imagen */}
         <View style={styles.header}>
-          <View style={styles.imageContainer}>
-            <Image source={{ uri: user.avatar }} style={styles.profileImage} />
-            {/* <TouchableOpacity 
-                  style={styles.editButton}
-                  //onPress={showImageOptions}
-                > */}
-            {/* <Ionicons name="pencil" size={20} color={theme.colors.textLight} /> */}
-            {/* </TouchableOpacity> */}
-          </View>
+          <ProfileImage 
+          imageUri={user.avatar} 
+          onImageChange={handleImageChange} 
+          size={120} 
+          editable={true} 
+        />
         </View>
 
-        {/* Nombre completo */}
         <Text style={styles.fullName}>
           {user.firstName} {user.lastName}
         </Text>
 
-        {/* Formulario */}
         <View style={styles.form}>
           <View style={styles.inputContainer}>
             <Ionicons name="person-outline" size={20} color={theme.colors.textMuted} style={styles.icon} />
             <TextInput
               value={user.username}
-              // onChangeText={(text) => handleChangeUser("username", text)}
               style={styles.inputWithIcon}
               placeholder="Username"
               autoCapitalize="none"
@@ -223,7 +172,7 @@ export default function ProfileScreen() {
                 style={styles.input}
                 placeholder="Nombre"
                 readOnly={!ableUpdate}
-                editable={ableUpdate}
+                editable={true}
               />
             </View>
             <View style={styles.halfInput}>
@@ -238,7 +187,6 @@ export default function ProfileScreen() {
             </View>
           </View>
 
-          {/* Email */}
           <View style={styles.inputContainer}>
             <Ionicons name="mail-outline" size={20} color={theme.colors.textMuted} style={styles.icon} />
             <TextInput
@@ -253,7 +201,6 @@ export default function ProfileScreen() {
             />
           </View>
 
-          {/* Password */}
           <View style={styles.inputContainer}>
             <Ionicons name="lock-closed-outline" size={20} color={theme.colors.textMuted} style={styles.icon} />
             <TextInput

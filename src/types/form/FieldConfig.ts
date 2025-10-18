@@ -14,5 +14,7 @@ export interface FieldConfig<T> {
   numberOfLines?: number;
   readOnly?: boolean;
   hidden?: boolean;
+  fields?: FieldConfig<any>[];  
+  flex?: number; 
 }
 

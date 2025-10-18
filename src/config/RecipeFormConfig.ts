@@ -9,6 +9,12 @@ const MOCK_CATEGORIES = [
   { label: 'Soups', value: 5 },
 ];
 
+const TIME_UNITS = [
+  { label: 'min', value: 'minutes' },
+  { label: 'hours', value: 'hours' },
+  { label: 'sec', value: 'seconds' },
+];
+
 export const recipeFormConfig: FormConfig<CreateRecipeInput> = {
   fields: [
     {
@@ -54,26 +60,44 @@ export const recipeFormConfig: FormConfig<CreateRecipeInput> = {
       },
     },
     {
-      name: 'prepareTime',
-      label: 'Prepare Time (minutes)',
-      type: 'number',
-      placeholder: '60',
-      rules: {
-        required: 'Prepare time is required',
-        min: { value: 1, message: 'Must be at least 1 minute' },
-        max: { value: 1440, message: 'Must be less than 24 hours' },
-      },
-    },
-    {
-      name: 'portions',
-      label: 'Portions',
-      type: 'number',
-      placeholder: '2',
-      rules: {
-        required: 'Portions is required',
-        min: { value: 1, message: 'Must be at least 1 portion' },
-        max: { value: 100, message: 'Must be less than 100 portions' },
-      },
+      name: 'timeAndPortions' as any, 
+      label: '',
+      type: 'row',
+      fields: [  
+        {
+          name: 'prepareTime',
+          label: 'Prepare time',
+          type: 'number',
+          placeholder: '60',
+          flex: 1,
+          rules: {
+            required: 'Required',
+            min: { value: 1, message: 'Min 1' },
+          },
+        },
+        {
+          name: 'unitPrepareTime',
+          label: 'Unit',
+          type: 'select',
+          placeholder: 'min',
+          options: TIME_UNITS,
+          flex: 1,
+          rules: {
+            required: 'Required',
+          },
+        },
+        {
+          name: 'portions',
+          label: 'Portions',
+          type: 'number',
+          placeholder: '2',
+          flex: 1,
+          rules: {
+            required: 'Required',
+            min: { value: 1, message: 'Min 1' },
+          },
+        },
+      ],
     },
     {
       name: 'ingredients',
