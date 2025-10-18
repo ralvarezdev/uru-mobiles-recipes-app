@@ -35,7 +35,7 @@ export default function CategoryRecipesScreen() {
   return (
     <ScreenContainer>
       <Stack.Screen options={{ title: categoryTitle, headerShown: true }} />
-      <RecipeList recipes={recipes} />
+      <RecipeList recipes={recipes} showActionMenu={false} />
       {/* <FlatList
         data={recipes}
         keyExtractor={(item: Recipe) => item.id.toString()}

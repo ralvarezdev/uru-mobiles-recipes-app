@@ -1,10 +1,8 @@
-import { View } from "@/components/Themed";
-import { Recipe, User } from "@/entities";
+import { Group, Recipe, User } from "@/entities";
 import { me } from "@/services/auth/authServiceTest";
 import { getRecipesByUsername } from "@/services/recipe/recipeServiceTest";
-import { theme } from "@/styles/Theme";
 import React, { useEffect, useState } from "react";
-import { Modal, StyleSheet } from "react-native";
+import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import CustomButtonCommon from "../CustomButtonCommon/CustomButtonCommon.component";
 import Loading from "../Loading/Loading.component";
 import { RecipeList } from "../RecipeList/RecipeList.component";
@@ -12,101 +10,102 @@ import { RecipeList } from "../RecipeList/RecipeList.component";
 interface AddRecipeToGroupModalProps {
   show: boolean;
   handleShow: () => void;
+  group: Group;
 }
 
-export function AddRecipeToGroupModal({ show, handleShow }: AddRecipeToGroupModalProps) {
+export function AddRecipeToGroupModal({ show, handleShow, group }: Readonly<AddRecipeToGroupModalProps>) {
   const [loading, setLoading] = useState(false);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [user, setUser] = useState<User>({} as User);
 
   useEffect(() => {
-    if (user?.username) {
-      loadRecipes(user.username);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    loadUserData();
+    (async () => {
+      const u = await me();
+      setUser(u);
+    })();
   }, []);
 
-  const loadUserData = async () => {
-    const u = await me();
-    setUser(u);
-  };
-
-  const loadRecipes = async (username: string) => {
-    setLoading(true);
-    const data = await getRecipesByUsername(username);
-    setRecipes(data);
-    setLoading(false);
-  };
+  useEffect(() => {
+    if (!user?.username) return;
+    (async () => {
+      setLoading(true);
+      const data = await getRecipesByUsername(user.username);
+      setRecipes(data);
+      setLoading(false);
+    })();
+  }, [user]);
 
   const handleOnSave = () => {
+    // aquí podrías devolver ids seleccionados si los necesitas
     handleShow();
   };
 
   return (
-    <Modal animationType="fade" visible={show} onRequestClose={handleShow} style={styles.modal}>
-      <View style={mstyles.overlay}>
-        <View style={mstyles.card}>
-          {/* Contenido */}
+    <Modal transparent animationType="fade" visible={show} onRequestClose={handleShow} presentationStyle="overFullScreen">
+      {/* Overlay fuera de Themed.View para no heredar fondo */}
+      <Pressable style={styles.overlay} onPress={handleShow}>
+        {/* Detener cierre al tocar dentro de la tarjeta */}
+        <Pressable style={styles.card} onPress={() => {}}>
           {loading ? (
             <Loading />
           ) : (
-            <View style={mstyles.content}>
-              <View style={mstyles.listArea}>
-                <RecipeList recipes={recipes} selectable />
+            <>
+              <View style={styles.listArea}>
+                <RecipeList
+                  recipes={recipes}
+                  selectable
+                  showActionMenu={false}
+                  listHeaderComponent={<Text style={styles.subtitle}>Agregar recetas al grupo {group.title}</Text>}
+                />
               </View>
 
-              {/* Botones lado a lado */}
-              <View style={mstyles.actionsRow}>
-                <View style={mstyles.actionItem}>
+              <View style={styles.actionsRow}>
+                <View style={styles.actionItem}>
                   <CustomButtonCommon title="Cancel" onPress={handleShow} />
                 </View>
-                <View style={mstyles.actionItem}>
+                <View style={styles.actionItem}>
                   <CustomButtonCommon title="Save" onPress={handleOnSave} />
                 </View>
               </View>
-            </View>
+            </>
           )}
-        </View>
-      </View>
+        </Pressable>
+      </Pressable>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
-  modal: {
-    backgroundColor: theme.colors.background,
+  subtitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#365C49",
+    marginBottom: 10,
   },
   overlay: {
     flex: 1,
-    backgroundColor: theme.colors.background,
+    backgroundColor: "rgba(0,0,0,0.35)", // semitransparente real
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
   },
   card: {
     width: "92%",
-    maxHeight: "82%",
+    maxHeight: "80%",
+    // Fondo explícito: evita “pantalla negra” en dark theme
+    backgroundColor: "#fff", // o theme.colors.surface si tienes uno claro garantizado
     borderRadius: 16,
-    overflow: "hidden",
-    // Como usas Themed.View, el fondo lo da el theme. Si prefieres fijo:
-    // backgroundColor: "#fff",
-    // Sombra sutil
+    padding: 16,
+    // Sombra
     elevation: 8,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.25,
     shadowRadius: 16,
   },
-  content: {
-    padding: 16,
-    gap: 16,
-  },
   listArea: {
-    flexGrow: 1,
-    maxHeight: "70%",
+    maxHeight: "90%", // evita que tape toda la pantalla
+    marginBottom: 12,
   },
   actionsRow: {
     flexDirection: "row",

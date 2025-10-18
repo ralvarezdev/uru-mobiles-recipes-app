@@ -16,6 +16,7 @@ export interface RecipeListProps {
   initialSelectedIds?: Array<Recipe["id"]>;
   onSelectionChange?: (ids: Array<Recipe["id"]>) => void;
   maxSelected?: number;
+  showActionMenu: boolean;
 }
 
 export const RecipeList = ({
@@ -27,6 +28,7 @@ export const RecipeList = ({
   initialSelectedIds = [],
   onSelectionChange,
   maxSelected,
+  showActionMenu,
 }: RecipeListProps) => {
   const [selectedIds, setSelectedIds] = useState<Array<Recipe["id"]>>(initialSelectedIds);
 
@@ -62,6 +64,7 @@ export const RecipeList = ({
             recipe={item}
             // @ts-expect-error — por si RecipeCard no tiene estas props
             selected={selected}
+            showActionMenu={showActionMenu}
           />
         </Pressable>
 

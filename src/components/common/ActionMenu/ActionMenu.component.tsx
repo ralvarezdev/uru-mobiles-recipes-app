@@ -6,9 +6,10 @@ import { styles } from "./ActionMenu.style";
 interface ActionMenuProps {
   show: boolean;
   actions: { text: string; action: () => void }[];
+  optionButtonColor?: string;
 }
 
-export function ActionMenu({ show, actions }: ActionMenuProps) {
+export function ActionMenu({ show, actions, optionButtonColor }: ActionMenuProps) {
   const [menuVisible, setMenuVisible] = useState(false);
   const [pos, setPos] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
 
@@ -45,7 +46,7 @@ export function ActionMenu({ show, actions }: ActionMenuProps) {
             accessibilityLabel="Más opciones"
             accessibilityHint="Abre el menú contextual"
             style={({ pressed }) => [styles.menuBtn, pressed && { opacity: 0.7 }]}>
-            <MaterialIcons name="more-vert" size={22} color="#ECF3EE" />
+            <MaterialIcons name="more-vert" size={22} color={optionButtonColor || "#ECF3EE"} />
           </Pressable>
         </View>
 

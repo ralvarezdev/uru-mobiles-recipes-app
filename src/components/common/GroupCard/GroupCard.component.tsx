@@ -89,7 +89,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, showActionMenu }) =
         </View>
         <ActionMenu show={showActionMenu} actions={actions} />
 
-        {showActionMenu && <AddRecipeToGroupModal show={showModalAddRecipeToGroup} handleShow={handleShowModalAddRecipeToGroup} />}
+        {showActionMenu && <AddRecipeToGroupModal show={showModalAddRecipeToGroup} handleShow={handleShowModalAddRecipeToGroup} group={group} />}
         {/* {showActionMenu && (
           <>
             <Pressable

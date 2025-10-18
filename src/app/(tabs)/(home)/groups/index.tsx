@@ -89,7 +89,7 @@ export default function GroupsScreen() {
           </Pressable> */}
         </View>
       </View>
-      <GroupList groups={groups} />
+      <GroupList groups={groups} showActionMenu={false} />
       {/* <FlatList
         data={groups}
         keyExtractor={(item) => item.id}
