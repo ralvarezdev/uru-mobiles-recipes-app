@@ -1,9 +1,13 @@
 import { Group } from "@/entities";
+import { groupService } from "@/services";
 import { RelativePathString, router, usePathname } from "expo-router";
-import React from "react";
-import { Pressable, Text, View } from "react-native";
+import React, { useState } from "react";
+import { Alert, Pressable, Text, View } from "react-native";
+import Toast from "react-native-toast-message";
 import { ActionMenu } from "../ActionMenu/ActionMenu.component";
 import { AddRecipeToGroupModal } from "../AddRecipeToGroup/AddRecipeToGroupModal.component";
+import { EditGroupModal } from "../EditGroupModal/EditGroupModal.component";
+import Loading from "../Loading/Loading.component";
 import { styles } from "./GroupCard.style";
 
 type GroupCardProps = {
@@ -16,6 +20,8 @@ type GroupCardProps = {
 
 export const GroupCard: React.FC<GroupCardProps> = ({ group, showActionMenu }) => {
   const pathname = usePathname();
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [showModalAddRecipeToGroup, setShowModalAddRecipeToGroup] = React.useState(false);
   // const [menuVisible, setMenuVisible] = React.useState(false);
 
@@ -48,14 +54,50 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, showActionMenu }) =
     // onEdit?.();
     handleShowModalAddRecipeToGroup();
   };
+
   const handleOnEdit = () => {
-    // setMenuVisible(false);
-    // onEdit?.();
+    handleShowModalEdit();
   };
 
-  const handleOnDelete = () => {
-    // setMenuVisible(false);
-    // onEdit?.();
+  const handleShowModalEdit = () => {
+    setShowEditModal(!showEditModal);
+  };
+
+  const handleOnDelete = () => () => {
+    Alert.alert("Delete group", "¿Estás seguro que deseas eliminar este grupo? Se eliminaran todas las recetas asociadas a este grupo.", [
+      {
+        text: "Cancelar",
+        style: "cancel",
+      },
+      {
+        text: "Eliminar",
+        style: "destructive",
+        onPress: () => handleConfirmDeleteGroup(),
+      },
+    ]);
+  };
+
+  const handleConfirmDeleteGroup = async () => {
+    setLoading(true);
+    // console.log("New user:", { user, password });
+    try {
+      await groupService.deleteGroup(group.id);
+      Toast.show({
+        type: "success", // 'success', 'error', 'info'
+        text1: "Se ha eliminado el grupo.",
+        // text2: "Se le redireccionara al login...",
+        position: "bottom", // o 'top'
+      });
+      router.replace("/");
+    } catch (error) {
+      Toast.show({
+        type: "error", // 'success', 'error', 'info'
+        text1: "Hubo un problema con su solicitud. ",
+        text2: `Por favor, intentelo de nuevo mas tarde.`,
+        position: "bottom", // o 'top'
+      });
+    }
+    setLoading(false);
   };
   // const handleOnClose = () => {
   //   setMenuVisible(false);
@@ -66,6 +108,10 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, showActionMenu }) =
     { text: "Edit group", action: handleOnEdit },
     { text: "Delete group", action: handleOnDelete },
   ];
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Pressable
@@ -87,9 +133,11 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, showActionMenu }) =
             </Text>
           )}
         </View>
-        <ActionMenu show={showActionMenu} actions={actions} />
+        <ActionMenu show={showActionMenu} actions={actions} iconStyle={{}} />
 
         {showActionMenu && <AddRecipeToGroupModal show={showModalAddRecipeToGroup} handleShow={handleShowModalAddRecipeToGroup} group={group} />}
+
+        {showEditModal && <EditGroupModal show={showEditModal} handleShow={handleShowModalEdit} group={group} />}
         {/* {showActionMenu && (
           <>
             <Pressable

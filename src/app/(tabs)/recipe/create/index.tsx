@@ -3,6 +3,7 @@ import { recipeFormConfig } from "@/config";
 import { User } from "@/entities";
 import { authService, recipeService } from "@/services";
 import { CreateRecipeInput } from "@/services/recipe/types";
+import { FormConfig } from "@/types";
 import { Stack, router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import Toast from "react-native-toast-message";
@@ -80,12 +81,11 @@ export default function CreateRecipeScreen() {
         }}
       />
       <DynamicForm
-        config={recipeFormConfig}
+        config={recipeFormConfig as FormConfig<CreateRecipeInput>}
         defaultValues={defaultValues}
         onSubmit={handleSubmit}
         onCancel={() => router.back()}
         isLoading={isLoading}
-
       />
     </>
   );

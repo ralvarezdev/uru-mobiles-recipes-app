@@ -67,8 +67,8 @@ export function ActionMenu({ show, actions, optionIconColor, iconStyle }: Action
                 <TouchableOpacity
                   key={a.text}
                   onPress={() => {
-                    handleOnClose();
                     a.action();
+                    handleOnClose();
                   }}
                   style={styles.menuItem}>
                   <Text>{a.text}</Text>

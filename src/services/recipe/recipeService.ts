@@ -29,7 +29,7 @@ export class RecipeService {
   createRecipe = (input: CreateRecipeInput, options?: RequestOptions) =>
     http.post<Recipe, CreateRecipeInput>(`/api/Recipe/PostRecipe`, input, options);
 
-  updateRecipe = (recipeId: number | string, input: UpdateRecipeInput, options?: RequestOptions) =>
+  updateRecipe = (recipeId: number, input: UpdateRecipeInput, options?: RequestOptions) =>
     http.put<Recipe, UpdateRecipeInput>(`/api/Recipe/PutRecipe/${recipeId}`, input, options);
 
   deleteRecipe = (recipeId: number | string, options?: RequestOptions) =>

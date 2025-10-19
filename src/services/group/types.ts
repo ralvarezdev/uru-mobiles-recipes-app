@@ -13,7 +13,12 @@ export type CreateGroupInput = {
 /**
  * Entrada JSON para actualizar un grupo (puede ser parcial).
  */
-export type UpdateGroupInput = Partial<CreateGroupInput>;
+export type UpdateGroupInput = {
+  id: number;
+  title: string;
+  description: string;
+  author: string;
+};
 
 /**
  * Respuesta al obtener un grupo.

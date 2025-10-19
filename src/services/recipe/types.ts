@@ -27,7 +27,19 @@ export type CreateRecipeInput = {
 /**
  * Entrada para actualizar una receta (parcial).
  */
-export type UpdateRecipeInput = Partial<CreateRecipeInput>;
+export type UpdateRecipeInput = {
+  id: number;
+  image: File | string;
+  title: string;
+  description?: string;
+  prepareTime: number;
+  unitPrepareTime: string;
+  portions: number;
+  categoryId: number;
+  ingredients: string; 
+  steps: string;
+  author:string;
+};
 
 /**
  * Respuesta de listado de recetas (ajusta si tu backend envía otra estructura).
