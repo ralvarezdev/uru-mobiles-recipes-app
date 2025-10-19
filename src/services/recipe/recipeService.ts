@@ -1,67 +1,48 @@
-import { createHttpClient, HttpClient } from "@/api";
+import { http } from "@/api";
 import type { Recipe } from "@/entities/Recipe";
 import type { QueryParams } from "@/types/api/QueryParams";
 import type { RequestOptions } from "@/types/api/RequestOptions";
 import type {
-    CreateRecipeInput,
-    GetRecipesParams,
-    GetRecipesResponse,
-    UpdateRecipeInput,
+  AddRecipeToGroupInput,
+  CreateRecipeInput,
+  GetRecipeResponse,
+  GetRecipesByGroupResponse,
+  GetRecipesParams,
+  GetRecipesResponse,
+  UpdateRecipeInput,
 } from "./types";
 
-/**
- * Servicio RESTful para manejar operaciones sobre Recetas.
- *
- * Endpoints implementados:
- *  - GET    /recipes                 (listado con filtro ?descripcion=)
- *  - POST   /recipes                 (crear)
- *  - PUT    /recipes/:recipeId       (actualizar)
- *  - DELETE /recipes/:recipeId       (eliminar)
- *
- * Nota: la verificación de "no duplicar nombre/título" debe implementarse
- * en el backend. Si quieres, podemos agregar una verificación optimista
- * en cliente consultando /recipes?nombre= antes de crear.
- */
+/** Recetas (REST real). */
 export class RecipeService {
-  private readonly http: HttpClient;
+  getRecipe = (recipeId: number, options?: RequestOptions) =>
+    http.get<GetRecipeResponse>(`/api/Recipe/GetRecipe/${recipeId}`, options);
 
-  constructor(http: HttpClient = createHttpClient()) {
-    this.http = http;
-  }
+  getRecipes = (params?: GetRecipesParams & QueryParams, options?: RequestOptions) =>
+    http.get<GetRecipesResponse>(`/api/Recipe/GetRecipes`, params, options);
 
-  /**
-   * Lista recetas con filtro opcional por descripción.
-   * GET /recipes?descripcion=...
-   */
-  getRecipes = (
-    params?: GetRecipesParams & QueryParams,
-    options?: RequestOptions
-  ) => this.http.get<GetRecipesResponse>(`recipes`, params, options);
+  getRecipesByUser = (author: string, options?: RequestOptions) =>
+    http.get<GetRecipesResponse>(`/api/Recipe/GetRecipesByUser/${author}`, options);
 
-  /**
-   * Crea una receta.
-   * POST /recipes
-   */
+  getRecipesByCategory = (categoryId: number, options?: RequestOptions) =>
+    http.get<GetRecipesResponse>(`/api/Recipe/GetRecipesByCategory/${categoryId}`, options);
+
   createRecipe = (input: CreateRecipeInput, options?: RequestOptions) =>
-    this.http.post<Recipe, CreateRecipeInput>(`recipes`, input, options);
+    http.post<Recipe, CreateRecipeInput>(`/api/Recipe/PostRecipe`, input, options);
 
-  /**
-   * Actualiza una receta por ID.
-   * PUT /recipes/:recipeId
-   */
-  updateRecipe = (
-    recipeId: number | string,
-    input: UpdateRecipeInput,
-    options?: RequestOptions
-  ) => this.http.put<Recipe, UpdateRecipeInput>(`recipes/${recipeId}`, input, options);
+  updateRecipe = (recipeId: number | string, input: UpdateRecipeInput, options?: RequestOptions) =>
+    http.put<Recipe, UpdateRecipeInput>(`/api/Recipe/PutRecipe/${recipeId}`, input, options);
 
-  /**
-   * Elimina una receta por ID.
-   * DELETE /recipes/:recipeId
-   */
   deleteRecipe = (recipeId: number | string, options?: RequestOptions) =>
-    this.http.delete<void>(`recipes/${recipeId}`, options);
+    http.delete<void>(`/api/Recipe/DeleteRecipe/${recipeId}`, options);
+
+  getRecipesByGroup = (groupId: number, options?: RequestOptions) =>
+      http.get<GetRecipesByGroupResponse>(`/api/Recipe/GetRecipesByGroup/${groupId}`, undefined, options);
+
+  addRecipeToGroup = (input: AddRecipeToGroupInput, options?: RequestOptions) =>
+    http.post<void, AddRecipeToGroupInput>(`/api/Recipe/PostRecipeToGroup`, input, options);
+
+  removeRecipeFromGroup = (groupId: number | string, recipeId: number | string, options?: RequestOptions) =>
+    http.delete<void>(`/api/Group/DeleteRecipeFromGroup/${groupId}/${recipeId}`, options);
 }
 
-/** Instancia singleton de conveniencia. */
 export const recipeService = new RecipeService();

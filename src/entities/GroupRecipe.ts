@@ -1,0 +1,1 @@
+export type GroupRecipe = { recipeId: number, groupId: number }

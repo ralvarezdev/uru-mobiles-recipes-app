@@ -1,39 +1,70 @@
 import DynamicForm from "@/components/common/Form/DynamicForm/DynamicForm.component";
 import { recipeFormConfig } from "@/config";
+import { User } from "@/entities";
+import { authService, recipeService } from "@/services";
 import { CreateRecipeInput } from "@/services/recipe/types";
 import { Stack, router } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Toast from "react-native-toast-message";
+
+const defaultValues: CreateRecipeInput = {
+  image: "",
+  title: "",
+  description: "",
+  categoryId: 0,
+  prepareTime: 0,
+  unitPrepareTime: "minutes",
+  portions: 0,
+  ingredients: "",
+  steps: "",
+  author: "",
+};
 
 export default function CreateRecipeScreen() {
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState<User>({} as User);
 
-  const defaultValues: CreateRecipeInput = {
-    image: "",
-    title: "",
-    description: "",
-    categoryId: 0,
-    prepareTime: 0,
-    unitPrepareTime: "minutes",
-    portions: 0,
-    ingredients: "",
-    steps: "",
+  useEffect(() => {
+    loadUserData();
+  }, []);
+
+  const loadUserData = async () => {
+    const user = await authService.me();
+    setUser(user);
   };
 
   const handleSubmit = async (data: CreateRecipeInput) => {
     setIsLoading(true);
     try {
-      //   console.log("Saving recipe:", data);
-      // TODO: await createRecipe(data);
+      const recipe = await recipeService.createRecipe({ ...data, author: user.username });
 
-      // Simulación de API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      if (recipe.id) {
+        Toast.show({
+          type: "success", // 'success', 'error', 'info'
+          text1: "Receta creada",
+          text2: "Se ha creado la reeta correctamente",
+          position: "bottom", // o 'top'
+        });
+        router.back();
+      } else {
+        Toast.show({
+          type: "error", // 'success', 'error', 'info'
+          text1: "Datos incorrectos",
+          text2: "Por favor, verifique que haya rellenado todos los datos.",
+          position: "bottom", // o 'top'
+        });
+      }
 
-      router.back();
+      // router.back();
     } catch (error) {
-      console.error("Error saving recipe:", error);
-    } finally {
-      setIsLoading(false);
+      Toast.show({
+        type: "error", // 'success', 'error', 'info'
+        text1: "Hubo un problema con su solicitud. ",
+        text2: `Por favor, intentelo de nuevo mas tarde.`,
+        position: "bottom", // o 'top'
+      });
     }
+    setIsLoading(true);
   };
 
   const handleCancel = () => {

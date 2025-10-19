@@ -2,7 +2,7 @@ import Loading from "@/components/common/Loading/Loading.component";
 import { RecipeList } from "@/components/common/RecipeList/RecipeList.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { Recipe } from "@/entities";
-import { getRecipes } from "@/services/recipe/recipeServiceTest";
+import { recipeService } from "@/services";
 import { theme } from "@/styles/Theme";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text } from "react-native";
@@ -17,7 +17,7 @@ export default function RecipesScreen() {
 
   const loadRecipes = async () => {
     setLoading(true);
-    const recipes = await getRecipes();
+    const recipes = await recipeService.getRecipes();
     setRecipes(recipes);
     setLoading(false);
   };

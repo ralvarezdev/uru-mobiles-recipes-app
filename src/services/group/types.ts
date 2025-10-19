@@ -7,6 +7,7 @@ import type { Recipe } from "@/entities/Recipe";
 export type CreateGroupInput = {
   title: string;
   description: string;
+  author: string;
 };
 
 /**
@@ -15,16 +16,19 @@ export type CreateGroupInput = {
 export type UpdateGroupInput = Partial<CreateGroupInput>;
 
 /**
- * Entrada JSON para agregar una receta a un grupo.
- */
-export type AddRecipeToGroupInput = {
-  recipeId: number | string;
-};
-
-/**
  * Respuesta al obtener un grupo.
  */
 export type GetGroupResponse = Group;
+
+/**
+ * Respuesta al obtener una lista de grupos.
+ */
+export type GetGroupsResponse = Group[];
+
+/**
+ * Respuesta al obtener una lista de grupos por usuario.
+ */
+export type GetGroupsByUserResponse = Group[];
 
 /**
  * Respuesta al obtener las recetas de un grupo.

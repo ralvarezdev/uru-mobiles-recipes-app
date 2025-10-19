@@ -1,19 +1,26 @@
-/**
- * Opciones adicionales que pueden acompañar cualquier solicitud HTTP.
- */
 export type RequestOptions = {
-  /**
-   * Permite cancelar la solicitud con un `AbortController`.
-   */
+  headers?: Record<string, string>;
   signal?: AbortSignal;
 
   /**
-   * Encabezados personalizados que se enviarán en esta petición.
+   * Si es true, NO agrega el token AAD automáticamente para esta request.
+   * Útil para llamadas públicas o diagnósticos.
    */
-  headers?: Record<string, string>;
+  noAadAuth?: boolean;
 
   /**
-   * Si es `true`, evita que el cliente intente reintentos automáticos para esta solicitud.
+   * Scope AAD específico para esta request.
+   * Si no se especifica, usa el AAD_SCOPE del .env por defecto.
+   */
+  aadScope?: string;
+
+  /**
+   * Deshabilita reintentos automáticos (si tu HttpClient los implementa).
    */
   noRetry?: boolean;
+
+  /**
+   * Timeout en ms (si lo soportas en el cliente).
+   */
+  timeoutMs?: number;
 };

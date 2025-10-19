@@ -2,7 +2,7 @@ import GroupDetail from "@/components/common/GroupDetail/GroupDetail.component";
 import Loading from "@/components/common/Loading/Loading.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { Group } from "@/entities";
-import { getGroupById } from "@/services/group/groupServiceTest";
+import { groupService } from "@/services";
 import { Stack, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 
@@ -14,7 +14,7 @@ export default function GroupScreen() {
 
   const loadGroup = async () => {
     setLoading(true);
-    const group = await getGroupById(Number(groupId));
+    const group = await groupService.getGroup(groupId);
     setGroup(group);
     setLoading(false);
   };

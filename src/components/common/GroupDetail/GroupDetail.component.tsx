@@ -1,6 +1,6 @@
 import { RecipeList } from "@/components/common/RecipeList/RecipeList.component";
 import { Group, Recipe } from "@/entities";
-import { getRecipesByGroup } from "@/services/recipe/recipeServiceTest";
+import { recipeService } from "@/services";
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import Loading from "../Loading/Loading.component";
@@ -15,13 +15,15 @@ export default function GroupDetail({ group }: Readonly<GroupDetailProps>) {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
 
   useEffect(() => {
-    loadGroupRecipes();
-  }, []);
+    if (group.id) {
+      loadGroupRecipes();
+    }
+  }, [group]);
 
   const loadGroupRecipes = async () => {
     setLoading(true);
     console.log("loadRecipes");
-    const recipes = await getRecipesByGroup(Number(group.id));
+    const recipes = await recipeService.getRecipesByGroup(Number(group.id));
     console.log("recipes", recipes);
     setRecipes(recipes);
     setLoading(false);

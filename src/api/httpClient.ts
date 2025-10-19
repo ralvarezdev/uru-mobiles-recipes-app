@@ -1,207 +1,124 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import NetInfo from "@react-native-community/netinfo";
-import axios, {
-    AxiosError,
-    AxiosInstance,
-    AxiosRequestConfig,
-    AxiosResponse,
-    InternalAxiosRequestConfig,
-} from "axios";
+import { ENV } from "@/config/env";
+import { aadTokenService } from "@/services/aadToken";
+import { ApiResponse } from "@/types/api/ApiResponse";
+import type { RequestOptions } from "@/types/api/RequestOptions";
+// import { AAD_SCOPE, API_URL_BLOQUEO } from "@env";
+import axios, { AxiosError, AxiosHeaders, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+// import Constants from "expo-constants";
 
-import { ApiConfig } from "@/types/api/ApiConfig";
-import { QueryParams } from "@/types/api/QueryParams";
-import { RequestOptions } from "@/types/api/RequestOptions";
-import { normalizeError } from "./errors";
-import { toQueryString } from "./queryString";
+// const { API_URL_COOKBOOK, AAD_SCOPE } = Constants.expoConfig?.extra ?? {};
 
 /**
- * Pausa la ejecución durante un tiempo determinado.
- */
-const sleep = (ms: number): Promise<void> =>
-  new Promise((res) => setTimeout(res, ms));
-
-/**
- * Aplica un retraso exponencial con jitter entre reintentos.
- */
-const backoffDelay = async (base: number, attempt: number): Promise<void> => {
-  const jitter = 0.6 + Math.random() * 0.8;
-  const delay = Math.round(base * Math.pow(2, attempt) * jitter);
-  await sleep(delay);
-};
-
-/**
- * Cliente HTTP basado en Axios con soporte para interceptores, reintentos y cancelación.
+ * Cliente HTTP principal para el backend protegido (API_BASE_URL).
+ * Inyecta automáticamente el token AAD en cada request.
  */
 export class HttpClient {
   private instance: AxiosInstance;
-  private config: Required<ApiConfig>;
 
-  constructor(cfg: ApiConfig) {
-    const retryDefaults = {
-      retries: 2,
-      baseDelayMs: 300,
-      retryMethods: ["get" as const],
-      shouldRetry: (error: AxiosError) => {
-        const status = error.response?.status;
-        return (
-          !error.response ||
-          status === 408 ||
-          status === 429 ||
-          (status !== undefined && status >= 500)
-        );
-      },
-    };
+  constructor() {
+    this.instance = axios.create({ baseURL: ENV.API_URL_COOKBOOK });
 
-    this.config = {
-      baseURL: cfg.baseURL,
-      timeoutMs: cfg.timeoutMs ?? 15000,
-      getAccessToken: cfg.getAccessToken ?? null,
-      onAuthError: cfg.onAuthError ?? (() => {}),
-      enableLogging: cfg.enableLogging ?? false,
-      retry: { ...retryDefaults, ...(cfg.retry ?? {}) },
-    } as Required<ApiConfig>;
+    // 🟦 Interceptor de REQUEST (inyecta headers y token)
+    this.instance.interceptors.request.use(async (cfg) => {
+      const opts = (cfg as AxiosRequestConfig & { _options?: RequestOptions })._options;
+      const headers =
+        cfg.headers && typeof (cfg.headers as any).set === "function"
+          ? (cfg.headers as AxiosHeaders)
+          : new AxiosHeaders(cfg.headers);
 
-    this.instance = axios.create({
-      baseURL: this.config.baseURL,
-      timeout: this.config.timeoutMs,
+      if (!opts?.noAadAuth && !headers.has("Authorization")) {
+        const aad = await aadTokenService.getToken({
+          scope: opts?.aadScope ?? ENV.AAD_SCOPE,
+        });
+        headers.set("Authorization", `Bearer ${aad.accessToken}`);
+      }
+
+      headers.set("Accept", "application/json");
+      headers.set("Content-Type", "application/json");
+      cfg.headers = headers;
+
+      // 🧠 Log básico (puedes quitarlo en prod)
+      console.log("➡️ Request:", cfg.method?.toUpperCase(), `${cfg.baseURL}${cfg.url}`);
+      return cfg;
     });
 
-    this.setupInterceptors();
-  }
-
-  /**
-   * Configura interceptores de request y response.
-   */
-  private setupInterceptors = (): void => {
-    this.instance.interceptors.request.use(
-      async (req: InternalAxiosRequestConfig) => {
-        const state = await NetInfo.fetch();
-        if (!state.isConnected) {
-          return Promise.reject({ message: "Sin conexión a Internet" });
-        }
-
-        const token =
-          typeof this.config.getAccessToken === "function"
-            ? await this.config.getAccessToken()
-            : this.config.getAccessToken;
-
-        if (token) {
-          req.headers = (req.headers || {}) as any;
-          (req.headers as any)["Authorization"] = `Bearer ${token}`;
-        }
-
-        return req;
-      }
-    );
-
+    // 🟥 Interceptor de RESPONSE (manejo de red + logs)
     this.instance.interceptors.response.use(
-      <T>(res: AxiosResponse<T>) => {
-        if (this.config.enableLogging) {
-          console.debug(
-            "[API][OK]",
-            res.config.method?.toUpperCase(),
-            res.config.url,
-            res.status
-          );
-        }
-        return res;
+      // ✅ Éxito
+      (response: AxiosResponse) => {
+        console.log("✅ Response:", response.status, response.config.url);
+        return response;
       },
-      async (error: AxiosError) => {
-        if (this.config.enableLogging) {
-          console.warn(
-            "[API][ERR]",
-            error.config?.method,
-            error.config?.url,
-            error.message
+      // ❌ Error
+      (error: AxiosError) => {
+        // Detecta errores de red (sin respuesta del servidor)
+        if (error.message === "Network Error" || !error.response) {
+          console.error("🌐 Network Error:", error.message);
+          // Puedes lanzar un error personalizado o mostrar alerta
+          return Promise.reject(
+            new Error("Error de red: no se pudo conectar con el servidor.")
           );
         }
 
-        const status = error.response?.status;
-        if (status === 401 || status === 403) {
-          this.config.onAuthError(status, normalizeError(error));
+        const { status, data, config } = error.response!;
+        console.error(`❌ HTTP ${status} en ${config.url}`, data);
+
+        // Manejo específico por código
+        switch (status) {
+          case 401:
+            console.warn("🔐 Token expirado o no autorizado");
+            // opcional: refrescar token o redirigir a login
+            break;
+          case 403:
+            console.warn("🚫 Acceso prohibido");
+            break;
+          case 404:
+            console.warn("🔍 Recurso no encontrado");
+            break;
+          case 500:
+            console.error("💥 Error interno del servidor");
+            break;
+          default:
+            console.warn("⚠️ Error desconocido:", status);
+            break;
         }
+
+        // Devuelve el error para que el caller lo maneje
         return Promise.reject(error);
       }
     );
-  };
+  }
 
-  /**
-   * Ejecuta una solicitud con reintentos automáticos.
-   */
-  private requestWithRetry = async <T>(
-    config: AxiosRequestConfig,
-    options?: RequestOptions
-  ): Promise<T> => {
-    const retry = this.config.retry;
-    const maxRetries = options?.noRetry ? 0 : retry.retries ?? 0;
-    const method = (config.method ?? "get").toLowerCase();
-    const retryMethods = retry.retryMethods ?? [
-      "get",
-      "post",
-      "put",
-      "delete",
-      "patch",
-    ];
-    const canRetry = retryMethods.includes(method as any);
-
-    let attempt = 0;
-    let lastError: unknown;
-
-    while (true) {
-      try {
-        const res = await this.instance.request<T>({
-          ...config,
-          signal: options?.signal,
-          headers: { ...(config.headers || {}), ...(options?.headers || {}) },
-        });
-        return res.data;
-      } catch (err) {
-        lastError = err;
-        const axErr = err as AxiosError;
-
-        const shouldRetry = retry.shouldRetry?.(axErr) ?? false;
-
-        if (!canRetry || attempt >= maxRetries || !shouldRetry) {
-          throw normalizeError(lastError);
-        }
-
-        const delayBase = retry.baseDelayMs ?? 300;
-        await backoffDelay(delayBase, attempt);
-        attempt++;
-      }
-    }
-  };
-
-  get = <T>(url: string, params?: QueryParams, options?: RequestOptions) =>
-    this.requestWithRetry<T>(
-      { url: url + toQueryString(params), method: "GET" },
-      options
-    );
-
-  post = <T, B = unknown>(url: string, body?: B, options?: RequestOptions) =>
-    this.requestWithRetry<T>({ url, method: "POST", data: body }, options);
-
-  put = <T, B = unknown>(url: string, body?: B, options?: RequestOptions) =>
-    this.requestWithRetry<T>({ url, method: "PUT", data: body }, options);
-
-  patch = <T, B = unknown>(url: string, body?: B, options?: RequestOptions) =>
-    this.requestWithRetry<T>({ url, method: "PATCH", data: body }, options);
-
-  delete = <T>(url: string, options?: RequestOptions) =>
-    this.requestWithRetry<T>({ url, method: "DELETE" }, options);
-}
-
-/**
- * Crea una instancia preconfigurada de HttpClient.
- */
-export const createHttpClient = (config?: Partial<ApiConfig>): HttpClient =>
-  new HttpClient({
-    baseURL: config?.baseURL ?? "http://10.0.2.2:3000/api",
-    timeoutMs: config?.timeoutMs ?? 15000,
-    getAccessToken:
-      config?.getAccessToken ??
-      (async () => await AsyncStorage.getItem("auth_token")),
-    onAuthError: config?.onAuthError ?? (() => {}),
-    enableLogging: config?.enableLogging ?? __DEV__,
-    retry: config?.retry,
+  private withOptions = (cfg?: AxiosRequestConfig, opts?: RequestOptions) => ({
+    ...(cfg || {}),
+    _options: opts,
   });
+
+  get = async <T>(url: string, params?: Record<string, any>, opts?: RequestOptions): Promise<T> => {
+    console.log('url, params, opts',url, params, opts);
+    try {
+      const {data} = await this.instance.get<ApiResponse<T>>(url, this.withOptions({ params }, opts));
+      console.log('data',data);
+      return data.response!;
+    } catch (error) {
+      console.error(error);
+      return null as T;
+    }
+
+  }
+
+  post = async <T, B = unknown>(url: string, body?: B, opts?: RequestOptions): Promise<T> => {
+    const {data} = await this.instance.post<ApiResponse<T>>(url, body, this.withOptions({}, opts));
+    return data.response!;
+  }
+
+  put = async <T, B = unknown>(url: string, body?: B, opts?: RequestOptions): Promise<T> => {
+    const {data} = await this.instance.put<ApiResponse<T>>(url, body, this.withOptions({}, opts));
+    return data.response!;
+  }
+
+  delete = async <T>(url: string, opts?: RequestOptions): Promise<T> =>{
+    const {data} = await this.instance.delete<ApiResponse<T>>(url, this.withOptions({}, opts));
+    return data.response!;
+  }
+}

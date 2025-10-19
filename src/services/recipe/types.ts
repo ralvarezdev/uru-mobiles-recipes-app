@@ -21,6 +21,7 @@ export type CreateRecipeInput = {
   categoryId: number;
   ingredients: string; 
   steps: string;
+  author:string;
 };
 
 /**
@@ -32,3 +33,20 @@ export type UpdateRecipeInput = Partial<CreateRecipeInput>;
  * Respuesta de listado de recetas (ajusta si tu backend envía otra estructura).
  */
 export type GetRecipesResponse = Recipe[];
+
+/**
+ * Respuesta de listado de recetas (ajusta si tu backend envía otra estructura).
+ */
+export type GetRecipeResponse = Recipe;
+
+/**
+ * Respuesta de listado de recetas (ajusta si tu backend envía otra estructura).
+ */
+export type GetRecipesByGroupResponse = Recipe[];
+
+/**
+ * Entrada JSON para agregar una receta a un grupo.
+ */
+export type AddRecipeToGroupInput = {
+  recipeId: number | string;
+};
