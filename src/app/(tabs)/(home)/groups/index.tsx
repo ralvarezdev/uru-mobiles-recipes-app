@@ -2,7 +2,7 @@ import { GroupList } from "@/components/common/GroupList/GroupList.component";
 import Loading from "@/components/common/Loading/Loading.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { Group } from "@/entities";
-import { getGroups } from "@/services/group/groupServiceTest";
+import { groupService } from "@/services";
 import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -29,7 +29,7 @@ export default function GroupsScreen() {
 
   const loadGroups = async () => {
     setLoading(true);
-    const groups = await getGroups();
+    const groups = await groupService.getGroups();
     setGroups(groups);
     setLoading(false);
   };

@@ -1,39 +1,39 @@
-import { Category } from "./types";
+import { Category } from "@/entities";
 
 
 const mockCategories: Category[] = [
   {
-    id: '1',
+    id: 1,
     title: 'Postres',
     image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400',
     recipeCount: 12,
   },
   {
-    id: '2',
+    id: 2,
     title: 'Pastas',
     image: 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400',
     recipeCount: 8,
   },
   {
-    id: '3',
+    id: 3,
     title: 'Carnes',
     image: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400',
     recipeCount: 15,
   },
   {
-    id: '4',
+    id: 4,
     title: 'Ensaladas',
     image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400',
     recipeCount: 10,
   },
   {
-    id: '5',
+    id: 5,
     title: 'Sopas',
     image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400',
     recipeCount: 6,
   },
   {
-    id: '6',
+    id: 6,
     title: 'Bebidas',
     image: 'https://images.unsplash.com/photo-1556881286-fc6915169721?w=400',
     recipeCount: 9,

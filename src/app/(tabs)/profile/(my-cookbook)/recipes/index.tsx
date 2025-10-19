@@ -2,8 +2,8 @@ import Loading from "@/components/common/Loading/Loading.component";
 import { RecipeList } from "@/components/common/RecipeList/RecipeList.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { Recipe, User } from "@/entities";
+import { recipeService } from "@/services";
 import { me } from "@/services/auth/authServiceTest";
-import { getRecipesByUsername } from "@/services/recipe/recipeServiceTest";
 import { theme } from "@/styles/Theme";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text } from "react-native";
@@ -14,12 +14,6 @@ export default function MyRecipesScreen() {
   const [user, setUser] = useState<User>({} as User);
 
   useEffect(() => {
-    if (user?.username) {
-      loadRecipes(user?.username);
-    }
-  }, [user]);
-
-  useEffect(() => {
     loadUserData();
   }, []);
 
@@ -27,10 +21,15 @@ export default function MyRecipesScreen() {
     const user = await me();
     setUser(user);
   };
+  useEffect(() => {
+    if (user?.username) {
+      loadRecipes(user?.username);
+    }
+  }, [user]);
 
   const loadRecipes = async (username: string) => {
     setLoading(true);
-    const recipes = await getRecipesByUsername(username);
+    const recipes = await recipeService.getRecipesByUser(username);
     setRecipes(recipes);
     setLoading(false);
   };

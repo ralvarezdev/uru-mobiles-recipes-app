@@ -3,7 +3,7 @@
  * Esta interfaz define la estructura esperada desde el backend.
  */
 export type User = {
-  id: number | string;
+  id: number;
   firstName: string;
   lastName: string;
   username: string;

@@ -57,7 +57,7 @@ export const CategoryList = ({ categories, notFoundItemText, listHeaderComponent
       showsVerticalScrollIndicator={false}
       ListEmptyComponent={
         <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>{notFoundItemText || "No se encontraron grupos"}</Text>
+          <Text style={styles.emptyText}>{notFoundItemText || "No se encontraron categorias"}</Text>
         </View>
       }
     />

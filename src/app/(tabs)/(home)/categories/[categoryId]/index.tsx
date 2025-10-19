@@ -3,7 +3,7 @@ import Loading from "@/components/common/Loading/Loading.component";
 import { RecipeList } from "@/components/common/RecipeList/RecipeList.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { Recipe } from "@/entities/Recipe";
-import { getRecipesByCategory } from "@/services/recipe/recipeServiceTest";
+import { recipeService } from "@/services";
 import { theme } from "@/styles/Theme";
 import { Stack, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -22,7 +22,7 @@ export default function CategoryRecipesScreen() {
 
   const loadRecipes = async () => {
     setLoading(true);
-    const recipes = await getRecipesByCategory(Number(categoryId));
+    const recipes = await recipeService.getRecipesByCategory(Number(categoryId));
     // console.log("recipes", recipes);
     setRecipes(recipes);
     setLoading(false);

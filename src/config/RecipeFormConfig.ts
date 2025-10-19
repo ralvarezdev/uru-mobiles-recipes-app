@@ -1,5 +1,5 @@
+import { UpdateRecipeInput } from '@/services';
 import { FormConfig } from '@/types/form';
-import { CreateRecipeInput } from '@/services/recipe/types';
 
 const MOCK_CATEGORIES = [
   { label: 'Desserts', value: 1 },
@@ -15,7 +15,7 @@ const TIME_UNITS = [
   { label: 'sec', value: 'seconds' },
 ];
 
-export const recipeFormConfig: FormConfig<CreateRecipeInput> = {
+export const recipeFormConfig: FormConfig<UpdateRecipeInput> = {
   fields: [
     {
       name: 'image',

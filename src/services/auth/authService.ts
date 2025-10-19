@@ -1,93 +1,78 @@
-import { createHttpClient, HttpClient } from "@/api";
-import { User } from "@/entities";
+import { http } from "@/api";
+import type { User } from "@/entities/User";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import type {
   AuthTokens,
   LoginInput,
   LoginResponse,
-  RegisterInput
+  RegisterInput,
+  RegisterResponse,
 } from "./types";
 
 const ACCESS_KEY = "auth_token";
 const REFRESH_KEY = "refresh_token";
 
-/**
- * Servicio de autenticación: sesión, tokens y usuario autenticado.
- */
+/** Autenticación: login/register, tokens y sesión. */
 export class AuthService {
-  private readonly http: HttpClient;
-
-  constructor(http: HttpClient = createHttpClient()) {
-    this.http = http;
-  }
-
-  /**
-   * Registra un nuevo usuario (signup).
-   * Endpoint: POST /api/addUser
-   */
-  register = async (input: RegisterInput): Promise<LoginResponse> => {
-    const res = await this.http.post<LoginResponse, RegisterInput>("addUser", input);
-    await this.storeTokens(res.tokens);
+  register = async (input: RegisterInput): Promise<RegisterResponse> => {
+    const res = await http.post<LoginResponse, RegisterInput>(
+      "/api/Auth/Register",
+      input
+    );
+    // await this.storeTokens(res.tokens);
+    await AsyncStorage.setItem(
+      "authenticatedUser",
+      JSON.stringify(res)
+    );
     return res;
   };
 
-  /**
-   * Inicia sesión con credenciales.
-   * Endpoint: POST /api/authUser
-   */
   login = async (input: LoginInput): Promise<LoginResponse> => {
-    const res = await this.http.post<LoginResponse, LoginInput>("authUser", input);
-    await this.storeTokens(res.tokens);
+    const res = await http.post<User, LoginInput>(
+      "/api/Auth/Login",
+      input
+    );
+    // await this.storeTokens(res.tokens);
+    await AsyncStorage.setItem(
+      "authenticatedUser",
+      JSON.stringify(res)
+    );
     return res;
   };
 
-  /**
-   * Cierra sesión eliminando los tokens almacenados.
-   */
-  logout = async (): Promise<void> => {
-    await AsyncStorage.multiRemove([ACCESS_KEY, REFRESH_KEY]);
-  };
-
-  /**
-   * Obtiene el usuario autenticado.
-   * Ajusta el endpoint si tu backend usa otro.
-   * Endpoint sugerido: GET /api/me
-   */
   me = async (): Promise<User> => {
-    return this.http.get<User>("me");
-  };
+    const jsonUser = await AsyncStorage.getItem("authenticatedUser");
 
-  /**
-   * Refresca el token de acceso.
-   * Ajusta el endpoint si tu backend usa otro.
-   * Endpoint sugerido: POST /api/refresh
-   */
+    if (!jsonUser) {
+      throw new Error("No hay respuesta");
+    }
+
+    const user = JSON.parse(jsonUser);
+    return user;
+  };
+  // me = async (): Promise<User> => http.get<User>("/api/Auth/Me");
+
   refreshToken = async (): Promise<AuthTokens> => {
     const refresh = await AsyncStorage.getItem(REFRESH_KEY);
     if (!refresh) throw new Error("No refresh token");
-
-    const res = await this.http.post<AuthTokens, { refreshToken: string }>(
+    const res = await http.post<AuthTokens, { refreshToken: string }>(
       "refresh",
       { refreshToken: refresh },
       { noRetry: true }
     );
-
     await this.storeTokens(res);
     return res;
   };
 
-  /**
-   * Persiste tokens de autenticación.
-   */
-  private storeTokens = async (tokens: AuthTokens): Promise<void> => {
+  logout = async () => {
+    AsyncStorage.multiRemove([ACCESS_KEY, REFRESH_KEY, "userAuthenticated"])
+  };
+
+  private readonly storeTokens = async (tokens: AuthTokens) => {
     await AsyncStorage.setItem(ACCESS_KEY, tokens.accessToken);
-    if (tokens.refreshToken) {
+    if (tokens.refreshToken)
       await AsyncStorage.setItem(REFRESH_KEY, tokens.refreshToken);
-    }
   };
 }
 
-/**
- * Singleton de conveniencia del servicio de autenticación.
- */
 export const authService = new AuthService();

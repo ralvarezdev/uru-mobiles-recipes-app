@@ -1,8 +1,8 @@
 import GroupDetail from "@/components/common/GroupDetail/GroupDetail.component";
 import Loading from "@/components/common/Loading/Loading.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
-import { Group } from "@/entities";
-import { getGroupById } from "@/services/group/groupServiceTest";
+import { Group, Recipe } from "@/entities";
+import { groupService } from "@/services";
 import { Stack, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 
@@ -10,11 +10,11 @@ export default function GroupDetailScreen() {
   const { groupId } = useLocalSearchParams<{ groupId: string }>();
   const [loading, setLoading] = useState(false);
   const [group, setGroup] = useState<Group>({} as Group);
-  // const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
 
   const loadGroup = async () => {
     setLoading(true);
-    const group = await getGroupById(Number(groupId));
+    const group = await groupService.getGroup(Number(groupId));
     setGroup(group);
     setLoading(false);
   };
@@ -24,12 +24,14 @@ export default function GroupDetailScreen() {
   }, [groupId]);
 
   // useEffect(() => {
-  //   loadGroupRecipes();
-  // }, [groupId]);
+  //   if (group.id) {
+  //     loadGroupRecipes();
+  //   }
+  // }, [group]);
 
   // const loadGroupRecipes = async () => {
   //   setLoading(true);
-  //   const recipes = await getRecipesByGroup(Number(groupId));
+  //   const recipes = await recipeService.getRecipesByGroup(Number(groupId));
   //   setRecipes(recipes);
   //   setLoading(false);
   // };

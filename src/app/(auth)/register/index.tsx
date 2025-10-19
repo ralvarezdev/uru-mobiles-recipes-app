@@ -1,26 +1,81 @@
 import BackButton from "@/components/common/BackButtonCommon/BackButtonCommon.component";
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
+import Loading from "@/components/common/Loading/Loading.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { User } from "@/entities";
+import { authService, RegisterInput } from "@/services";
 import { theme } from "@/styles/Theme";
 import { Link, Stack, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from "react-native";
+import Toast from "react-native-toast-message";
 
 export default function RegisterScreen() {
   const router = useRouter();
   const [user, setUser] = useState<User>({} as User);
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChangeUser = (field: string, value: string) => {
     setUser((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
+    setLoading(true);
     // console.log("New user:", { user, password });
-    router.replace("/login"); //por mientras
-    // authService.register({ ...user, password } as RegisterInput);
+    try {
+      if (
+        !user.lastName ||
+        user.lastName.trim() === "" ||
+        !user.firstName ||
+        user.firstName.trim() === "" ||
+        !user.username ||
+        user.username.trim() === "" ||
+        !user.email ||
+        user.email.trim() === "" ||
+        !password ||
+        password.trim() === ""
+      ) {
+        Toast.show({
+          type: "error", // 'success', 'error', 'info'
+          text1: "Datos incorrectos",
+          text2: "Asegurese de haber ingresado todos sus datos",
+          position: "bottom", // o 'top'
+        });
+        return;
+      }
+      const registerInput: RegisterInput = { ...user, password, avatar: "" };
+      const userRegistered = await authService.register(registerInput);
+      if (userRegistered.id) {
+        Toast.show({
+          type: "success", // 'success', 'error', 'info'
+          text1: "Se ha registrado exitosamente",
+          text2: "Se le redireccionara al login...",
+          position: "bottom", // o 'top'
+        });
+        router.replace("/login");
+      } else {
+        Toast.show({
+          type: "error", // 'success', 'error', 'info'
+          text1: "Datos incorrectos",
+          text2: "Por favor, verifique que haya rellenado todos los datos.",
+          position: "bottom", // o 'top'
+        });
+      }
+    } catch (error) {
+      Toast.show({
+        type: "error", // 'success', 'error', 'info'
+        text1: "Hubo un problema con su solicitud. ",
+        text2: `Por favor, intentelo de nuevo mas tarde.`,
+        position: "bottom", // o 'top'
+      });
+    }
+    setLoading(false);
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <ScreenContainer>

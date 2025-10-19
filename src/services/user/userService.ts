@@ -1,39 +1,24 @@
-import { createHttpClient, HttpClient } from "@/api";
+import { http } from "@/api";
 import type { User } from "@/entities/User";
 import type { RequestOptions } from "@/types/api/RequestOptions";
 import type { UpdateUserInput } from "./types";
 
-/**
- * Servicio de usuarios (solo CRUD del recurso).
- * No maneja autenticación ni tokens.
- *
- * Endpoints cubiertos:
- *  - PUT    /api/updateUser/:id
- *  - DELETE /api/deleteUser/:id
- */
+/** CRUD de usuarios (recurso). */
 export class UserService {
-  private readonly http: HttpClient;
+  // createUser = (input: CreateUserAdminInput, options?: RequestOptions) =>
+  //   http.post<User, CreateUserAdminInput>("addUser", input, options);
 
-  constructor(http: HttpClient = createHttpClient()) {
-    this.http = http;
-  }
+  updateUser = (id: number, input: UpdateUserInput, options?: RequestOptions) =>
+    http.put<User, UpdateUserInput>(`/api/User/PutUser/${id}`, input, options);
 
-  /**
-   * Actualiza los datos de un usuario por su ID.
-   * Endpoint: PUT /api/updateUser/:id
-   */
-  updateUser = (id: number | string, input: UpdateUserInput, options?: RequestOptions) =>
-    this.http.put<User, UpdateUserInput>(`updateUser/${id}`, input, options);
+  deleteUser = (id: number, options?: RequestOptions) =>
+    http.delete<void>(`/api/User/DeleteUser/${id}`, options);
 
-  /**
-   * Elimina un usuario por ID.
-   * Endpoint: DELETE /api/deleteUser/:id
-   */
-  deleteUser = (id: number | string, options?: RequestOptions) =>
-    this.http.delete<void>(`deleteUser/${id}`, options);
+  getUser = (id: number, options?: RequestOptions) =>
+    http.get<User>(`/api/User/GetUser/${id}`, undefined, options);
+
+  getUsers = (options?: RequestOptions) =>
+    http.get<User[]>(`/api/User/GetUsers`, undefined, options);
 }
 
-/**
- * Singleton de conveniencia del servicio de usuarios.
- */
 export const userService = new UserService();
