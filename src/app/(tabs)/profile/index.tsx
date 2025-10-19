@@ -3,12 +3,14 @@ import Loading from "@/components/common/Loading/Loading.component";
 import ProfileImage from "@/components/common/ProfileImage/ProfileImagen.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { User } from "@/entities";
-import { logout, me } from "@/services/auth/authServiceTest";
+import { authService, UpdateUserInput, userService } from "@/services";
+import { me } from "@/services/auth/authServiceTest";
 import { theme } from "@/styles/Theme";
 import { Ionicons } from "@expo/vector-icons";
 import { Href, router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Alert, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import Toast from "react-native-toast-message";
 // import CustomButtonCommon from 'components/common/CustomButtonCommon/CustomButtonCommon.component';
 
 // const { width } = Dimensions.get("window");
@@ -36,21 +38,6 @@ export default function ProfileScreen() {
   const loadUserData = async () => {
     const user = await me();
     setUser(user);
-    // setLoading(true);
-    // try {
-    //   const result = await getUserProfile();
-    //   if (result.success) {
-    //     setFirstName(result.data.firstName);
-    //     setLastName(result.data.lastName);
-    //     setEmail(result.data.email);
-    //     setUsername(result.data.username);
-    //     setAvatar(result.data.avatar);
-    //   }
-    // } catch (error) {
-    //   console.error('Error cargando perfil:', error);
-    // } finally {
-    //   setLoading(false);
-    // }
   };
 
   const handleImageChange = (uri: string) => {
@@ -77,22 +64,69 @@ export default function ProfileScreen() {
       },
     ]);
     // setLoading(true);
-    //TODO: descomentar servicio de abajo y trycatch
-    // await userService.updateUser(user.id, { ...user, password });
-    // setLoading(false);
-    // setAbleUpdate(false);
-    // Alert.alert("Account updated", "Tu cuenta ha sido actualizada");
   };
 
-  const handleConfirmUpdateAccount = () => {
-    // Alert.alert("Eliminando cuenta", "Esta accion puede tardar unos minutos", [{ isPreferred: true }]);
+  const handleConfirmUpdateAccount = async () => {
     setLoading(true);
-    //TODO: descomentar servicio de abajo y trycatch
-    // await userService.deleteUser(user.id);
-    Alert.alert("Account updated", "Tu cuenta ha sido actualizada");
-    setLoading(false);
+    // console.log("New user:", { user, password });
+    console.log("update", user, password);
+    try {
+      if (
+        !user.lastName ||
+        user.lastName.trim() === "" ||
+        !user.firstName ||
+        user.firstName.trim() === "" ||
+        !user.username ||
+        user.username.trim() === "" ||
+        !user.email ||
+        user.email.trim() === ""
+      ) {
+        Toast.show({
+          type: "error", // 'success', 'error', 'info'
+          text1: "Datos incorrectos",
+          text2: "Asegurese de haber ingresado todos sus datos",
+          position: "bottom", // o 'top'
+        });
+        return;
+      }
+
+      if (!password || password.trim() === "") {
+        Toast.show({
+          type: "error", // 'success', 'error', 'info'
+          text1: "Datos incorrectos",
+          text2: "Su contraseña no debe estar vacia",
+          position: "bottom", // o 'top'
+        });
+        return;
+      }
+      const registerInput: UpdateUserInput = { ...user, password, avatar: "" };
+      const userRegistered = await userService.updateUser(user.id, registerInput);
+      console.log("userRegistered", userRegistered);
+      if (userRegistered.id) {
+        Toast.show({
+          type: "success", // 'success', 'error', 'info'
+          text1: "Se ha actualizado sus datos exitosamente",
+          // text2: "Se le redireccionara al login...",
+          position: "bottom", // o 'top'
+        });
+      } else {
+        Toast.show({
+          type: "error", // 'success', 'error', 'info'
+          text1: "Datos incorrectos",
+          text2: "Por favor, verifique que haya rellenado todos los datos.",
+          position: "bottom", // o 'top'
+        });
+      }
+    } catch (error) {
+      Toast.show({
+        type: "error", // 'success', 'error', 'info'
+        text1: "Hubo un problema con su solicitud. ",
+        text2: `Por favor, intentelo de nuevo mas tarde.`,
+        position: "bottom", // o 'top'
+      });
+    }
     handleAbleUpdate();
-    // router.replace("/");
+    setLoading(false);
   };
 
   const handleDeleteAccount = () => {
@@ -104,28 +138,54 @@ export default function ProfileScreen() {
       {
         text: "Eliminar",
         style: "destructive",
-        onPress: () => handleConfirmDeleteAccount,
+        onPress: () => handleConfirmDeleteAccount(),
       },
     ]);
   };
 
   const handleConfirmDeleteAccount = async () => {
-    // Alert.alert("Eliminando cuenta", "Esta accion puede tardar unos minutos", [{ isPreferred: true }]);
     setLoading(true);
-    //TODO: descomentar servicio de abajo y trycatch
-    // await userService.deleteUser(user.id);
-    Alert.alert("Account deleted", "Tu cuenta ha sido eliminada");
+    // console.log("New user:", { user, password });
+    try {
+      await userService.deleteUser(user.id);
+      Toast.show({
+        type: "success", // 'success', 'error', 'info'
+        text1: "Se ha eliminado su cuenta.",
+        // text2: "Se le redireccionara al login...",
+        position: "bottom", // o 'top'
+      });
+      router.replace("/");
+    } catch (error) {
+      Toast.show({
+        type: "error", // 'success', 'error', 'info'
+        text1: "Hubo un problema con su solicitud. ",
+        text2: `Por favor, intentelo de nuevo mas tarde.`,
+        position: "bottom", // o 'top'
+      });
+    }
     setLoading(false);
-    router.replace("/");
   };
   const handleLogout = async () => {
     setLoading(true);
-    //TODO: descomentar servicio de abajo y trycatch
-    // await authService.logout();
-    await logout();
-    Alert.alert("Logout Sucessfully", "Se ha cerrado la seccion correctamente");
+    // console.log("New user:", { user, password });
+    try {
+      await authService.logout();
+      Toast.show({
+        type: "success", // 'success', 'error', 'info'
+        text1: "Sesion cerrada correctamente.",
+        // text2: "Se le redireccionara al login...",
+        position: "bottom", // o 'top'
+      });
+      router.replace("/");
+    } catch (error) {
+      Toast.show({
+        type: "error", // 'success', 'error', 'info'
+        text1: "Hubo un problema con su solicitud. ",
+        text2: `Por favor, intentelo de nuevo mas tarde.`,
+        position: "bottom", // o 'top'
+      });
+    }
     setLoading(false);
-    router.replace("/");
   };
 
   const handleViewMyRecipes = () => {
@@ -140,12 +200,7 @@ export default function ProfileScreen() {
     <ScreenContainer>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
-          <ProfileImage 
-          imageUri={user.avatar} 
-          onImageChange={handleImageChange} 
-          size={120} 
-          editable={true} 
-        />
+          <ProfileImage imageUri={user.avatar} onImageChange={handleImageChange} size={120} editable={true} />
         </View>
 
         <Text style={styles.fullName}>
@@ -216,6 +271,7 @@ export default function ProfileScreen() {
 
           {!ableUpdate && <CustomButtonCommon title="Update Profile" onPress={handleAbleUpdate} icon="pencil-outline" />}
           {ableUpdate && <CustomButtonCommon title="Save" onPress={handleUpdate} icon="pencil-outline" />}
+          {ableUpdate && <CustomButtonCommon title="Cancelar" onPress={handleAbleUpdate} icon="close-outline" />}
 
           {!ableUpdate && (
             <>

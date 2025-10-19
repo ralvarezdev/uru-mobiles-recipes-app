@@ -1,28 +1,66 @@
 import BackButton from "@/components/common/BackButtonCommon/BackButtonCommon.component";
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
+import Loading from "@/components/common/Loading/Loading.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
-import { LoginInput } from "@/services";
-import { login } from "@/services/auth/authServiceTest";
+import { authService, LoginInput } from "@/services";
 import { theme } from "@/styles/Theme";
 import { Href, Link, router, Stack } from "expo-router";
 import React, { useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from "react-native";
+import Toast from "react-native-toast-message";
 
 export default function LoginScreen() {
   const [loginInput, setLoginInput] = useState<LoginInput>({ email: "nochi@example.com", password: "nochi" } as LoginInput);
+  const [loading, setLoading] = useState(false);
 
   const handleChangeLoginInput = (field: string, value: string) => {
     setLoginInput((prev) => ({ ...prev, [field]: value }));
   };
 
   const onSubmit = async () => {
-    // TODO: autenticar con api
-    // const authUser = await authService.login(loginInput);
-    // console.log("loginInput", loginInput);
-    const authUser = login(loginInput);
-    router.replace("/(tabs)/(home)/recipes" as Href);
-    // console.log(authUser);
+    setLoading(true);
+    try {
+      if (!loginInput.email || loginInput.email.trim() === "" || !loginInput.password || loginInput.password.trim() === "") {
+        Toast.show({
+          type: "error", // 'success', 'error', 'info'
+          text1: "Datos incorrectos",
+          text2: "Por favor, verifique email y contraseña.",
+          position: "bottom", // o 'top'
+        });
+        return;
+      }
+      const authUser = await authService.login(loginInput);
+      console.log("login", authUser);
+      if (authUser.id) {
+        Toast.show({
+          type: "success", // 'success', 'error', 'info'
+          text1: "Usuario autenticado",
+          text2: "Se le redireccionara al home..",
+          position: "bottom", // o 'top'
+        });
+        router.replace("/(tabs)/(home)/recipes" as Href);
+      } else {
+        Toast.show({
+          type: "error", // 'success', 'error', 'info'
+          text1: "Usuario no encontrado",
+          text2: "Por favor, verifique email y contraseña.",
+          position: "bottom", // o 'top'
+        });
+      }
+    } catch (error) {
+      Toast.show({
+        type: "error", // 'success', 'error', 'info'
+        text1: "Hubo un problema con su solicitud. ",
+        text2: `Por favor, intentelo de nuevo mas tarde.`,
+        position: "bottom", // o 'top'
+      });
+    }
+    setLoading(false);
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <ScreenContainer>

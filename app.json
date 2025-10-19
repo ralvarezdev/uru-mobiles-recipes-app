@@ -35,6 +35,11 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "API_URL_COOKBOOK": "https://app-blq-blockages-efabcmf8h5e6g9br.eastus2-01.azurewebsites.net",
+      "API_URL_INTEGRATIONS": "https://app-blq-integrations-awajh4hzbpfjcuah.eastus2-01.azurewebsites.net",
+      "AAD_SCOPE": "api://70e4e217-55f4-4121-a5c2-abb650012fae/.default"
     }
   }
 }

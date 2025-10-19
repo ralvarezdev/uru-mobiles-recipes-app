@@ -2,8 +2,7 @@ import { GroupList } from "@/components/common/GroupList/GroupList.component";
 import Loading from "@/components/common/Loading/Loading.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { Group, User } from "@/entities";
-import { me } from "@/services/auth/authServiceTest";
-import { getGroupsByUsername } from "@/services/group/groupServiceTest";
+import { authService, groupService } from "@/services";
 import { Ionicons } from "@expo/vector-icons";
 import { Href, router, Stack } from "expo-router";
 import { useEffect, useState } from "react";
@@ -21,19 +20,19 @@ export default function MyGroupsScreen() {
   }, []);
 
   useEffect(() => {
-    if (user.username) {
+    if (user?.username) {
       loadUserGroups();
     }
   }, [user]);
 
   const loadUserData = async () => {
-    const user = await me();
+    const user = await authService.me();
     setUser(user);
   };
 
   const loadUserGroups = async () => {
     setLoading(true);
-    const groups = await getGroupsByUsername(user.username);
+    const groups = await groupService.getGroupsByUser(user.username);
     setGroups(groups);
     setLoading(false);
   };

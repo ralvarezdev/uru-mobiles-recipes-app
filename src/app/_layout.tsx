@@ -6,6 +6,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
+import Toast from "react-native-toast-message";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -39,6 +40,7 @@ function RootLayoutNav() {
           <Stack.Screen name="(auth)/login/index" />
           <Stack.Screen name="(auth)/register/index" />
         </Stack>
+        <Toast />
       </GlobalLayout>
     </ThemeProvider>
   );
