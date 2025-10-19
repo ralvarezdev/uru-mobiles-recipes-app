@@ -67,9 +67,9 @@ export default function CreateRecipeScreen() {
     setIsLoading(true);
   };
 
-  const handleCancel = () => {
-    router.back();
-  };
+  // const handleCancel = () => {
+  //   router.back();
+  // };
 
   return (
     <>
@@ -79,7 +79,14 @@ export default function CreateRecipeScreen() {
           headerShown: false,
         }}
       />
-      <DynamicForm config={recipeFormConfig} defaultValues={defaultValues} onSubmit={handleSubmit} onCancel={handleCancel} isLoading={isLoading} />
+      <DynamicForm
+        config={recipeFormConfig}
+        defaultValues={defaultValues}
+        onSubmit={handleSubmit}
+        onCancel={() => router.back()}
+        isLoading={isLoading}
+
+      />
     </>
   );
 }

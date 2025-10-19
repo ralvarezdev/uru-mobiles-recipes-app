@@ -9,13 +9,14 @@ interface CustomButtonCommonProps {
   style?: ViewStyle;
   textStyle?: TextStyle;
   icon?: IoniconName;
+  disabled?: boolean;
 }
 
 type IoniconName = React.ComponentProps<typeof Ionicons>["name"];
 
-const CustomButtonCommon: React.FC<CustomButtonCommonProps> = ({ title, onPress, style, textStyle, icon }) => {
+const CustomButtonCommon: React.FC<CustomButtonCommonProps> = ({ title, onPress, style, textStyle, icon, disabled}) => {
   return (
-    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
+    <TouchableOpacity style={[styles.button, style]} onPress={onPress} disabled={disabled}>
       {icon && <Ionicons name={icon} size={20} color={theme.colors.textLight} />}
       <Text style={[styles.buttonText, textStyle]}>{title}</Text>
     </TouchableOpacity>

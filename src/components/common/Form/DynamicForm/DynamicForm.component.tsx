@@ -42,7 +42,11 @@ export default function DynamicForm<T extends Record<string, any>>({
       {config.fields
         .filter((field) => !field.hidden)
         .map((field) => (
-          <DynamicField key={String(field.name)} field={field} control={control} errors={errors} />
+          <DynamicField 
+          key={String(field.name)} 
+          field={field} 
+          control={control} 
+          errors={errors} />
         ))}
 
       <View style={styles.buttonContainer}>
@@ -52,7 +56,7 @@ export default function DynamicForm<T extends Record<string, any>>({
           </View>
         )}
         <View style={styles.buttonWrapper}>
-          <CustomButtonCommon title={config.submitLabel || "Save"} onPress={handleSubmit(handleFormSubmit)} loading={isLoading} />
+          <CustomButtonCommon title={config.submitLabel || "Save"} onPress={handleSubmit(handleFormSubmit)}  />
         </View>
       </View>
     </ScrollView>

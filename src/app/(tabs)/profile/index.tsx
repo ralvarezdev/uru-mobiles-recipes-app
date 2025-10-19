@@ -1,5 +1,6 @@
 import CustomButtonCommon from "@/components/common/CustomButtonCommon/CustomButtonCommon.component";
 import Loading from "@/components/common/Loading/Loading.component";
+import ProfileImage from "@/components/common/ProfileImage/ProfileImagen.component";
 import { ScreenContainer } from "@/components/common/ScreenContainer/ScreenContainer.component";
 import { User } from "@/entities";
 import { authService, UpdateUserInput, userService } from "@/services";
@@ -8,7 +9,7 @@ import { theme } from "@/styles/Theme";
 import { Ionicons } from "@expo/vector-icons";
 import { Href, router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Alert, Image, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import Toast from "react-native-toast-message";
 // import CustomButtonCommon from 'components/common/CustomButtonCommon/CustomButtonCommon.component';
 
@@ -39,6 +40,11 @@ export default function ProfileScreen() {
     setUser(user);
   };
 
+  const handleImageChange = (uri: string) => {
+    setUser((prev) => ({ ...prev, avatar: uri }));
+    console.log("New avatar URI:", uri);
+    // TODO: Subir imagen al servidor
+  };
   const handleAbleUpdate = () => {
     // console.log("ableUpdate", ableUpdate);
     setAbleUpdate(!ableUpdate);
@@ -193,31 +199,19 @@ export default function ProfileScreen() {
   return (
     <ScreenContainer>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Header verde con imagen */}
         <View style={styles.header}>
-          <View style={styles.imageContainer}>
-            <Image source={{ uri: user.avatar }} style={styles.profileImage} />
-            {/* <TouchableOpacity 
-                  style={styles.editButton}
-                  //onPress={showImageOptions}
-                > */}
-            {/* <Ionicons name="pencil" size={20} color={theme.colors.textLight} /> */}
-            {/* </TouchableOpacity> */}
-          </View>
+          <ProfileImage imageUri={user.avatar} onImageChange={handleImageChange} size={120} editable={true} />
         </View>
 
-        {/* Nombre completo */}
         <Text style={styles.fullName}>
           {user.firstName} {user.lastName}
         </Text>
 
-        {/* Formulario */}
         <View style={styles.form}>
           <View style={styles.inputContainer}>
             <Ionicons name="person-outline" size={20} color={theme.colors.textMuted} style={styles.icon} />
             <TextInput
               value={user.username}
-              // onChangeText={(text) => handleChangeUser("username", text)}
               style={styles.inputWithIcon}
               placeholder="Username"
               autoCapitalize="none"
@@ -233,7 +227,7 @@ export default function ProfileScreen() {
                 style={styles.input}
                 placeholder="Nombre"
                 readOnly={!ableUpdate}
-                editable={ableUpdate}
+                editable={true}
               />
             </View>
             <View style={styles.halfInput}>
@@ -248,7 +242,6 @@ export default function ProfileScreen() {
             </View>
           </View>
 
-          {/* Email */}
           <View style={styles.inputContainer}>
             <Ionicons name="mail-outline" size={20} color={theme.colors.textMuted} style={styles.icon} />
             <TextInput
@@ -263,7 +256,6 @@ export default function ProfileScreen() {
             />
           </View>
 
-          {/* Password */}
           <View style={styles.inputContainer}>
             <Ionicons name="lock-closed-outline" size={20} color={theme.colors.textMuted} style={styles.icon} />
             <TextInput
