@@ -36,7 +36,9 @@ npm run web
 
 ## Related repositories
 
-- [`uru-mobiles-recipes-api uru-mobiles-recipes`](https://github.com/ralvarezdev/uru-mobiles-recipes-api uru-mobiles-recipes) — related repository.
+- [`uru-mobiles-recipes-api`](https://github.com/ralvarezdev/uru-mobiles-recipes-api) — matching API.
+- [`uru-mobiles-recipes`](https://github.com/ralvarezdev/uru-mobiles-recipes) — Docker deployment setup.
+
 ## License
 
 GNU General Public License v3.0 (see `LICENSE`).
