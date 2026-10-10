@@ -34,6 +34,9 @@ npm run android
 npm run web
 ```
 
+## Related repositories
+
+- [`uru-mobiles-recipes-api uru-mobiles-recipes`](https://github.com/ralvarezdev/uru-mobiles-recipes-api uru-mobiles-recipes) — related repository.
 ## License
 
 GNU General Public License v3.0 (see `LICENSE`).
